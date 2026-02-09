@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Confira o Prato Elite</title>
 
-  <!-- PWA (se já tiver manifest/service-worker, mantém) -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#10b981">
+  <meta name="theme-color" content="#10b981" />
+  <meta name="description" content="Cadastro + Dieta + Treino semanal + Loja + Parceiros + Premium + Convites." />
+
+  <!-- PWA (se você já tem esses arquivos no repo, vai funcionar) -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon-192.png" />
 
   <style>
     :root{
@@ -17,12 +20,12 @@
       --muted:#98a2b3;
       --green:#19d18a;
       --green2:#10b981;
-      --danger:#ff5c7a;
       --gold:#f5c542;
     }
-    *{box-sizing:border-box;}
+    *{box-sizing:border-box}
     body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: radial-gradient(1200px 800px at 20% 10%, rgba(25,209,138,.18), transparent 60%),
                   radial-gradient(800px 600px at 85% 15%, rgba(109,99,255,.18), transparent 55%),
                   radial-gradient(900px 800px at 50% 90%, rgba(16,185,129,.10), transparent 60%),
@@ -41,7 +44,7 @@
       box-shadow: 0 0 18px rgba(109,99,255,.18);
     }
     .brand h1{
-      margin:0; font-size:22px; letter-spacing:.6px; font-weight:900;
+      margin:0; font-size:20px; letter-spacing:.6px; font-weight:900;
       background: linear-gradient(90deg, var(--green), #44f2c2);
       -webkit-background-clip:text; background-clip:text; color:transparent;
       text-transform:uppercase;
@@ -82,14 +85,6 @@
       box-shadow:none;
     }
     .status{margin-top:10px; font-size:13px; color:rgba(232,237,247,.9);}
-    .pillRow{margin-top:10px;}
-    .pill{
-      display:inline-block; padding:8px 10px; border-radius:999px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(3,8,20,.55);
-      font-weight:800; font-size:12px;
-      margin:6px 6px 0 0;
-    }
     .check{
       display:flex; gap:10px; align-items:flex-start;
       padding:12px; border-radius:16px;
@@ -98,8 +93,6 @@
       margin-top:12px;
     }
     .check input{width:auto; margin-top:2px;}
-
-    .danger{color: rgba(255,92,122,.95); font-weight:900;}
 
     .screen{display:none;}
     .screen.active{display:block;}
@@ -120,7 +113,7 @@
       overflow-x:auto;
     }
     .navBtn{
-      min-width:84px;
+      min-width:86px;
       height:44px; border-radius:16px;
       border:0; background:transparent; color:rgba(232,237,247,.55);
       font-weight:900; cursor:pointer;
@@ -181,7 +174,7 @@
       color: var(--green);
     }
 
-    /* Treino semana */
+    /* Treino cards */
     .dayCard{
       margin-top:12px;
       padding:14px;
@@ -212,7 +205,7 @@
       white-space:nowrap;
     }
 
-    /* Loja cards */
+    /* Loja */
     .shopGrid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;}
     .shopItem{
       padding:14px; border-radius:20px;
@@ -240,7 +233,7 @@
       <div class="logo">E</div>
       <div>
         <h1>Confira o Prato Elite</h1>
-        <div class="hint">Cadastro + Dieta + Treino semanal + Loja + Parceiros (sem gastar).</div>
+        <div class="hint">Cadastro • Dieta • Treino semanal • Loja • Parceiros • Premium • Convites</div>
       </div>
     </div>
 
@@ -248,29 +241,22 @@
     <section id="viewCadastro" class="screen active">
       <div class="card">
         <div style="font-weight:1000; letter-spacing:.6px;">CADASTRO & SAÚDE</div>
-        <div class="hint">
-          <span class="danger">Importante:</span> não substitui orientação médica.
-        </div>
+        <div class="hint">As sugestões são informativas e não substituem profissional.</div>
 
-        <!-- Foto -->
         <label>Foto de perfil</label>
         <div class="profileRow">
-          <div class="avatar" id="avatar">
-            <span>FOTO</span>
-          </div>
+          <div class="avatar" id="avatar"><span>FOTO</span></div>
           <div style="flex:1;">
             <button class="miniBtn green" onclick="abrirEscolhaFoto()">Escolher/Tirar Foto</button>
             <button class="miniBtn" onclick="removerFoto()" style="margin-top:8px;">Remover foto</button>
-            <div class="hint" style="margin-top:8px;">A foto fica salva no seu celular (por enquanto).</div>
           </div>
         </div>
 
-        <!-- Inputs escondidos para foto -->
         <input id="fotoFile" type="file" accept="image/*" style="display:none;">
         <input id="fotoCamera" type="file" accept="image/*" capture="environment" style="display:none;">
 
         <label>Nome / Codinome</label>
-        <input id="nome" placeholder="Ex: Jonatan / AGENTEX" />
+        <input id="nome" placeholder="Ex: Jonatan" />
 
         <div class="row">
           <div>
@@ -319,7 +305,7 @@
             </select>
           </div>
           <div>
-            <label>Condição (se tiver)</label>
+            <label>Condição</label>
             <select id="condicao">
               <option value="">Selecione</option>
               <option>Nenhuma</option>
@@ -329,7 +315,7 @@
           </div>
         </div>
 
-        <label>Preferência / Restrição</label>
+        <label>Restrição</label>
         <select id="restricao">
           <option value="">Selecione</option>
           <option>Nenhuma</option>
@@ -341,13 +327,12 @@
 
         <label>Esportes (pode marcar vários)</label>
         <div class="chips" id="chipsEsportes"></div>
-        <div class="hint">Você pode editar isso quando quiser: salva e pronto.</div>
 
         <div class="check">
           <input id="termo" type="checkbox" />
           <div>
-            <div style="font-weight:900;">Eu entendo o termo</div>
-            <div class="hint" style="margin:4px 0 0;">As sugestões são informativas e não substituem profissional.</div>
+            <div style="font-weight:900;">Aceito o termo</div>
+            <div class="hint" style="margin:4px 0 0;">As sugestões são informativas.</div>
           </div>
         </div>
 
@@ -356,19 +341,13 @@
 
         <div id="statusCadastro" class="status"></div>
       </div>
-
-      <div class="card" style="margin-top:12px;">
-        <div style="font-weight:1000; letter-spacing:.6px;">SEU PERFIL</div>
-        <div id="resumoPerfil" class="hint">Ainda não salvo.</div>
-        <div id="pills" class="pillRow"></div>
-      </div>
     </section>
 
     <!-- DIETA -->
     <section id="viewDieta" class="screen">
       <div class="card">
         <div style="font-weight:1000; letter-spacing:.6px;">DIETA (FÁCIL)</div>
-        <div class="hint">Sugestão prática, baseada no seu objetivo + restrição + condição.</div>
+        <div class="hint">Sugestões rápidas baseadas no seu perfil.</div>
         <button class="btn" onclick="gerarDieta()">Gerar dieta</button>
         <button class="btn secondary" onclick="gerarDieta(true)">Nova dieta</button>
         <div id="outDieta" class="status"></div>
@@ -379,9 +358,7 @@
     <section id="viewTreino" class="screen">
       <div class="card">
         <div style="font-weight:1000; letter-spacing:.6px;">TREINO DA SEMANA</div>
-        <div class="hint">
-          Gerado com base no nível + esportes que você marcou. Cada exercício tem botão do YouTube.
-        </div>
+        <div class="hint">Cada exercício tem botão pro YouTube.</div>
         <button class="btn" onclick="gerarTreinoSemana()">Gerar treino da semana</button>
         <button class="btn secondary" onclick="limparTreino()">Limpar treino</button>
         <div id="outTreino" class="status"></div>
@@ -389,11 +366,11 @@
       </div>
     </section>
 
-    <!-- LOJA (AFILIADOS) -->
+    <!-- LOJA -->
     <section id="viewLoja" class="screen">
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">LOJA (AFILIADOS)</div>
-        <div class="hint">Por enquanto links normais. Depois trocamos pelos links de afiliado.</div>
+        <div style="font-weight:1000; letter-spacing:.6px;">LOJA</div>
+        <div class="hint">Depois você troca pelos seus links de afiliado.</div>
 
         <div class="shopGrid">
           <div class="shopItem">
@@ -413,38 +390,74 @@
           </div>
           <div class="shopItem">
             <h3>Marketplace</h3>
-            <p>Preços variados (geral).</p>
+            <p>Preços variados.</p>
             <button onclick="abrirLink('https://www.mercadolivre.com.br')">Abrir</button>
           </div>
-        </div>
-
-        <div class="hint" style="margin-top:12px;">
-          Quando você criar conta de afiliado, a gente só troca as URLs aqui.
         </div>
       </div>
     </section>
 
-    <!-- PARCEIROS (PREPARADO PRA LOCALIZAÇÃO) -->
+    <!-- PARCEIROS -->
     <section id="viewParceiros" class="screen">
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">PARCEIROS (PERTO DE VOCÊ)</div>
+        <div style="font-weight:1000; letter-spacing:.6px;">PARCEIROS</div>
+        <div class="hint">Em breve: parceiros perto de você (com localização opcional).</div>
+        <button class="btn" onclick="simularParceiros()">Ver parceiros (simulação)</button>
+        <div id="outParceiros" class="status"></div>
+      </div>
+    </section>
+
+    <!-- PREMIUM -->
+    <section id="viewPremium" class="screen">
+      <div class="card">
+        <div style="font-weight:1000; letter-spacing:.6px; color:var(--gold);">ASSINATURA ELITE</div>
         <div class="hint">
-          Em breve: academias e lojas parceiras na sua região. Quando ativarmos, o app vai pedir localização
-          só quando você clicar.
+          R$ 29,90/mês • Benefícios Premium.
+          <br><br><b>Pagamento no Mercado Pago (checkout)</b>. Não coletamos dados do seu cartão aqui.
         </div>
 
-        <button class="btn" onclick="simularParceiros()">Ver parceiros (simulação)</button>
-        <button class="btn secondary" onclick="explicarLocalizacao()">Como funciona a localização?</button>
+        <button id="btnPremium" class="btn"
+          style="background:linear-gradient(90deg,#f5c542,#f0b429); color:#1b1404;"
+          onclick="openCheckout()">
+          CONFIRMAR R$ 29,90/MÊS
+        </button>
 
-        <div id="outParceiros" class="status"></div>
+        <div class="hint" style="margin-top:10px; text-align:center; opacity:.7;">
+          AMBIENTE SEGURO • SSL
+        </div>
+      </div>
+    </section>
+
+    <!-- CONVITES -->
+    <section id="viewConvites" class="screen">
+      <div class="card">
+        <div style="font-weight:1000; letter-spacing:.6px;">CONVITES</div>
+        <div class="hint">
+          Convide amigos com seu link.
+          <br>• Você ganha <b>R$ 5,00</b> por cada assinatura Premium confirmada
+          <br>• Saque mínimo: <b>R$ 50,00</b> via Pix (mais pra frente)
+          <br>• Ao bater 10 assinaturas confirmadas: <b>1 mês grátis</b>
+          <br><br><span style="opacity:.75;">(Saldo aqui é “simulado” até ligarmos Firebase + confirmação automática.)</span>
+        </div>
 
         <div class="dayCard" style="margin-top:12px;">
-          <div class="dayTitle">✅ Preparado para o futuro</div>
-          <div class="hint" style="margin-top:0;">
-            Depois vamos ativar:
-            <br>• “Permitir localização” (opcional)
-            <br>• Mostrar lista por distância
-            <br>• Botão “Abrir no Maps”
+          <div class="dayTitle"><span>Seu código</span><span id="myCode" style="opacity:.8;"></span></div>
+          <div class="hint" id="myLink" style="word-break:break-all;"></div>
+
+          <div style="display:flex; gap:10px; margin-top:10px;">
+            <button class="miniBtn green" onclick="shareInvite()">Compartilhar</button>
+            <button class="miniBtn" onclick="copyInviteLink()">Copiar link</button>
+          </div>
+        </div>
+
+        <div class="dayCard">
+          <div class="dayTitle"><span>Saldo</span><span id="balTxt" style="opacity:.8;"></span></div>
+          <div class="hint" id="progressTxt"></div>
+
+          <!-- botões de teste (pode remover depois) -->
+          <div style="display:flex; gap:10px; margin-top:10px;">
+            <button class="miniBtn" onclick="setBalance(getBalance()+5)">+R$5 (teste)</button>
+            <button class="miniBtn" onclick="setBalance(0)">Zerar</button>
           </div>
         </div>
       </div>
@@ -459,17 +472,27 @@
       <button class="navBtn" data-view="treino">TREINO</button>
       <button class="navBtn" data-view="loja">LOJA</button>
       <button class="navBtn" data-view="parceiros">PARCEIROS</button>
+      <button class="navBtn" data-view="premium">PREMIUM</button>
+      <button class="navBtn" data-view="convites">CONVITES</button>
     </div>
   </div>
 
   <script>
-    // PWA register (se já tiver service-worker.js)
+    // ====== PWA (se existir service-worker.js no repo) ======
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
     }
 
-    const KEY = "checkprato_perfil_v2_multi_esportes";
+    // ====== COLE AQUI O LINK DO MERCADO PAGO ======
+    const PREMIUM_PRICE = 29.90;
+    const PREMIUM_CHECKOUT_URL = "COLE_AQUI_SEU_LINK_MPAGO"; // ex: https://mpago.la/xxxxxx
+
+    // ====== STORAGE KEYS ======
+    const KEY = "checkprato_perfil_v3";
     const KEY_TREINO = "checkprato_treino_semana_v1";
+    const KEY_REF = "checkprato_ref_code";
+    const KEY_MY_CODE = "checkprato_my_invite_code";
+    const KEY_BAL = "checkprato_invite_balance";
 
     const ESPORTES = [
       "Musculação","Futebol","Corrida","Crossfit","Ciclismo","Natação",
@@ -478,35 +501,34 @@
 
     const $ = (id) => document.getElementById(id);
 
-    function getPerfil() {
-      try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch { return null; }
-    }
-    function setPerfil(p) { localStorage.setItem(KEY, JSON.stringify(p)); }
+    function getPerfil(){ try{return JSON.parse(localStorage.getItem(KEY)||"null");}catch{return null;} }
+    function setPerfil(p){ localStorage.setItem(KEY, JSON.stringify(p)); }
 
-    function getTreino() {
-      try { return JSON.parse(localStorage.getItem(KEY_TREINO) || "null"); } catch { return null; }
-    }
-    function setTreino(t) { localStorage.setItem(KEY_TREINO, JSON.stringify(t)); }
+    function getTreino(){ try{return JSON.parse(localStorage.getItem(KEY_TREINO)||"null");}catch{return null;} }
+    function setTreino(t){ localStorage.setItem(KEY_TREINO, JSON.stringify(t)); }
 
+    // ====== NAV ======
     function switchView(view){
-      ["viewCadastro","viewDieta","viewTreino","viewLoja","viewParceiros"].forEach(id => $(id).classList.remove("active"));
+      ["viewCadastro","viewDieta","viewTreino","viewLoja","viewParceiros","viewPremium","viewConvites"]
+        .forEach(id => $(id).classList.remove("active"));
+
       if(view==="cadastro") $("viewCadastro").classList.add("active");
       if(view==="dieta") $("viewDieta").classList.add("active");
       if(view==="treino") $("viewTreino").classList.add("active");
       if(view==="loja") $("viewLoja").classList.add("active");
       if(view==="parceiros") $("viewParceiros").classList.add("active");
+      if(view==="premium") $("viewPremium").classList.add("active");
+      if(view==="convites") $("viewConvites").classList.add("active");
 
       document.querySelectorAll(".navBtn").forEach(b=>b.classList.remove("active"));
       document.querySelector(`.navBtn[data-view="${view}"]`)?.classList.add("active");
     }
-
     document.querySelectorAll(".navBtn").forEach(btn=>{
       btn.addEventListener("click", ()=> switchView(btn.dataset.view));
     });
 
     // ====== FOTO (galeria + câmera) ======
     function abrirEscolhaFoto(){
-      // Pergunta simples: câmera ou galeria
       const usarCamera = confirm("Quer tirar foto agora?\nOK = Câmera | Cancelar = Galeria");
       if(usarCamera) $("fotoCamera").click();
       else $("fotoFile").click();
@@ -515,6 +537,16 @@
 
     $("fotoFile").addEventListener("change", (e)=> handleFoto(e.target.files?.[0]));
     $("fotoCamera").addEventListener("change", (e)=> handleFoto(e.target.files?.[0]));
+
+    async function handleFoto(file){
+      if(!file) return;
+      const dataUrl = await compressImageToDataURL(file, 420, 0.82);
+      const p = getPerfil() || {};
+      p.fotoDataUrl = dataUrl;
+      setPerfil(p);
+      renderFoto(dataUrl);
+      $("statusCadastro").textContent = "✅ Foto salva!";
+    }
 
     function removerFoto(){
       const p = getPerfil() || {};
@@ -525,26 +557,10 @@
     }
     window.removerFoto = removerFoto;
 
-    async function handleFoto(file){
-      if(!file) return;
-
-      // Reduz imagem para não pesar (máx 420px)
-      const dataUrl = await compressImageToDataURL(file, 420, 0.82);
-
-      const p = getPerfil() || {};
-      p.fotoDataUrl = dataUrl;
-      setPerfil(p);
-      renderFoto(dataUrl);
-      $("statusCadastro").textContent = "✅ Foto salva no celular!";
-    }
-
     function renderFoto(dataUrl){
       const avatar = $("avatar");
       avatar.innerHTML = "";
-      if(!dataUrl){
-        avatar.innerHTML = "<span>FOTO</span>";
-        return;
-      }
+      if(!dataUrl){ avatar.innerHTML = "<span>FOTO</span>"; return; }
       const img = document.createElement("img");
       img.src = dataUrl;
       avatar.appendChild(img);
@@ -566,17 +582,14 @@
           canvas.width = w; canvas.height = h;
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, w, h);
-
-          // JPEG reduz bem o peso
           resolve(canvas.toDataURL("image/jpeg", quality));
         };
         img.onerror = () => resolve(null);
       });
     }
 
-    // ====== ESPORTES MULTI ======
+    // ====== ESPORTES ======
     let selectedSports = new Set();
-
     function buildSportsChips(){
       const box = $("chipsEsportes");
       box.innerHTML = "";
@@ -592,21 +605,17 @@
         box.appendChild(chip);
       });
     }
-
     function applySelectedSportsToUI(){
       const chips = [...document.querySelectorAll("#chipsEsportes .chip")];
-      chips.forEach((c)=>{
-        c.classList.toggle("active", selectedSports.has(c.textContent));
-      });
+      chips.forEach((c)=> c.classList.toggle("active", selectedSports.has(c.textContent)));
     }
 
-    // ====== SALVAR PERFIL ======
+    // ====== PERFIL ======
     function salvarPerfil(){
       if(!$("termo").checked){
-        $("statusCadastro").textContent = "⚠️ Você precisa aceitar o termo para salvar.";
+        $("statusCadastro").textContent = "⚠️ Aceite o termo para salvar.";
         return;
       }
-
       const old = getPerfil() || {};
       const perfil = {
         ...old,
@@ -632,8 +641,7 @@
       }
 
       setPerfil(perfil);
-      $("statusCadastro").textContent = "✅ Perfil salvo / atualizado!";
-      renderPerfil();
+      $("statusCadastro").textContent = "✅ Perfil salvo!";
     }
     window.salvarPerfil = salvarPerfil;
 
@@ -641,40 +649,18 @@
       localStorage.removeItem(KEY);
       localStorage.removeItem(KEY_TREINO);
       selectedSports = new Set();
-      buildSportsChips();
       applySelectedSportsToUI();
-      $("statusCadastro").textContent = "🧹 Perfil apagado do celular.";
-      $("resumoPerfil").textContent = "Ainda não salvo.";
-      $("pills").innerHTML = "";
       renderFoto(null);
+      $("statusCadastro").textContent = "🧹 Perfil apagado.";
       $("treinoSemana").innerHTML = "";
       $("outTreino").textContent = "";
     }
     window.limparPerfil = limparPerfil;
 
-    function renderPerfil(){
+    function carregarPerfilNaTela(){
       const p = getPerfil();
       if(!p) return;
-
-      // Foto
       renderFoto(p.fotoDataUrl || null);
-
-      const imc = (p.peso && p.altura) ? (p.peso / ((p.altura/100)**2)) : null;
-      const imcTxt = imc ? `IMC ~ ${imc.toFixed(1)}` : "";
-
-      $("resumoPerfil").textContent =
-        `Olá, ${p.nome}. Objetivo: ${p.objetivo}. ${imcTxt}`.trim();
-
-      const pills = [];
-      pills.push(`${p.idade} anos`, `${p.peso} kg`, `${p.altura} cm`);
-      if(p.nivel) pills.push(p.nivel);
-      if(p.restricao) pills.push(p.restricao);
-      if(p.condicao) pills.push(p.condicao);
-      if(Array.isArray(p.esportes) && p.esportes.length) pills.push(`Esportes: ${p.esportes.join(", ")}`);
-
-      $("pills").innerHTML = pills.filter(Boolean).map(t => `<span class="pill">${escapeHtml(t)}</span>`).join("");
-
-      // preencher campos ao editar
       $("nome").value = p.nome || "";
       $("idade").value = p.idade || "";
       $("sexo").value = p.sexo || "";
@@ -685,25 +671,18 @@
       $("restricao").value = p.restricao || "";
       $("condicao").value = p.condicao || "";
       $("termo").checked = true;
-
-      // esportes
       selectedSports = new Set(p.esportes || []);
       applySelectedSportsToUI();
     }
 
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-    }
-
-    // ====== DIETA FÁCIL ======
+    // ====== DIETA ======
     function gerarDieta(nova=false){
       const p = getPerfil();
       if(!p){ $("outDieta").textContent = "⚠️ Faça o cadastro primeiro."; return; }
 
-      // Base por objetivo (simples e prático)
       const dietas = {
         "Emagrecer": [
-          "Café: 2 ovos + 1 banana | Almoço: frango grelhado + salada | Jantar: omelete + legumes",
+          "Café: 2 ovos + banana | Almoço: frango + salada | Jantar: omelete + legumes",
           "Café: iogurte + aveia | Almoço: carne magra + arroz integral | Jantar: sopa de legumes",
           "Café: tapioca + queijo | Almoço: peixe/frango + legumes | Jantar: salada com proteína"
         ],
@@ -727,7 +706,6 @@
       let lista = dietas[p.objetivo] || dietas["Melhorar saúde"];
       let escolha = lista[Math.floor(Math.random() * lista.length)];
 
-      // Ajustes por restrição
       if(p.restricao === "Vegetariano" || p.restricao === "Vegano"){
         escolha = escolha
           .replace(/frango|carne|peixe/gi, "grão-de-bico/tofu")
@@ -740,7 +718,6 @@
         escolha = escolha.replace(/pão|macarrão/gi, "opção sem glúten");
       }
 
-      // Avisos por condição
       let aviso = "";
       if(p.condicao === "Diabetes") aviso += " ⚠️ Atenção com carboidratos e açúcar.";
       if(p.condicao === "Pressão alta") aviso += " ⚠️ Reduzir sódio (sal/embutidos).";
@@ -749,24 +726,59 @@
     }
     window.gerarDieta = gerarDieta;
 
-    // ====== TREINO DA SEMANA ======
+    // ====== TREINO ======
     function gerarTreinoSemana(){
       const p = getPerfil();
       if(!p){ $("outTreino").textContent = "⚠️ Faça o cadastro primeiro."; return; }
-
       const nivel = p.nivel || "Iniciante";
-      const esportes = (p.esportes && p.esportes.length) ? p.esportes : ["Musculação"];
+      const tema = (p.esportes && p.esportes.length) ? p.esportes[0] : "Musculação";
 
-      // Escolhe “tema” principal pro treino (o primeiro esporte marcado)
-      const tema = esportes[0];
+      const dias = ["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"];
+      const base = [
+        "Agachamento", "Supino", "Remada", "Prancha",
+        "Flexão", "Abdominal", "Desenvolvimento", "Panturrilha"
+      ];
 
-      const plano = montarPlanoSemanal(tema, nivel);
+      const rotina = dias.map((dia, idx)=>{
+        const itens = (idx===3 || idx===6)
+          ? ["Descanso / Alongamento 15min"]
+          : [base[idx%base.length], base[(idx+2)%base.length], base[(idx+4)%base.length]];
+        return { dia, bloco: (idx===3||idx===6) ? "DESC" : (idx%2===0?"A":"B"), itens };
+      });
+
+      const plano = { tema, nivel, rotina, createdAt: Date.now() };
       setTreino(plano);
-
-      $("outTreino").textContent = `✅ Treino da semana gerado: ${tema} (${nivel})`;
+      $("outTreino").textContent = `✅ Treino gerado: ${tema} (${nivel})`;
       renderTreinoSemana(plano);
     }
     window.gerarTreinoSemana = gerarTreinoSemana;
+
+    function renderTreinoSemana(plano){
+      const box = $("treinoSemana");
+      box.innerHTML = "";
+      plano.rotina.forEach((d)=>{
+        const day = document.createElement("div");
+        day.className = "dayCard";
+        day.innerHTML = `<div class="dayTitle"><span>${d.dia}</span><span style="opacity:.75;font-weight:1000;">${d.bloco}</span></div>`;
+        d.itens.forEach((ex)=>{
+          const row = document.createElement("div");
+          row.className = "exercise";
+          const left = document.createElement("div");
+          left.innerHTML = `<b>${escapeHtml(ex)}</b><div style="font-size:12px;opacity:.7;">Ver técnica no YouTube</div>`;
+          const btn = document.createElement("button");
+          btn.className = "ytBtn";
+          btn.textContent = "YouTube";
+          btn.addEventListener("click", ()=>{
+            const q = encodeURIComponent(ex + " como fazer");
+            window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
+          });
+          row.appendChild(left);
+          row.appendChild(btn);
+          day.appendChild(row);
+        });
+        box.appendChild(day);
+      });
+    }
 
     function limparTreino(){
       localStorage.removeItem(KEY_TREINO);
@@ -775,263 +787,112 @@
     }
     window.limparTreino = limparTreino;
 
-    function montarPlanoSemanal(tema, nivel){
-      const dias = ["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"];
-
-      // Biblioteca simples por tema
-      const LIB = {
-        "Musculação": {
-          "Iniciante": {
-            A: ["Agachamento livre", "Supino reto", "Remada curvada", "Prancha"],
-            B: ["Leg press", "Desenvolvimento ombro", "Puxada na barra", "Abdominal"],
-            C: ["Levantamento terra (leve)", "Flexão", "Rosca bíceps", "Tríceps banco"]
-          },
-          "Intermediário": {
-            A: ["Agachamento", "Supino", "Remada", "Elevação lateral"],
-            B: ["Terra", "Puxada", "Paralelas", "Panturrilha"],
-            C: ["Avanço", "Supino inclinado", "Remada unilateral", "Abd. infra"]
-          },
-          "Avançado": {
-            A: ["Agachamento pesado", "Supino pesado", "Barra fixa", "Elevação lateral"],
-            B: ["Terra pesado", "Remada pesada", "Paralelas", "Panturrilha em pé"],
-            C: ["Avanço com peso", "Supino inclinado", "Puxada aberta", "Core avançado"]
-          }
-        },
-        "Corrida": {
-          "Iniciante": {
-            A: ["Caminhada rápida 25min", "Trote leve 10min", "Alongamento"],
-            B: ["Intervalado leve (1min trote/1min caminhada) 20min", "Alongamento"],
-            C: ["Corrida leve 15min", "Educativos de corrida", "Alongamento"]
-          },
-          "Intermediário": {
-            A: ["Corrida leve 30min", "Alongamento"],
-            B: ["Tiros 8x (30s forte/60s leve)", "Alongamento"],
-            C: ["Ritmo (tempo run) 20min", "Alongamento"]
-          },
-          "Avançado": {
-            A: ["Corrida leve 45min"],
-            B: ["Tiros 12x (40s forte/60s leve)"],
-            C: ["Ritmo 30min + educativos"]
-          }
-        },
-        "Futebol": {
-          "Iniciante": {
-            A: ["Condução de bola (10min)", "Passe na parede (10min)", "Finalização (10min)"],
-            B: ["Agilidade (escada) 10min", "Arranque 6x", "Alongamento"],
-            C: ["Domínio e controle 10min", "Passe curto 10min", "Finalização 10min"]
-          },
-          "Intermediário": {
-            A: ["Condução + drible 15min", "Finalização 15min", "Core 10min"],
-            B: ["Sprint 10x", "Agilidade 15min", "Mobilidade"],
-            C: ["Passe longo 15min", "Finalização 15min", "Resistência 20min"]
-          },
-          "Avançado": {
-            A: ["Dribles avançados", "Finalização intensa", "Core"],
-            B: ["Sprint 15x", "Agilidade intensa", "Mobilidade"],
-            C: ["Passe + finalização", "Resistência forte", "Alongamento"]
-          }
-        },
-        "Crossfit": {
-          "Iniciante": {
-            A: ["Burpee (leve)", "Agachamento", "Flexão (joelho)", "Prancha"],
-            B: ["Kettlebell swing (leve)", "Abdominal", "Corrida leve 10min"],
-            C: ["Thruster (leve)", "Remada elástico", "Saltos baixos"]
-          },
-          "Intermediário": {
-            A: ["Burpee", "Thruster", "Pull-up assistido", "Core"],
-            B: ["Swing", "Box jump", "Flexão", "Corrida 15min"],
-            C: ["WOD 12–15min", "Mobilidade"]
-          },
-          "Avançado": {
-            A: ["WOD intenso 15–20min"],
-            B: ["Levantamento olímpico (técnica)", "Metcon"],
-            C: ["Ginástica + WOD"]
-          }
-        },
-        "Ciclismo": {
-          "Iniciante": { A:["Pedal leve 30min"], B:["Subida leve 20min"], C:["Pedal 40min"] },
-          "Intermediário": { A:["Pedal 60min"], B:["Intervalado 8x 1min forte"], C:["Subida 30min"] },
-          "Avançado": { A:["Longão 90min"], B:["Intervalado 12x 1min forte"], C:["Subida forte 40min"] }
-        },
-        "Natação": {
-          "Iniciante": { A:["Técnica 20min"], B:["Nado leve 15min"], C:["Técnica + leve 25min"] },
-          "Intermediário": { A:["Séries 8x50m"], B:["Técnica 30min"], C:["Séries 10x50m"] },
-          "Avançado": { A:["Séries 12x50m"], B:["Séries 8x100m"], C:["Técnica + ritmo"] }
-        },
-        "Yoga": {
-          "Iniciante": { A:["Yoga iniciante 20min"], B:["Mobilidade 15min"], C:["Yoga leve 25min"] },
-          "Intermediário": { A:["Yoga 35min"], B:["Mobilidade 25min"], C:["Yoga 40min"] },
-          "Avançado": { A:["Yoga 50min"], B:["Power yoga 40min"], C:["Yoga 60min"] }
-        },
-        "Pilates": {
-          "Iniciante": { A:["Pilates iniciante 20min"], B:["Core leve 15min"], C:["Pilates 25min"] },
-          "Intermediário": { A:["Pilates 35min"], B:["Core 25min"], C:["Pilates 40min"] },
-          "Avançado": { A:["Pilates 50min"], B:["Core intenso 35min"], C:["Pilates 60min"] }
-        },
-        "Caminhada": {
-          "Iniciante": { A:["Caminhada 25min"], B:["Caminhada 30min"], C:["Caminhada 35min"] },
-          "Intermediário": { A:["Caminhada rápida 40min"], B:["Subida 30min"], C:["Caminhada 45min"] },
-          "Avançado": { A:["Caminhada rápida 60min"], B:["Subida forte 40min"], C:["Caminhada 70min"] }
-        },
-        "Luta": {
-          "Iniciante": { A:["Base e guarda 15min", "Sombra 10min"], B:["Alongamento + mobilidade"], C:["Golpes básicos 20min"] },
-          "Intermediário": { A:["Sombra 20min", "Condicionamento 15min"], B:["Técnica 30min"], C:["Sparring leve"] },
-          "Avançado": { A:["Sombra intensa", "Condicionamento"], B:["Técnica avançada"], C:["Sparring"] }
-        },
-        "Basquete": {
-          "Iniciante": { A:["Drible 10min", "Arremesso 10min"], B:["Agilidade 10min"], C:["Passe 10min", "Arremesso 10min"] },
-          "Intermediário": { A:["Arremesso 20min", "Drible 15min"], B:["Agilidade 15min"], C:["Resistência 20min"] },
-          "Avançado": { A:["Arremesso intenso", "Drible avançado"], B:["Agilidade intensa"], C:["Jogo/condicionamento"] }
-        },
-        "Vôlei": {
-          "Iniciante": { A:["Manchete 15min", "Saque 10min"], B:["Agilidade 10min"], C:["Toque 15min", "Saque 10min"] },
-          "Intermediário": { A:["Saque 20min", "Manchete 15min"], B:["Pliometria leve"], C:["Ataque 15min"] },
-          "Avançado": { A:["Saque/ataque intenso"], B:["Pliometria"], C:["Treino técnico forte"] }
-        },
-        "Outro": {
-          "Iniciante": { A:["Treino leve 20min"], B:["Mobilidade 15min"], C:["Cardio leve 20min"] },
-          "Intermediário": { A:["Treino 35min"], B:["Cardio 25min"], C:["Força 30min"] },
-          "Avançado": { A:["Treino 50min"], B:["Cardio 40min"], C:["Força 45min"] }
-        }
-      };
-
-      const pack = (LIB[tema] && LIB[tema][nivel]) ? LIB[tema][nivel] : (LIB["Musculação"][nivel] || LIB["Musculação"]["Iniciante"]);
-
-      // Monta rotina: ABC + descanso + cardio leve + descanso
-      const A = pack.A || ["Treino A"];
-      const B = pack.B || ["Treino B"];
-      const C = pack.C || ["Treino C"];
-      const descanso = ["Descanso / Alongamento 15min"];
-      const cardio = tema === "Musculação"
-        ? ["Caminhada 25min", "Alongamento"]
-        : ["Mobilidade 15min"];
-
-      const rotina = [
-        { dia: dias[0], bloco:"A", itens:A },
-        { dia: dias[1], bloco:"B", itens:B },
-        { dia: dias[2], bloco:"C", itens:C },
-        { dia: dias[3], bloco:"DESC", itens:descanso },
-        { dia: dias[4], bloco:"A", itens:A },
-        { dia: dias[5], bloco:"CARD", itens:cardio },
-        { dia: dias[6], bloco:"DESC", itens:descanso }
-      ];
-
-      return { tema, nivel, rotina, createdAt: Date.now() };
-    }
-
-    function renderTreinoSemana(plano){
-      const box = $("treinoSemana");
-      box.innerHTML = "";
-
-      if(!plano || !plano.rotina){
-        box.innerHTML = "";
-        return;
-      }
-
-      plano.rotina.forEach((d)=>{
-        const day = document.createElement("div");
-        day.className = "dayCard";
-
-        const title = document.createElement("div");
-        title.className = "dayTitle";
-        title.innerHTML = `<span>${d.dia}</span><span style="opacity:.75;font-weight:1000;">${d.bloco}</span>`;
-        day.appendChild(title);
-
-        d.itens.forEach((ex)=>{
-          const row = document.createElement("div");
-          row.className = "exercise";
-
-          const left = document.createElement("div");
-          left.innerHTML = `<b>${escapeHtml(ex)}</b><div style="font-size:12px;opacity:.7;">Toque para ver no YouTube</div>`;
-
-          const btn = document.createElement("button");
-          btn.className = "ytBtn";
-          btn.textContent = "YouTube";
-          btn.addEventListener("click", ()=>{
-            const q = encodeURIComponent(ex + " como fazer");
-            window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
-          });
-
-          row.appendChild(left);
-          row.appendChild(btn);
-          day.appendChild(row);
-        });
-
-        box.appendChild(day);
-      });
-    }
-
-    // ====== LINKS ======
-    function abrirLink(url){
-      window.open(url, "_blank");
-    }
+    // ====== LOJA/PARCEIROS ======
+    function abrirLink(url){ window.open(url, "_blank"); }
     window.abrirLink = abrirLink;
 
-    // ====== PARCEIROS (SIMULAÇÃO + PREPARO) ======
     function simularParceiros(){
       $("outParceiros").innerHTML =
-        "📍 Exemplo (simulação):<br>• Academia Elite Center (2,1 km)<br>• Loja Fit Suplementos (3,4 km)<br><br>Em breve isso será real com localização (opcional).";
+        "📍 Exemplo (simulação):<br>• Academia Elite Center (2,1 km)<br>• Loja Fit Suplementos (3,4 km)";
     }
     window.simularParceiros = simularParceiros;
 
-    function explicarLocalizacao(){
-      $("outParceiros").innerHTML =
-        "🔒 A localização será usada só quando você clicar.<br>Você pode negar se quiser.<br>Objetivo: mostrar parceiros perto, nada de rastrear você.";
+    // ====== PREMIUM ======
+    function openCheckout(){
+      if(!PREMIUM_CHECKOUT_URL || PREMIUM_CHECKOUT_URL.includes("COLE_AQUI")){
+        alert("Cole o link do Mercado Pago em PREMIUM_CHECKOUT_URL dentro do index.html.");
+        return;
+      }
+      window.open(PREMIUM_CHECKOUT_URL, "_blank");
     }
-    window.explicarLocalizacao = explicarLocalizacao;
+    window.openCheckout = openCheckout;
+
+    // ====== CONVITES ======
+    function captureReferralFromURL(){
+      const url = new URL(window.location.href);
+      const ref = url.searchParams.get("ref");
+      if(ref && ref.length >= 4){
+        localStorage.setItem(KEY_REF, ref.toUpperCase());
+      }
+    }
+    captureReferralFromURL();
+
+    function getOrCreateInviteCode(){
+      let code = localStorage.getItem(KEY_MY_CODE);
+      if(!code){
+        code = Math.random().toString(36).slice(2, 8).toUpperCase();
+        localStorage.setItem(KEY_MY_CODE, code);
+      }
+      return code;
+    }
+    function getMyInviteLink(){
+      const code = getOrCreateInviteCode();
+      const base = window.location.origin + window.location.pathname;
+      return `${base}?ref=${encodeURIComponent(code)}`;
+    }
+    async function copyInviteLink(){
+      const link = getMyInviteLink();
+      try{
+        await navigator.clipboard.writeText(link);
+        alert("✅ Link copiado!");
+      } catch {
+        prompt("Copie o link:", link);
+      }
+    }
+    window.copyInviteLink = copyInviteLink;
+
+    function shareInvite(){
+      const link = getMyInviteLink();
+      const text = `Baixa o Confira o Prato Elite e usa meu link: ${link}`;
+      if(navigator.share){
+        navigator.share({ title:"Confira o Prato Elite", text, url: link }).catch(()=>{});
+      } else {
+        copyInviteLink();
+      }
+    }
+    window.shareInvite = shareInvite;
+
+    function getBalance(){ return Number(localStorage.getItem(KEY_BAL) || "0"); }
+    function setBalance(v){ localStorage.setItem(KEY_BAL, String(v)); renderInviteUI(); }
+    window.getBalance = getBalance;
+    window.setBalance = setBalance;
+
+    function renderInviteUI(){
+      const code = getOrCreateInviteCode();
+      const link = getMyInviteLink();
+      const bal = getBalance();
+      const falta = Math.max(0, 50 - bal);
+
+      $("myCode").textContent = code;
+      $("myLink").textContent = link;
+
+      $("balTxt").textContent = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(bal);
+      $("progressTxt").textContent = bal >= 50
+        ? "✅ Você atingiu R$ 50 (saque via Pix será ativado quando ligarmos o sistema)."
+        : `Faltam ${new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(falta)} para R$ 50,00.`;
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
 
     // ====== INIT ======
     function init(){
       buildSportsChips();
+      carregarPerfilNaTela();
 
-      // Carrega perfil salvo
-      const p = getPerfil();
-      if(p){
-        selectedSports = new Set(p.esportes || []);
-        applySelectedSportsToUI();
-        renderPerfil();
-      }else{
-        // default: nenhum selecionado
-        applySelectedSportsToUI();
-      }
-
-      // Carrega treino salvo
       const t = getTreino();
       if(t){
         renderTreinoSemana(t);
         $("outTreino").textContent = `✅ Treino salvo: ${t.tema} (${t.nivel})`;
       }
-    }
 
-    // Salvar treino quando renderizar (após gerar)
-    const originalGerar = gerarTreinoSemana;
-    // (Já salva dentro do gerarTreinoSemana via setTreino)
-    // mas para garantir, salvamos quando gerar
-    function setTreinoAndRender(plano){
-      setTreino(plano);
-      renderTreinoSemana(plano);
-    }
+      // atualizar texto do botão premium (fixo, mas ok)
+      $("btnPremium").textContent = `CONFIRMAR R$ ${PREMIUM_PRICE.toFixed(2).replace(".", ",")}/MÊS`;
 
-    // Ajuste: salvar treino dentro do gerar
-    const oldGerarTreino = window.gerarTreinoSemana;
-    // já está ok pelo setTreino(plano) e renderTreinoSemana(plano)
-
-    // Hook: sempre que gerar treino, salvar e render (já feito)
-
-    // Sobrescreve setTreino no gerarTreinoSemana via setTreino(plano)
-    // ok
-    function openCheckout(){
-    if(!PREMIUM_CHECKOUT_URL || PREMIUM_CHECKOUT_URL.includes("COLE_AQUI")){
-    alert("Checkout ainda não configurado.");
-    return;
-  }
-  window.open(PREMIUM_CHECKOUT_URL, "_blank");
+      renderInviteUI();
     }
     init();
   </script>
-  // ================= PREMIUM / PAGAMENTO =================
-const PREMIUM_PRICE = 29.90;
-const PREMIUM_CHECKOUT_URL = "https://mpago.la/18rE4Nh";
-// =======================================================
 </body>
 </html>
