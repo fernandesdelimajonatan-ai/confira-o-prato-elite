@@ -1,145 +1,314 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Confira o Prato Elite</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #020617;
-      color: #f8fafc;
+    :root{
+      --bg:#020617;        /* slate-950 */
+      --card:#0f172a;      /* slate-900 */
+      --card2:#111827;     /* slate-800 */
+      --border:#1e293b;    /* slate-700 */
+      --text:#f8fafc;      /* slate-50  */
+      --muted:#94a3b8;     /* slate-400 */
+      --brand:#10b981;     /* emerald-500 */
+      --brand2:#22c55e;    /* green-500 */
+      --danger:#ef4444;    /* red-500 */
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 14px;
     }
-
-    header {
-      padding: 16px;
-      text-align: center;
-      border-bottom: 1px solid #1e293b;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
-
-    main {
-      padding: 16px;
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(2,6,23,.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 14px 10px;
     }
-
-    .card {
-      background: #0f172a;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
+    header .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
-
-    .price {
-      color: #22c55e;
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .title h1{
+      margin:0;
       font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 8px;
+      letter-spacing:.2px;
+    }
+    .title small{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .pill{
+      font-size:12px;
+      color:#052e16;
+      background: rgba(16,185,129,.95);
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:700;
+      white-space:nowrap;
     }
 
-    .qty {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
+    main{ padding: 14px 14px 88px; max-width: 980px; margin: 0 auto; }
+    .grid{ display:grid; gap:12px; }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
     }
+    .card h2{ margin:0 0 8px; font-size:16px; }
+    .card p{ margin:0 0 10px; color: var(--muted); font-size:14px; line-height:1.35; }
 
-    .qty button {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      border: none;
-      font-size: 20px;
-      background: #1e293b;
+    .row{ display:flex; gap:10px; flex-wrap:wrap; }
+    .row > *{ flex:1 1 160px; }
+
+    label{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px; }
+    input, select, textarea{
+      width:100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0b1220;
+      color: var(--text);
+      outline: none;
+    }
+    textarea{ min-height: 90px; resize: vertical; }
+
+    .btn{
+      width:100%;
+      padding: 12px 14px;
+      border:none;
+      border-radius: 12px;
+      background: var(--brand);
+      color:#052e16;
+      font-weight: 800;
+      font-size: 14px;
+      cursor:pointer;
+    }
+    .btn:active{ transform: scale(.99); }
+    .btn.secondary{
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn.danger{
+      background: var(--danger);
       color: #fff;
     }
-
-    .qty span {
-      font-size: 16px;
+    .btn.small{
+      padding:10px 12px;
+      font-size: 13px;
+      border-radius: 10px;
     }
 
-    .order-btn {
-      width: 100%;
+    .muted{ color: var(--muted); font-size: 13px; }
+    .ok{ color: var(--brand2); font-weight: 800; }
+    .warn{ color: #fbbf24; font-weight: 800; }
+
+    .tabs{
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: rgba(2,6,23,.96);
+      border-top: 1px solid var(--border);
+      padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+      display:flex;
+      gap:6px;
+      justify-content:space-between;
+      z-index: 20;
+    }
+    .tab{
+      flex:1;
+      text-align:center;
+      padding:10px 6px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 12px;
+      user-select:none;
+      cursor:pointer;
+    }
+    .tab.active{
+      color: var(--text);
+      border-color: var(--border);
+      background: rgba(15,23,42,.8);
+    }
+    .tab b{ display:block; font-size: 12px; }
+
+    .hide{ display:none; }
+
+    .result{
+      border: 1px dashed rgba(16,185,129,.55);
+      background: rgba(16,185,129,.08);
       padding: 12px;
-      background: #10b981;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      cursor: pointer;
+      border-radius: 12px;
+      margin-top: 10px;
     }
+    .result .line{ display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid rgba(148,163,184,.15); }
+    .result .line:last-child{ border-bottom:none; }
+    .result .k{ color:var(--muted); font-size: 13px; }
+    .result .v{ font-weight: 800; }
 
-    .status {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 14px;
-      opacity: 0.9;
+    .list{
+      display:grid;
+      gap:10px;
     }
+    .item{
+      background: rgba(17,24,39,.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .item .head{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+    .item h3{ margin:0; font-size: 15px; }
+    .item small{ color: var(--muted); }
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .chip{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: rgba(2,6,23,.4);
+    }
+    .link{
+      color: var(--brand);
+      font-weight:800;
+      text-decoration:none;
+    }
+    .hr{ height:1px; background: rgba(30,41,59,.7); margin: 10px 0; border-radius: 999px; }
+    .center{ text-align:center; }
   </style>
 </head>
 
 <body>
-
 <header>
-  <h1>🍽️ Confira o Prato Elite</h1>
+  <div class="top">
+    <div class="title">
+      <h1>🍽️ Confira o Prato Elite</h1>
+      <small id="subtitle">Protótipo (sem IA real ainda)</small>
+    </div>
+    <div class="pill" id="userPill">Sem cadastro</div>
+  </div>
 </header>
 
 <main>
+  <!-- ABA: PRATO -->
+  <section id="tab-prato" class="grid">
+    <div class="card">
+      <h2>📸 Analise seu prato</h2>
+      <p>Escolha uma foto pela <b>galeria</b> ou use a <b>câmera</b>. Por enquanto, o resultado é simulado (depois conectamos a IA).</p>
 
-  <div class="card">
-    <h2>Feijoada Completa</h2>
-    <p>Arroz, couve, farofa e laranja.</p>
-    <div class="price">R$ 29,90</div>
+      <div class="row">
+        <div>
+          <label>Escolher foto (galeria)</label>
+          <input id="fileGallery" type="file" accept="image/*" />
+        </div>
+        <div>
+          <label>Tirar foto (câmera)</label>
+          <input id="fileCamera" type="file" accept="image/*" capture="environment" />
+        </div>
+      </div>
 
-    <div class="qty">
-      <button onclick="alterarQtd('feijoada', -1)">−</button>
-      <span id="qtd-feijoada">1</span>
-      <button onclick="alterarQtd('feijoada', 1)">+</button>
+      <div class="row" style="margin-top:10px;">
+        <button class="btn" onclick="analisarPrato()">Analisar prato</button>
+        <button class="btn secondary" onclick="limparPrato()">Limpar</button>
+      </div>
+
+      <div id="pratoPreviewWrap" class="hide" style="margin-top:12px;">
+        <img id="pratoPreview" alt="Prévia" style="width:100%; border-radius:12px; border:1px solid var(--border);" />
+      </div>
+
+      <div id="resultadoPrato" class="result hide"></div>
+      <div class="muted" id="pratoHint" style="margin-top:10px;"></div>
     </div>
 
-    <button class="order-btn" onclick="pedir('Feijoada Completa', 29.90, 'feijoada')">
-      Pedir
-    </button>
-  </div>
+    <div class="card">
+      <h2>👤 Seu perfil (base da personalização)</h2>
+      <p>Preencha o cadastro (saúde e objetivos). O app usa isso para ajustar dieta e treinos.</p>
+      <div class="row">
+        <div>
+          <label>Nome</label>
+          <input id="uNome" placeholder="Ex: Jonatan" />
+        </div>
+        <div>
+          <label>Objetivo</label>
+          <select id="uObjetivo">
+            <option value="emagrecer">Emagrecer</option>
+            <option value="ganhar_massa">Ganhar massa</option>
+            <option value="manter">Manter</option>
+          </select>
+        </div>
+      </div>
 
-  <div class="card">
-    <h2>Prato Executivo</h2>
-    <p>Frango grelhado, arroz, feijão e salada.</p>
-    <div class="price">R$ 22,90</div>
+      <div class="row">
+        <div>
+          <label>Idade</label>
+          <input id="uIdade" type="number" min="10" max="99" placeholder="Ex: 28" />
+        </div>
+        <div>
+          <label>Peso (kg)</label>
+          <input id="uPeso" type="number" min="30" max="300" step="0.1" placeholder="Ex: 78.5" />
+        </div>
+        <div>
+          <label>Altura (cm)</label>
+          <input id="uAltura" type="number" min="120" max="230" placeholder="Ex: 175" />
+        </div>
+      </div>
 
-    <div class="qty">
-      <button onclick="alterarQtd('executivo', -1)">−</button>
-      <span id="qtd-executivo">1</span>
-      <button onclick="alterarQtd('executivo', 1)">+</button>
+      <div class="row">
+        <div>
+          <label>Restrições / Saúde (opcional)</label>
+          <input id="uRestricoes" placeholder="Ex: intolerância lactose, diabetes..." />
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px;">
+        <button class="btn" onclick="salvarPerfil()">Salvar cadastro</button>
+        <button class="btn danger" onclick="resetarPerfil()">Apagar cadastro</button>
+      </div>
+      <div class="muted" id="perfilMsg" style="margin-top:10px;"></div>
     </div>
+  </section>
 
-    <button class="order-btn" onclick="pedir('Prato Executivo', 22.90, 'executivo')">
-      Pedir
-    </button>
-  </div>
+  <!-- ABA: DIETAS -->
+  <section id="tab-dietas" class="grid hide">
+    <div class="card">
+      <h2>🥗 Dietas sugeridas</h2>
+      <p>Baseado no seu cadastro (objetivo e restrições). Clique em <b>Nova dieta</b> se não gostar.</p>
+      <div class="row">
+        <button class="btn" onclick="gerarDieta()">Nova dieta</button>
+        <button class="btn secondary" onclick="verCadastro()">Ver cadastro</button>
+      </div>
 
-  <div class="status" id="status"></div>
+      <div id="dietasBox" class="list" style="margin-top:12px;"></div>
+      <div class="muted" id="dietasHint" style="margin-top:10px;"></div>
+    </div>
+  </section>
 
-</main>
+  <!-- ABA: TREINOS -->
+  <section id="tab-treinos" class="grid hide">
+    <div class="card">
+      <h2>🏋️ Treinos por esporte</h2>
+      <p>Escolha um esporte. Se você não souber fazer, toque em <b>Ver no YouTube</b>.</p>
 
-<script>
-  const quantidades = {
-    feijoada: 1,
-    executivo: 1
-  };
-
-  function alterarQtd(item, delta) {
-    quantidades[item] += delta;
-    if (quantidades[item] < 1) quantidades[item] = 1;
-    document.getElementById("qtd-" + item).innerText = quantidades[item];
-  }
-
-  function pedir(nome, preco, item) {
-    const qtd = quantidades[item];
-    const total = (preco * qtd).toFixed(2).replace('.', ',');
-    document.getElementById("status").innerText =
-      `🛒 Pedido: ${qtd}x ${nome} | Total: R$ ${total}`;
-  }
-</script>
-
-</body>
-</html>
+      <div class="row">
+        <div>
+          <label>Esporte</label>
+          <select id="esporteSelect" onchange="renderTre
