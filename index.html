@@ -1020,8 +1020,18 @@
 
     // Sobrescreve setTreino no gerarTreinoSemana via setTreino(plano)
     // ok
-
+    function openCheckout(){
+    if(!PREMIUM_CHECKOUT_URL || PREMIUM_CHECKOUT_URL.includes("COLE_AQUI")){
+    alert("Checkout ainda não configurado.");
+    return;
+  }
+  window.open(PREMIUM_CHECKOUT_URL, "_blank");
+    }
     init();
   </script>
+  // ================= PREMIUM / PAGAMENTO =================
+const PREMIUM_PRICE = 29.90;
+const PREMIUM_CHECKOUT_URL = "https://mpago.la/18rE4Nh";
+// =======================================================
 </body>
 </html>
