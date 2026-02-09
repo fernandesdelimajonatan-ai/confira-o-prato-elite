@@ -12,11 +12,12 @@
     .row { display:flex; gap:10px; }
     .row > div { flex:1; }
     label { display:block; font-size:13px; opacity:.9; margin:10px 0 6px; }
-    input, select {
+    input, select, textarea {
       width:100%; padding:12px; border-radius:10px; border:1px solid #334155;
       background:#020617; color:#f8fafc; outline:none;
     }
-    input::placeholder { color:#64748b; }
+    textarea { min-height: 86px; resize: vertical; }
+    input::placeholder, textarea::placeholder { color:#64748b; }
     button.action {
       width:100%; padding:12px; background:#10b981; border:none; border-radius:10px;
       font-size:15px; font-weight:700; margin-top:12px; cursor:pointer;
@@ -25,15 +26,17 @@
       width:100%; padding:12px; background:#1e293b; border:1px solid #334155; border-radius:10px;
       font-size:15px; font-weight:700; margin-top:10px; cursor:pointer; color:#f8fafc;
     }
-    .hint { font-size:12px; opacity:.75; margin-top:8px; }
-    .status { margin-top:12px; font-size:13px; opacity:.9; }
-    nav {
-      display:flex; background:#0f172a; border-top:1px solid #1e293b; position:fixed; bottom:0; width:100%;
-    }
+    .hint { font-size:12px; opacity:.75; margin-top:8px; line-height: 1.35; }
+    .status { margin-top:12px; font-size:13px; opacity:.95; }
+    nav { display:flex; background:#0f172a; border-top:1px solid #1e293b; position:fixed; bottom:0; width:100%; }
     nav button { flex:1; padding:12px 8px; background:none; border:none; color:#cbd5f5; font-size:12px; }
     nav button.active { color:#10b981; font-weight:800; }
     .hidden { display:none; }
     .pill { display:inline-block; padding:6px 10px; border-radius:999px; background:#1e293b; border:1px solid #334155; font-size:12px; margin:6px 6px 0 0; }
+    .checkgrid { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:8px; }
+    .check { display:flex; gap:8px; align-items:flex-start; background:#020617; border:1px solid #334155; padding:10px; border-radius:10px; }
+    .check input { width:auto; margin-top:2px; }
+    .danger { color:#fca5a5; }
   </style>
 </head>
 
@@ -46,7 +49,10 @@
   <section id="cadastro">
     <div class="card">
       <h2 style="margin:0 0 6px;">Cadastro & Saúde</h2>
-      <div class="hint">Essas informações vão personalizar dietas, treinos e a análise do prato.</div>
+      <div class="hint">
+        Essas informações serão usadas para personalizar sugestões de dieta/treino e (no futuro) a análise do prato por foto.
+        <br><b class="danger">Importante:</b> este app não substitui médico ou nutricionista.
+      </div>
 
       <label>Nome</label>
       <input id="nome" placeholder="Ex: Jonatan" />
@@ -96,7 +102,36 @@
         <option>Intenso (5x+/semana)</option>
       </select>
 
-      <label>Restrições / Preferências</label>
+      <label>Nível de treino</label>
+      <select id="nivelTreino">
+        <option value="">Selecione</option>
+        <option>Iniciante</option>
+        <option>Intermediário</option>
+        <option>Avançado</option>
+      </select>
+
+      <label>Qual esporte você prefere?</label>
+      <select id="esporte">
+        <option value="">Selecione</option>
+        <option>Musculação</option>
+        <option>Futebol</option>
+        <option>Corrida</option>
+        <option>Crossfit</option>
+        <option>Ciclismo</option>
+        <option>Natação</option>
+        <option>Outro</option>
+      </select>
+
+      <label>Horas de sono por dia (média)</label>
+      <select id="sono">
+        <option value="">Selecione</option>
+        <option>Menos de 5h</option>
+        <option>5-6h</option>
+        <option>7-8h</option>
+        <option>Mais de 8h</option>
+      </select>
+
+      <label>Restrições / Preferências alimentares</label>
       <select id="restricao">
         <option value="">Selecione</option>
         <option>Nenhuma</option>
@@ -108,8 +143,32 @@
         <option>Hipertensão</option>
       </select>
 
+      <label>Condições de saúde (marque se tiver)</label>
+      <div class="checkgrid">
+        <div class="check"><input type="checkbox" id="c_diabetes"><div><b>Diabetes</b><div class="hint">Controle de açúcar/carboidratos</div></div></div>
+        <div class="check"><input type="checkbox" id="c_pressao"><div><b>Pressão alta</b><div class="hint">Controle de sódio</div></div></div>
+        <div class="check"><input type="checkbox" id="c_colesterol"><div><b>Colesterol alto</b><div class="hint">Gorduras/qualidade</div></div></div>
+        <div class="check"><input type="checkbox" id="c_gastrite"><div><b>Gastrite/Refluxo</b><div class="hint">Evitar irritantes</div></div></div>
+        <div class="check"><input type="checkbox" id="c_rim"><div><b>Rins</b><div class="hint">Atenção proteína/sódio</div></div></div>
+        <div class="check"><input type="checkbox" id="c_alergia"><div><b>Alergias</b><div class="hint">Informe abaixo</div></div></div>
+      </div>
+
+      <label>Medicamentos (opcional)</label>
+      <input id="meds" placeholder="Ex: metformina, anti-hipertensivo..." />
+
+      <label>Lesões ou limitações (opcional)</label>
+      <input id="lesoes" placeholder="Ex: dor no joelho, lombar..." />
+
       <label>Observações (opcional)</label>
-      <input id="obs" placeholder="Ex: não como peixe, alergia a amendoim..." />
+      <textarea id="obs" placeholder="Ex: alergia a amendoim, não como peixe, horários de trabalho..."></textarea>
+
+      <div class="check" style="margin-top:12px;">
+        <input type="checkbox" id="termo" />
+        <div>
+          <b>Eu entendo o termo</b>
+          <div class="hint">As sugestões são informativas e não substituem orientação profissional.</div>
+        </div>
+      </div>
 
       <button class="action" onclick="salvarPerfil()">Salvar perfil</button>
       <button class="secondary" onclick="limparPerfil()">Limpar</button>
@@ -128,7 +187,7 @@
   <section id="prato" class="hidden">
     <div class="card">
       <h2 style="margin:0 0 6px;">📸 Analisar Prato</h2>
-      <div class="hint">Por enquanto é simulação. Depois entra IA e foto/galeria de verdade.</div>
+      <div class="hint">Simulação por enquanto. Depois entra IA e foto/galeria real.</div>
       <button class="action" onclick="analisarPrato()">Tirar foto / Galeria</button>
       <div class="status" id="resultadoPrato"></div>
     </div>
@@ -149,11 +208,9 @@
   <section id="treinos" class="hidden">
     <div class="card">
       <h2 style="margin:0 0 6px;">🏋️ Treinos</h2>
-      <div class="hint">Depois vamos personalizar pelo seu objetivo e nível.</div>
-
-      <button class="action" onclick="abrirVideo('https://www.youtube.com/results?search_query=treino+musculacao+iniciante')">Musculação (YouTube)</button>
-      <button class="action" onclick="abrirVideo('https://www.youtube.com/results?search_query=treino+futebol+condicionamento')">Futebol (YouTube)</button>
-      <button class="action" onclick="abrirVideo('https://www.youtube.com/results?search_query=treino+crossfit+iniciante')">Crossfit (YouTube)</button>
+      <div class="hint">Vamos personalizar pelo seu esporte e nível.</div>
+      <button class="action" onclick="abrirVideoSugestoes()">Ver treinos no YouTube</button>
+      <div class="status" id="statusTreinos"></div>
     </div>
   </section>
 
@@ -190,7 +247,6 @@
 </nav>
 
 <script>
-  // Navegação
   function mostrar(id, btn) {
     document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
     document.getElementById(id).classList.remove('hidden');
@@ -198,20 +254,22 @@
     btn.classList.add('active');
   }
 
-  // Perfil (salvo localmente no navegador do usuário)
-  const KEY = "checkprato_perfil_v1";
+  const KEY = "checkprato_perfil_v2";
 
   function getPerfil() {
-    try { return JSON.parse(localStorage.getItem(KEY) || "null"); }
-    catch { return null; }
+    try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch { return null; }
   }
-
-  function setPerfil(perfil) {
-    localStorage.setItem(KEY, JSON.stringify(perfil));
-  }
+  function setPerfil(p) { localStorage.setItem(KEY, JSON.stringify(p)); }
 
   function salvarPerfil() {
-    const perfil = {
+    const termoOk = document.getElementById("termo").checked;
+    if (!termoOk) {
+      document.getElementById("statusCadastro").innerText =
+        "⚠️ Você precisa aceitar o termo para salvar.";
+      return;
+    }
+
+    const p = {
       nome: document.getElementById("nome").value.trim(),
       idade: Number(document.getElementById("idade").value),
       sexo: document.getElementById("sexo").value,
@@ -219,25 +277,38 @@
       altura: Number(document.getElementById("altura").value),
       objetivo: document.getElementById("objetivo").value,
       atividade: document.getElementById("atividade").value,
+      nivelTreino: document.getElementById("nivelTreino").value,
+      esporte: document.getElementById("esporte").value,
+      sono: document.getElementById("sono").value,
       restricao: document.getElementById("restricao").value,
+      condicoes: {
+        diabetes: document.getElementById("c_diabetes").checked,
+        pressao: document.getElementById("c_pressao").checked,
+        colesterol: document.getElementById("c_colesterol").checked,
+        gastrite: document.getElementById("c_gastrite").checked,
+        rim: document.getElementById("c_rim").checked,
+        alergia: document.getElementById("c_alergia").checked
+      },
+      medicamentos: document.getElementById("meds").value.trim(),
+      lesoes: document.getElementById("lesoes").value.trim(),
       obs: document.getElementById("obs").value.trim()
     };
 
-    // validação simples
-    if (!perfil.nome || !perfil.idade || !perfil.peso || !perfil.altura || !perfil.objetivo) {
+    // validação básica
+    if (!p.nome || !p.idade || !p.peso || !p.altura || !p.objetivo) {
       document.getElementById("statusCadastro").innerText =
-        "⚠️ Preencha pelo menos: Nome, Idade, Peso, Altura e Objetivo.";
+        "⚠️ Preencha: Nome, Idade, Peso, Altura e Objetivo.";
       return;
     }
 
-    setPerfil(perfil);
-    document.getElementById("statusCadastro").innerText = "✅ Perfil salvo com sucesso!";
+    setPerfil(p);
+    document.getElementById("statusCadastro").innerText = "✅ Perfil completo salvo!";
     renderPerfil();
   }
 
   function limparPerfil() {
     localStorage.removeItem(KEY);
-    document.getElementById("statusCadastro").innerText = "🧹 Perfil removido do aparelho.";
+    document.getElementById("statusCadastro").innerText = "🧹 Perfil removido.";
     document.getElementById("perfilResumo").innerText = "Ainda não salvo.";
     document.getElementById("perfilPills").innerHTML = "";
   }
@@ -249,75 +320,90 @@
     const imc = (p.peso && p.altura) ? (p.peso / ((p.altura/100) ** 2)) : null;
     const imcTxt = imc ? `IMC ~ ${imc.toFixed(1)}` : "";
 
+    const conds = [];
+    if (p.condicoes?.diabetes) conds.push("Diabetes");
+    if (p.condicoes?.pressao) conds.push("Pressão alta");
+    if (p.condicoes?.colesterol) conds.push("Colesterol alto");
+    if (p.condicoes?.gastrite) conds.push("Gastrite");
+    if (p.condicoes?.rim) conds.push("Rins");
+    if (p.condicoes?.alergia) conds.push("Alergias");
+
     document.getElementById("perfilResumo").innerText =
-      `Olá, ${p.nome}. Objetivo: ${p.objetivo}. ${imcTxt}`.trim();
+      `Olá, ${p.nome}. Objetivo: ${p.objetivo}. ${imcTxt}${conds.length ? " | Condições: " + conds.join(", ") : ""}`.trim();
 
     const pills = [];
-    if (p.idade) pills.push(`${p.idade} anos`);
-    if (p.peso) pills.push(`${p.peso} kg`);
-    if (p.altura) pills.push(`${p.altura} cm`);
+    pills.push(`${p.idade} anos`, `${p.peso} kg`, `${p.altura} cm`);
     if (p.atividade) pills.push(p.atividade);
+    if (p.nivelTreino) pills.push(p.nivelTreino);
+    if (p.esporte) pills.push(p.esporte);
+    if (p.sono) pills.push(`Sono: ${p.sono}`);
     if (p.restricao) pills.push(p.restricao);
-    if (p.sexo) pills.push(p.sexo);
 
     document.getElementById("perfilPills").innerHTML =
-      pills.map(t => `<span class="pill">${t}</span>`).join("");
+      pills.filter(Boolean).map(t => `<span class="pill">${t}</span>`).join("");
   }
 
-  // Simulação: análise do prato personalizada
   function analisarPrato() {
     const p = getPerfil();
-    if (!p) {
-      document.getElementById("resultadoPrato").innerText =
-        "⚠️ Primeiro faça o Cadastro para personalizar a análise.";
-      return;
-    }
+    const out = document.getElementById("resultadoPrato");
+    if (!p) { out.innerText = "⚠️ Faça o cadastro primeiro."; return; }
 
-    // Simulação simples baseada no objetivo
     let base = 650;
     if (p.objetivo === "Emagrecer") base = 520;
     if (p.objetivo === "Ganhar massa") base = 780;
 
-    document.getElementById("resultadoPrato").innerText =
-      `🍛 Simulação: ~${base} kcal para seu perfil (${p.objetivo}).`;
+    // ajuste simples por condição (exemplo)
+    if (p.condicoes?.diabetes) base -= 30;
+    if (p.condicoes?.pressao) base -= 20;
+
+    out.innerText = `🍛 Simulação: ~${base} kcal para seu perfil (${p.objetivo}).`;
   }
 
-  // Simulação: dieta sugerida baseada no perfil
   function gerarDieta(nova=false) {
     const p = getPerfil();
     const out = document.getElementById("resultadoDieta");
+    if (!p) { out.innerText = "⚠️ Faça o cadastro primeiro."; return; }
 
-    if (!p) { out.innerText = "⚠️ Faça o Cadastro primeiro."; return; }
-
-    const dietasEmagrecer = [
+    const emag = [
       "Café: ovos + fruta | Almoço: frango + salada | Jantar: peixe + legumes",
       "Café: iogurte + aveia | Almoço: carne magra + arroz integral | Jantar: omelete + salada",
       "Café: tapioca + queijo | Almoço: frango + legumes | Jantar: sopa de legumes"
     ];
-
-    const dietasMassa = [
+    const massa = [
       "Café: ovos + pão | Almoço: arroz + feijão + carne | Jantar: macarrão + frango",
       "Café: vitamina (banana+aveia) | Almoço: frango + batata doce | Jantar: carne + arroz",
       "Café: iogurte + granola | Almoço: peixe + arroz | Jantar: omelete + batata"
     ];
-
-    const dietasManter = [
+    const manter = [
       "Café: fruta + ovos | Almoço: prato equilibrado | Jantar: proteína + legumes",
       "Café: iogurte + fruta | Almoço: arroz+feijão+carne | Jantar: salada + frango",
       "Café: pão + queijo | Almoço: macarrão + carne | Jantar: sopa + sanduíche leve"
     ];
 
-    let lista = dietasManter;
-    if (p.objetivo === "Emagrecer") lista = dietasEmagrecer;
-    if (p.objetivo === "Ganhar massa") lista = dietasMassa;
+    let lista = manter;
+    if (p.objetivo === "Emagrecer") lista = emag;
+    if (p.objetivo === "Ganhar massa") lista = massa;
 
-    const idx = Math.floor(Math.random() * lista.length);
-    const restr = p.restricao && p.restricao !== "Nenhuma" ? ` (atenção: ${p.restricao})` : "";
+    let aviso = "";
+    if (p.condicoes?.pressao) aviso += " ⚠️ Reduzir sódio.";
+    if (p.condicoes?.diabetes) aviso += " ⚠️ Atenção carboidratos.";
+    if (p.restricao && p.restricao !== "Nenhuma") aviso += ` ⚠️ Respeitar: ${p.restricao}.`;
 
-    out.innerText = `${nova ? "🔁 " : ""}Dieta sugerida: ${lista[idx]}${restr}`;
+    out.innerText = `${nova ? "🔁 " : ""}Dieta sugerida: ${lista[Math.floor(Math.random()*lista.length)]}${aviso}`;
   }
 
-  function abrirVideo(url) { window.open(url, "_blank"); }
+  function abrirVideoSugestoes() {
+    const p = getPerfil();
+    const status = document.getElementById("statusTreinos");
+    if (!p || !p.esporte) {
+      status.innerText = "⚠️ Cadastre seu esporte preferido para sugestões melhores.";
+    } else {
+      status.innerText = `✅ Abrindo treinos de ${p.esporte} (${p.nivelTreino || "nível"}) no YouTube...`;
+    }
+    const q = encodeURIComponent(`treino ${p?.esporte || "musculação"} ${p?.nivelTreino || "iniciante"}`);
+    window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
+  }
+
   function abrirLink(url) { window.open(url, "_blank"); }
 
   function copiarLink() {
@@ -327,11 +413,10 @@
       navigator.clipboard.writeText(link);
       status.innerText = "🔗 Link copiado! Envie para seus amigos.";
     } else {
-      status.innerText = "⚠️ Seu navegador não permitiu copiar. Copie o link manualmente.";
+      status.innerText = "⚠️ Não foi possível copiar automaticamente. Copie o link manualmente.";
     }
   }
 
-  // Carrega perfil ao abrir
   renderPerfil();
 </script>
 
