@@ -14,7 +14,6 @@
     }
 
     header {
-      background: #020617;
       padding: 16px;
       text-align: center;
       border-bottom: 1px solid #1e293b;
@@ -28,17 +27,38 @@
       background: #0f172a;
       border-radius: 12px;
       padding: 16px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .price {
+      color: #22c55e;
       font-size: 18px;
       font-weight: bold;
-      margin-bottom: 10px;
-      color: #22c55e;
+      margin-bottom: 8px;
     }
 
-    button {
+    .qty {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .qty button {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: none;
+      font-size: 20px;
+      background: #1e293b;
+      color: #fff;
+    }
+
+    .qty span {
+      font-size: 16px;
+    }
+
+    .order-btn {
       width: 100%;
       padding: 12px;
       background: #10b981;
@@ -49,7 +69,7 @@
     }
 
     .status {
-      margin-top: 16px;
+      margin-top: 20px;
       text-align: center;
       font-size: 14px;
       opacity: 0.9;
@@ -59,41 +79,67 @@
 
 <body>
 
-  <header>
-    <h1>🍽️ Confira o Prato Elite</h1>
-  </header>
+<header>
+  <h1>🍽️ Confira o Prato Elite</h1>
+</header>
 
-  <main>
+<main>
 
-    <div class="card">
-      <h2>Feijoada Completa</h2>
-      <p>Arroz, couve, farofa e laranja.</p>
-      <div class="price">R$ 29,90</div>
-      <button onclick="pedir('Feijoada Completa')">
-        Pedir agora
-      </button>
+  <div class="card">
+    <h2>Feijoada Completa</h2>
+    <p>Arroz, couve, farofa e laranja.</p>
+    <div class="price">R$ 29,90</div>
+
+    <div class="qty">
+      <button onclick="alterarQtd('feijoada', -1)">−</button>
+      <span id="qtd-feijoada">1</span>
+      <button onclick="alterarQtd('feijoada', 1)">+</button>
     </div>
 
-    <div class="card">
-      <h2>Prato Executivo</h2>
-      <p>Frango grelhado, arroz, feijão e salada.</p>
-      <div class="price">R$ 22,90</div>
-      <button onclick="pedir('Prato Executivo')">
-        Pedir agora
-      </button>
+    <button class="order-btn" onclick="pedir('Feijoada Completa', 29.90, 'feijoada')">
+      Pedir
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Prato Executivo</h2>
+    <p>Frango grelhado, arroz, feijão e salada.</p>
+    <div class="price">R$ 22,90</div>
+
+    <div class="qty">
+      <button onclick="alterarQtd('executivo', -1)">−</button>
+      <span id="qtd-executivo">1</span>
+      <button onclick="alterarQtd('executivo', 1)">+</button>
     </div>
 
-    <div class="status" id="status"></div>
+    <button class="order-btn" onclick="pedir('Prato Executivo', 22.90, 'executivo')">
+      Pedir
+    </button>
+  </div>
 
-  </main>
+  <div class="status" id="status"></div>
 
-  <script>
-    function pedir(prato) {
-      document.getElementById("status").innerText =
-        "🛒 Pedido iniciado para: " + prato + 
-        ". Em breve você poderá confirmar.";
-    }
-  </script>
+</main>
+
+<script>
+  const quantidades = {
+    feijoada: 1,
+    executivo: 1
+  };
+
+  function alterarQtd(item, delta) {
+    quantidades[item] += delta;
+    if (quantidades[item] < 1) quantidades[item] = 1;
+    document.getElementById("qtd-" + item).innerText = quantidades[item];
+  }
+
+  function pedir(nome, preco, item) {
+    const qtd = quantidades[item];
+    const total = (preco * qtd).toFixed(2).replace('.', ',');
+    document.getElementById("status").innerText =
+      `🛒 Pedido: ${qtd}x ${nome} | Total: R$ ${total}`;
+  }
+</script>
 
 </body>
 </html>
