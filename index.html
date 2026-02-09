@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Confira o Prato Elite</title>
 
-  <!-- PWA (se já tiver manifest/service-worker, pode manter) -->
+  <!-- PWA (se já tiver manifest/service-worker, mantém) -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#10b981">
 
   <style>
     :root{
       --bg:#050816;
-      --card:#0b1226;
       --stroke:#1a2a4b;
       --text:#e8edf7;
       --muted:#98a2b3;
@@ -99,7 +98,12 @@
       margin-top:12px;
     }
     .check input{width:auto; margin-top:2px;}
+
     .danger{color: rgba(255,92,122,.95); font-weight:900;}
+
+    .screen{display:none;}
+    .screen.active{display:block;}
+
     .nav{
       position:fixed; left:0; right:0; bottom:0;
       background: rgba(3,8,20,.85);
@@ -113,19 +117,120 @@
       border-radius:22px; padding:10px 12px;
       background: rgba(255,255,255,.03);
       border:1px solid rgba(26,42,75,.9);
+      overflow-x:auto;
     }
     .navBtn{
-      width:86px; height:44px; border-radius:16px;
+      min-width:84px;
+      height:44px; border-radius:16px;
       border:0; background:transparent; color:rgba(232,237,247,.55);
       font-weight:900; cursor:pointer;
+      white-space:nowrap;
     }
     .navBtn.active{
       color: var(--green);
       background: rgba(25,209,138,.10);
       border:1px solid rgba(25,209,138,.28);
     }
-    .screen{display:none;}
-    .screen.active{display:block;}
+
+    /* Foto */
+    .profileRow{
+      display:flex; gap:12px; align-items:center; margin-top:10px;
+      padding:12px; border-radius:18px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(3,8,20,.55);
+    }
+    .avatar{
+      width:72px; height:72px; border-radius:18px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(255,255,255,.03);
+      overflow:hidden; display:flex; align-items:center; justify-content:center;
+      font-weight:1000; color:rgba(232,237,247,.7);
+      flex-shrink:0;
+    }
+    .avatar img{width:100%; height:100%; object-fit:cover;}
+    .miniBtn{
+      padding:10px 12px; border-radius:14px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(255,255,255,.03);
+      color:var(--text); font-weight:900; cursor:pointer;
+      width:100%;
+    }
+    .miniBtn.green{
+      background: rgba(25,209,138,.10);
+      border:1px solid rgba(25,209,138,.28);
+      color: var(--green);
+    }
+
+    /* Esportes */
+    .chips{
+      display:flex; flex-wrap:wrap; gap:8px;
+      padding:12px; border-radius:18px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(3,8,20,.55);
+    }
+    .chip{
+      padding:10px 12px; border-radius:999px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(255,255,255,.03);
+      color: rgba(232,237,247,.8);
+      font-weight:900; cursor:pointer; user-select:none;
+    }
+    .chip.active{
+      background: rgba(25,209,138,.14);
+      border:1px solid rgba(25,209,138,.30);
+      color: var(--green);
+    }
+
+    /* Treino semana */
+    .dayCard{
+      margin-top:12px;
+      padding:14px;
+      border-radius:20px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(3,8,20,.55);
+    }
+    .dayTitle{
+      font-weight:1000; letter-spacing:.6px; margin-bottom:8px;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .exercise{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:10px;
+      padding:10px 10px; border-radius:14px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(255,255,255,.03);
+      margin-top:8px;
+    }
+    .exercise b{font-size:13px;}
+    .ytBtn{
+      padding:10px 12px; border-radius:14px;
+      border:1px solid rgba(25,209,138,.28);
+      background: rgba(25,209,138,.10);
+      color: var(--green);
+      font-weight:1000;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    /* Loja cards */
+    .shopGrid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;}
+    .shopItem{
+      padding:14px; border-radius:20px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(3,8,20,.55);
+    }
+    .shopItem h3{margin:0 0 6px; font-size:14px; letter-spacing:.4px;}
+    .shopItem p{margin:0 0 10px; font-size:12px; color:rgba(232,237,247,.7); line-height:1.3;}
+    .shopItem button{
+      width:100%;
+      padding:12px 10px;
+      border-radius:16px;
+      border:1px solid rgba(26,42,75,.9);
+      background: rgba(255,255,255,.03);
+      color:var(--text);
+      font-weight:1000;
+      cursor:pointer;
+    }
   </style>
 </head>
 
@@ -135,7 +240,7 @@
       <div class="logo">E</div>
       <div>
         <h1>Confira o Prato Elite</h1>
-        <div class="hint">Comece pelo cadastro (curto). Depois a gente liga no Firebase.</div>
+        <div class="hint">Cadastro + Dieta + Treino semanal + Loja + Parceiros (sem gastar).</div>
       </div>
     </div>
 
@@ -146,6 +251,23 @@
         <div class="hint">
           <span class="danger">Importante:</span> não substitui orientação médica.
         </div>
+
+        <!-- Foto -->
+        <label>Foto de perfil</label>
+        <div class="profileRow">
+          <div class="avatar" id="avatar">
+            <span>FOTO</span>
+          </div>
+          <div style="flex:1;">
+            <button class="miniBtn green" onclick="abrirEscolhaFoto()">Escolher/Tirar Foto</button>
+            <button class="miniBtn" onclick="removerFoto()" style="margin-top:8px;">Remover foto</button>
+            <div class="hint" style="margin-top:8px;">A foto fica salva no seu celular (por enquanto).</div>
+          </div>
+        </div>
+
+        <!-- Inputs escondidos para foto -->
+        <input id="fotoFile" type="file" accept="image/*" style="display:none;">
+        <input id="fotoCamera" type="file" accept="image/*" capture="environment" style="display:none;">
 
         <label>Nome / Codinome</label>
         <input id="nome" placeholder="Ex: Jonatan / AGENTEX" />
@@ -197,14 +319,12 @@
             </select>
           </div>
           <div>
-            <label>Esporte principal</label>
-            <select id="esporte">
+            <label>Condição (se tiver)</label>
+            <select id="condicao">
               <option value="">Selecione</option>
-              <option>Musculação</option>
-              <option>Futebol</option>
-              <option>Corrida</option>
-              <option>Crossfit</option>
-              <option>Outro</option>
+              <option>Nenhuma</option>
+              <option>Diabetes</option>
+              <option>Pressão alta</option>
             </select>
           </div>
         </div>
@@ -219,13 +339,9 @@
           <option>Glúten</option>
         </select>
 
-        <label>Condição (se tiver)</label>
-        <select id="condicao">
-          <option value="">Selecione</option>
-          <option>Nenhuma</option>
-          <option>Diabetes</option>
-          <option>Pressão alta</option>
-        </select>
+        <label>Esportes (pode marcar vários)</label>
+        <div class="chips" id="chipsEsportes"></div>
+        <div class="hint">Você pode editar isso quando quiser: salva e pronto.</div>
 
         <div class="check">
           <input id="termo" type="checkbox" />
@@ -235,7 +351,7 @@
           </div>
         </div>
 
-        <button class="btn" onclick="salvarPerfil()">Salvar</button>
+        <button class="btn" onclick="salvarPerfil()">Salvar / Atualizar</button>
         <button class="btn secondary" onclick="limparPerfil()">Limpar</button>
 
         <div id="statusCadastro" class="status"></div>
@@ -251,8 +367,8 @@
     <!-- DIETA -->
     <section id="viewDieta" class="screen">
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">DIETA</div>
-        <div class="hint">Gerada com base no seu objetivo + restrição + condição (simulação).</div>
+        <div style="font-weight:1000; letter-spacing:.6px;">DIETA (FÁCIL)</div>
+        <div class="hint">Sugestão prática, baseada no seu objetivo + restrição + condição.</div>
         <button class="btn" onclick="gerarDieta()">Gerar dieta</button>
         <button class="btn secondary" onclick="gerarDieta(true)">Nova dieta</button>
         <div id="outDieta" class="status"></div>
@@ -262,10 +378,75 @@
     <!-- TREINO -->
     <section id="viewTreino" class="screen">
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">TREINO</div>
-        <div class="hint">Sugestão baseada no esporte + nível. Abre no YouTube.</div>
-        <button class="btn" onclick="abrirTreino()">Ver treino no YouTube</button>
+        <div style="font-weight:1000; letter-spacing:.6px;">TREINO DA SEMANA</div>
+        <div class="hint">
+          Gerado com base no nível + esportes que você marcou. Cada exercício tem botão do YouTube.
+        </div>
+        <button class="btn" onclick="gerarTreinoSemana()">Gerar treino da semana</button>
+        <button class="btn secondary" onclick="limparTreino()">Limpar treino</button>
         <div id="outTreino" class="status"></div>
+        <div id="treinoSemana"></div>
+      </div>
+    </section>
+
+    <!-- LOJA (AFILIADOS) -->
+    <section id="viewLoja" class="screen">
+      <div class="card">
+        <div style="font-weight:1000; letter-spacing:.6px;">LOJA (AFILIADOS)</div>
+        <div class="hint">Por enquanto links normais. Depois trocamos pelos links de afiliado.</div>
+
+        <div class="shopGrid">
+          <div class="shopItem">
+            <h3>Suplementos</h3>
+            <p>Whey, creatina, vitaminas.</p>
+            <button onclick="abrirLink('https://www.gsuplementos.com.br')">Abrir</button>
+          </div>
+          <div class="shopItem">
+            <h3>Roupas fitness</h3>
+            <p>Tênis, camisetas, shorts.</p>
+            <button onclick="abrirLink('https://www.nike.com.br')">Abrir</button>
+          </div>
+          <div class="shopItem">
+            <h3>Acessórios</h3>
+            <p>Luvas, garrafas, straps.</p>
+            <button onclick="abrirLink('https://www.amazon.com.br')">Abrir</button>
+          </div>
+          <div class="shopItem">
+            <h3>Marketplace</h3>
+            <p>Preços variados (geral).</p>
+            <button onclick="abrirLink('https://www.mercadolivre.com.br')">Abrir</button>
+          </div>
+        </div>
+
+        <div class="hint" style="margin-top:12px;">
+          Quando você criar conta de afiliado, a gente só troca as URLs aqui.
+        </div>
+      </div>
+    </section>
+
+    <!-- PARCEIROS (PREPARADO PRA LOCALIZAÇÃO) -->
+    <section id="viewParceiros" class="screen">
+      <div class="card">
+        <div style="font-weight:1000; letter-spacing:.6px;">PARCEIROS (PERTO DE VOCÊ)</div>
+        <div class="hint">
+          Em breve: academias e lojas parceiras na sua região. Quando ativarmos, o app vai pedir localização
+          só quando você clicar.
+        </div>
+
+        <button class="btn" onclick="simularParceiros()">Ver parceiros (simulação)</button>
+        <button class="btn secondary" onclick="explicarLocalizacao()">Como funciona a localização?</button>
+
+        <div id="outParceiros" class="status"></div>
+
+        <div class="dayCard" style="margin-top:12px;">
+          <div class="dayTitle">✅ Preparado para o futuro</div>
+          <div class="hint" style="margin-top:0;">
+            Depois vamos ativar:
+            <br>• “Permitir localização” (opcional)
+            <br>• Mostrar lista por distância
+            <br>• Botão “Abrir no Maps”
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -276,6 +457,8 @@
       <button class="navBtn active" data-view="cadastro">CADASTRO</button>
       <button class="navBtn" data-view="dieta">DIETA</button>
       <button class="navBtn" data-view="treino">TREINO</button>
+      <button class="navBtn" data-view="loja">LOJA</button>
+      <button class="navBtn" data-view="parceiros">PARCEIROS</button>
     </div>
   </div>
 
@@ -285,7 +468,13 @@
       navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
     }
 
-    const KEY = "checkprato_perfil_curto_v1";
+    const KEY = "checkprato_perfil_v2_multi_esportes";
+    const KEY_TREINO = "checkprato_treino_semana_v1";
+
+    const ESPORTES = [
+      "Musculação","Futebol","Corrida","Crossfit","Ciclismo","Natação",
+      "Luta","Basquete","Vôlei","Yoga","Pilates","Caminhada"
+    ];
 
     const $ = (id) => document.getElementById(id);
 
@@ -294,14 +483,19 @@
     }
     function setPerfil(p) { localStorage.setItem(KEY, JSON.stringify(p)); }
 
+    function getTreino() {
+      try { return JSON.parse(localStorage.getItem(KEY_TREINO) || "null"); } catch { return null; }
+    }
+    function setTreino(t) { localStorage.setItem(KEY_TREINO, JSON.stringify(t)); }
+
     function switchView(view){
-      // screens
-      ["viewCadastro","viewDieta","viewTreino"].forEach(id => $(id).classList.remove("active"));
+      ["viewCadastro","viewDieta","viewTreino","viewLoja","viewParceiros"].forEach(id => $(id).classList.remove("active"));
       if(view==="cadastro") $("viewCadastro").classList.add("active");
       if(view==="dieta") $("viewDieta").classList.add("active");
       if(view==="treino") $("viewTreino").classList.add("active");
+      if(view==="loja") $("viewLoja").classList.add("active");
+      if(view==="parceiros") $("viewParceiros").classList.add("active");
 
-      // nav active
       document.querySelectorAll(".navBtn").forEach(b=>b.classList.remove("active"));
       document.querySelector(`.navBtn[data-view="${view}"]`)?.classList.add("active");
     }
@@ -310,13 +504,112 @@
       btn.addEventListener("click", ()=> switchView(btn.dataset.view));
     });
 
+    // ====== FOTO (galeria + câmera) ======
+    function abrirEscolhaFoto(){
+      // Pergunta simples: câmera ou galeria
+      const usarCamera = confirm("Quer tirar foto agora?\nOK = Câmera | Cancelar = Galeria");
+      if(usarCamera) $("fotoCamera").click();
+      else $("fotoFile").click();
+    }
+    window.abrirEscolhaFoto = abrirEscolhaFoto;
+
+    $("fotoFile").addEventListener("change", (e)=> handleFoto(e.target.files?.[0]));
+    $("fotoCamera").addEventListener("change", (e)=> handleFoto(e.target.files?.[0]));
+
+    function removerFoto(){
+      const p = getPerfil() || {};
+      delete p.fotoDataUrl;
+      setPerfil(p);
+      renderFoto(null);
+      $("statusCadastro").textContent = "🧹 Foto removida.";
+    }
+    window.removerFoto = removerFoto;
+
+    async function handleFoto(file){
+      if(!file) return;
+
+      // Reduz imagem para não pesar (máx 420px)
+      const dataUrl = await compressImageToDataURL(file, 420, 0.82);
+
+      const p = getPerfil() || {};
+      p.fotoDataUrl = dataUrl;
+      setPerfil(p);
+      renderFoto(dataUrl);
+      $("statusCadastro").textContent = "✅ Foto salva no celular!";
+    }
+
+    function renderFoto(dataUrl){
+      const avatar = $("avatar");
+      avatar.innerHTML = "";
+      if(!dataUrl){
+        avatar.innerHTML = "<span>FOTO</span>";
+        return;
+      }
+      const img = document.createElement("img");
+      img.src = dataUrl;
+      avatar.appendChild(img);
+    }
+
+    function compressImageToDataURL(file, maxSize, quality){
+      return new Promise((resolve) => {
+        const img = new Image();
+        const reader = new FileReader();
+        reader.onload = () => { img.src = reader.result; };
+        reader.readAsDataURL(file);
+
+        img.onload = () => {
+          const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+          const w = Math.round(img.width * scale);
+          const h = Math.round(img.height * scale);
+
+          const canvas = document.createElement("canvas");
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+
+          // JPEG reduz bem o peso
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.onerror = () => resolve(null);
+      });
+    }
+
+    // ====== ESPORTES MULTI ======
+    let selectedSports = new Set();
+
+    function buildSportsChips(){
+      const box = $("chipsEsportes");
+      box.innerHTML = "";
+      ESPORTES.forEach((name)=>{
+        const chip = document.createElement("div");
+        chip.className = "chip";
+        chip.textContent = name;
+        chip.addEventListener("click", ()=>{
+          if(selectedSports.has(name)) selectedSports.delete(name);
+          else selectedSports.add(name);
+          chip.classList.toggle("active", selectedSports.has(name));
+        });
+        box.appendChild(chip);
+      });
+    }
+
+    function applySelectedSportsToUI(){
+      const chips = [...document.querySelectorAll("#chipsEsportes .chip")];
+      chips.forEach((c)=>{
+        c.classList.toggle("active", selectedSports.has(c.textContent));
+      });
+    }
+
+    // ====== SALVAR PERFIL ======
     function salvarPerfil(){
       if(!$("termo").checked){
         $("statusCadastro").textContent = "⚠️ Você precisa aceitar o termo para salvar.";
         return;
       }
 
+      const old = getPerfil() || {};
       const perfil = {
+        ...old,
         nome: $("nome").value.trim(),
         idade: Number($("idade").value),
         sexo: $("sexo").value,
@@ -324,31 +617,47 @@
         altura: Number($("altura").value),
         objetivo: $("objetivo").value,
         nivel: $("nivel").value,
-        esporte: $("esporte").value,
         restricao: $("restricao").value,
-        condicao: $("condicao").value
+        condicao: $("condicao").value,
+        esportes: Array.from(selectedSports)
       };
 
       if(!perfil.nome || !perfil.idade || !perfil.peso || !perfil.altura || !perfil.objetivo){
         $("statusCadastro").textContent = "⚠️ Preencha: Nome, Idade, Peso, Altura e Objetivo.";
         return;
       }
+      if(perfil.esportes.length === 0){
+        $("statusCadastro").textContent = "⚠️ Marque pelo menos 1 esporte.";
+        return;
+      }
 
       setPerfil(perfil);
-      $("statusCadastro").textContent = "✅ Perfil salvo no seu celular!";
+      $("statusCadastro").textContent = "✅ Perfil salvo / atualizado!";
       renderPerfil();
     }
+    window.salvarPerfil = salvarPerfil;
 
     function limparPerfil(){
       localStorage.removeItem(KEY);
+      localStorage.removeItem(KEY_TREINO);
+      selectedSports = new Set();
+      buildSportsChips();
+      applySelectedSportsToUI();
       $("statusCadastro").textContent = "🧹 Perfil apagado do celular.";
       $("resumoPerfil").textContent = "Ainda não salvo.";
       $("pills").innerHTML = "";
+      renderFoto(null);
+      $("treinoSemana").innerHTML = "";
+      $("outTreino").textContent = "";
     }
+    window.limparPerfil = limparPerfil;
 
     function renderPerfil(){
       const p = getPerfil();
       if(!p) return;
+
+      // Foto
+      renderFoto(p.fotoDataUrl || null);
 
       const imc = (p.peso && p.altura) ? (p.peso / ((p.altura/100)**2)) : null;
       const imcTxt = imc ? `IMC ~ ${imc.toFixed(1)}` : "";
@@ -359,60 +668,360 @@
       const pills = [];
       pills.push(`${p.idade} anos`, `${p.peso} kg`, `${p.altura} cm`);
       if(p.nivel) pills.push(p.nivel);
-      if(p.esporte) pills.push(p.esporte);
       if(p.restricao) pills.push(p.restricao);
       if(p.condicao) pills.push(p.condicao);
+      if(Array.isArray(p.esportes) && p.esportes.length) pills.push(`Esportes: ${p.esportes.join(", ")}`);
 
-      $("pills").innerHTML = pills.filter(Boolean).map(t => `<span class="pill">${t}</span>`).join("");
+      $("pills").innerHTML = pills.filter(Boolean).map(t => `<span class="pill">${escapeHtml(t)}</span>`).join("");
+
+      // preencher campos ao editar
+      $("nome").value = p.nome || "";
+      $("idade").value = p.idade || "";
+      $("sexo").value = p.sexo || "";
+      $("peso").value = p.peso || "";
+      $("altura").value = p.altura || "";
+      $("objetivo").value = p.objetivo || "";
+      $("nivel").value = p.nivel || "";
+      $("restricao").value = p.restricao || "";
+      $("condicao").value = p.condicao || "";
+      $("termo").checked = true;
+
+      // esportes
+      selectedSports = new Set(p.esportes || []);
+      applySelectedSportsToUI();
     }
 
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    // ====== DIETA FÁCIL ======
     function gerarDieta(nova=false){
       const p = getPerfil();
       if(!p){ $("outDieta").textContent = "⚠️ Faça o cadastro primeiro."; return; }
 
-      const emag = [
-        "Café: ovos + fruta | Almoço: frango + salada | Jantar: peixe + legumes",
-        "Café: iogurte + aveia | Almoço: carne magra + arroz integral | Jantar: omelete + salada",
-        "Café: tapioca + queijo | Almoço: frango + legumes | Jantar: sopa de legumes"
-      ];
-      const massa = [
-        "Café: ovos + pão | Almoço: arroz + feijão + carne | Jantar: macarrão + frango",
-        "Café: vitamina (banana+aveia) | Almoço: frango + batata doce | Jantar: carne + arroz",
-        "Café: iogurte + granola | Almoço: peixe + arroz | Jantar: omelete + batata"
-      ];
-      const manter = [
-        "Café: fruta + ovos | Almoço: prato equilibrado | Jantar: proteína + legumes",
-        "Café: iogurte + fruta | Almoço: arroz+feijão+carne | Jantar: salada + frango",
-        "Café: pão + queijo | Almoço: macarrão + carne | Jantar: sopa + sanduíche leve"
-      ];
+      // Base por objetivo (simples e prático)
+      const dietas = {
+        "Emagrecer": [
+          "Café: 2 ovos + 1 banana | Almoço: frango grelhado + salada | Jantar: omelete + legumes",
+          "Café: iogurte + aveia | Almoço: carne magra + arroz integral | Jantar: sopa de legumes",
+          "Café: tapioca + queijo | Almoço: peixe/frango + legumes | Jantar: salada com proteína"
+        ],
+        "Ganhar massa": [
+          "Café: ovos + pão | Almoço: arroz + feijão + carne | Jantar: macarrão + frango",
+          "Café: vitamina (banana+aveia) | Almoço: frango + batata doce | Jantar: carne + arroz",
+          "Café: iogurte + granola | Almoço: peixe + arroz | Jantar: omelete + batata"
+        ],
+        "Manter peso": [
+          "Café: fruta + ovos | Almoço: prato equilibrado | Jantar: proteína + legumes",
+          "Café: iogurte + fruta | Almoço: arroz+feijão+carne | Jantar: salada + frango",
+          "Café: pão + queijo | Almoço: macarrão + carne | Jantar: sopa leve"
+        ],
+        "Melhorar saúde": [
+          "Café: frutas + aveia | Almoço: frango/peixe + salada | Jantar: legumes + ovos",
+          "Café: iogurte natural | Almoço: arroz integral + feijão + salada | Jantar: sopa de legumes",
+          "Café: pão integral + ovos | Almoço: proteína magra + legumes | Jantar: salada reforçada"
+        ]
+      };
 
-      let lista = manter;
-      if(p.objetivo === "Emagrecer") lista = emag;
-      if(p.objetivo === "Ganhar massa") lista = massa;
+      let lista = dietas[p.objetivo] || dietas["Melhorar saúde"];
+      let escolha = lista[Math.floor(Math.random() * lista.length)];
 
+      // Ajustes por restrição
+      if(p.restricao === "Vegetariano" || p.restricao === "Vegano"){
+        escolha = escolha
+          .replace(/frango|carne|peixe/gi, "grão-de-bico/tofu")
+          .replace(/ovos/gi, p.restricao === "Vegano" ? "tofu" : "ovos");
+      }
+      if(p.restricao === "Intolerância à lactose"){
+        escolha = escolha.replace(/iogurte|queijo/gi, "iogurte/queijo sem lactose");
+      }
+      if(p.restricao === "Glúten"){
+        escolha = escolha.replace(/pão|macarrão/gi, "opção sem glúten");
+      }
+
+      // Avisos por condição
       let aviso = "";
-      if(p.condicao === "Diabetes") aviso += " ⚠️ Atenção carboidratos.";
-      if(p.condicao === "Pressão alta") aviso += " ⚠️ Reduzir sódio.";
-      if(p.restricao && p.restricao !== "Nenhuma") aviso += ` ⚠️ Respeitar: ${p.restricao}.`;
+      if(p.condicao === "Diabetes") aviso += " ⚠️ Atenção com carboidratos e açúcar.";
+      if(p.condicao === "Pressão alta") aviso += " ⚠️ Reduzir sódio (sal/embutidos).";
 
-      const escolha = lista[Math.floor(Math.random() * lista.length)];
       $("outDieta").textContent = `${nova ? "🔁 " : ""}${escolha}${aviso}`;
     }
+    window.gerarDieta = gerarDieta;
 
-    function abrirTreino(){
+    // ====== TREINO DA SEMANA ======
+    function gerarTreinoSemana(){
       const p = getPerfil();
       if(!p){ $("outTreino").textContent = "⚠️ Faça o cadastro primeiro."; return; }
 
-      const esporte = p.esporte || "musculação";
-      const nivel = p.nivel || "iniciante";
-      $("outTreino").textContent = `✅ Abrindo treino de ${esporte} (${nivel}) no YouTube...`;
+      const nivel = p.nivel || "Iniciante";
+      const esportes = (p.esportes && p.esportes.length) ? p.esportes : ["Musculação"];
 
-      const q = encodeURIComponent(`treino ${esporte} ${nivel}`);
-      window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
+      // Escolhe “tema” principal pro treino (o primeiro esporte marcado)
+      const tema = esportes[0];
+
+      const plano = montarPlanoSemanal(tema, nivel);
+      setTreino(plano);
+
+      $("outTreino").textContent = `✅ Treino da semana gerado: ${tema} (${nivel})`;
+      renderTreinoSemana(plano);
+    }
+    window.gerarTreinoSemana = gerarTreinoSemana;
+
+    function limparTreino(){
+      localStorage.removeItem(KEY_TREINO);
+      $("treinoSemana").innerHTML = "";
+      $("outTreino").textContent = "🧹 Treino removido.";
+    }
+    window.limparTreino = limparTreino;
+
+    function montarPlanoSemanal(tema, nivel){
+      const dias = ["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"];
+
+      // Biblioteca simples por tema
+      const LIB = {
+        "Musculação": {
+          "Iniciante": {
+            A: ["Agachamento livre", "Supino reto", "Remada curvada", "Prancha"],
+            B: ["Leg press", "Desenvolvimento ombro", "Puxada na barra", "Abdominal"],
+            C: ["Levantamento terra (leve)", "Flexão", "Rosca bíceps", "Tríceps banco"]
+          },
+          "Intermediário": {
+            A: ["Agachamento", "Supino", "Remada", "Elevação lateral"],
+            B: ["Terra", "Puxada", "Paralelas", "Panturrilha"],
+            C: ["Avanço", "Supino inclinado", "Remada unilateral", "Abd. infra"]
+          },
+          "Avançado": {
+            A: ["Agachamento pesado", "Supino pesado", "Barra fixa", "Elevação lateral"],
+            B: ["Terra pesado", "Remada pesada", "Paralelas", "Panturrilha em pé"],
+            C: ["Avanço com peso", "Supino inclinado", "Puxada aberta", "Core avançado"]
+          }
+        },
+        "Corrida": {
+          "Iniciante": {
+            A: ["Caminhada rápida 25min", "Trote leve 10min", "Alongamento"],
+            B: ["Intervalado leve (1min trote/1min caminhada) 20min", "Alongamento"],
+            C: ["Corrida leve 15min", "Educativos de corrida", "Alongamento"]
+          },
+          "Intermediário": {
+            A: ["Corrida leve 30min", "Alongamento"],
+            B: ["Tiros 8x (30s forte/60s leve)", "Alongamento"],
+            C: ["Ritmo (tempo run) 20min", "Alongamento"]
+          },
+          "Avançado": {
+            A: ["Corrida leve 45min"],
+            B: ["Tiros 12x (40s forte/60s leve)"],
+            C: ["Ritmo 30min + educativos"]
+          }
+        },
+        "Futebol": {
+          "Iniciante": {
+            A: ["Condução de bola (10min)", "Passe na parede (10min)", "Finalização (10min)"],
+            B: ["Agilidade (escada) 10min", "Arranque 6x", "Alongamento"],
+            C: ["Domínio e controle 10min", "Passe curto 10min", "Finalização 10min"]
+          },
+          "Intermediário": {
+            A: ["Condução + drible 15min", "Finalização 15min", "Core 10min"],
+            B: ["Sprint 10x", "Agilidade 15min", "Mobilidade"],
+            C: ["Passe longo 15min", "Finalização 15min", "Resistência 20min"]
+          },
+          "Avançado": {
+            A: ["Dribles avançados", "Finalização intensa", "Core"],
+            B: ["Sprint 15x", "Agilidade intensa", "Mobilidade"],
+            C: ["Passe + finalização", "Resistência forte", "Alongamento"]
+          }
+        },
+        "Crossfit": {
+          "Iniciante": {
+            A: ["Burpee (leve)", "Agachamento", "Flexão (joelho)", "Prancha"],
+            B: ["Kettlebell swing (leve)", "Abdominal", "Corrida leve 10min"],
+            C: ["Thruster (leve)", "Remada elástico", "Saltos baixos"]
+          },
+          "Intermediário": {
+            A: ["Burpee", "Thruster", "Pull-up assistido", "Core"],
+            B: ["Swing", "Box jump", "Flexão", "Corrida 15min"],
+            C: ["WOD 12–15min", "Mobilidade"]
+          },
+          "Avançado": {
+            A: ["WOD intenso 15–20min"],
+            B: ["Levantamento olímpico (técnica)", "Metcon"],
+            C: ["Ginástica + WOD"]
+          }
+        },
+        "Ciclismo": {
+          "Iniciante": { A:["Pedal leve 30min"], B:["Subida leve 20min"], C:["Pedal 40min"] },
+          "Intermediário": { A:["Pedal 60min"], B:["Intervalado 8x 1min forte"], C:["Subida 30min"] },
+          "Avançado": { A:["Longão 90min"], B:["Intervalado 12x 1min forte"], C:["Subida forte 40min"] }
+        },
+        "Natação": {
+          "Iniciante": { A:["Técnica 20min"], B:["Nado leve 15min"], C:["Técnica + leve 25min"] },
+          "Intermediário": { A:["Séries 8x50m"], B:["Técnica 30min"], C:["Séries 10x50m"] },
+          "Avançado": { A:["Séries 12x50m"], B:["Séries 8x100m"], C:["Técnica + ritmo"] }
+        },
+        "Yoga": {
+          "Iniciante": { A:["Yoga iniciante 20min"], B:["Mobilidade 15min"], C:["Yoga leve 25min"] },
+          "Intermediário": { A:["Yoga 35min"], B:["Mobilidade 25min"], C:["Yoga 40min"] },
+          "Avançado": { A:["Yoga 50min"], B:["Power yoga 40min"], C:["Yoga 60min"] }
+        },
+        "Pilates": {
+          "Iniciante": { A:["Pilates iniciante 20min"], B:["Core leve 15min"], C:["Pilates 25min"] },
+          "Intermediário": { A:["Pilates 35min"], B:["Core 25min"], C:["Pilates 40min"] },
+          "Avançado": { A:["Pilates 50min"], B:["Core intenso 35min"], C:["Pilates 60min"] }
+        },
+        "Caminhada": {
+          "Iniciante": { A:["Caminhada 25min"], B:["Caminhada 30min"], C:["Caminhada 35min"] },
+          "Intermediário": { A:["Caminhada rápida 40min"], B:["Subida 30min"], C:["Caminhada 45min"] },
+          "Avançado": { A:["Caminhada rápida 60min"], B:["Subida forte 40min"], C:["Caminhada 70min"] }
+        },
+        "Luta": {
+          "Iniciante": { A:["Base e guarda 15min", "Sombra 10min"], B:["Alongamento + mobilidade"], C:["Golpes básicos 20min"] },
+          "Intermediário": { A:["Sombra 20min", "Condicionamento 15min"], B:["Técnica 30min"], C:["Sparring leve"] },
+          "Avançado": { A:["Sombra intensa", "Condicionamento"], B:["Técnica avançada"], C:["Sparring"] }
+        },
+        "Basquete": {
+          "Iniciante": { A:["Drible 10min", "Arremesso 10min"], B:["Agilidade 10min"], C:["Passe 10min", "Arremesso 10min"] },
+          "Intermediário": { A:["Arremesso 20min", "Drible 15min"], B:["Agilidade 15min"], C:["Resistência 20min"] },
+          "Avançado": { A:["Arremesso intenso", "Drible avançado"], B:["Agilidade intensa"], C:["Jogo/condicionamento"] }
+        },
+        "Vôlei": {
+          "Iniciante": { A:["Manchete 15min", "Saque 10min"], B:["Agilidade 10min"], C:["Toque 15min", "Saque 10min"] },
+          "Intermediário": { A:["Saque 20min", "Manchete 15min"], B:["Pliometria leve"], C:["Ataque 15min"] },
+          "Avançado": { A:["Saque/ataque intenso"], B:["Pliometria"], C:["Treino técnico forte"] }
+        },
+        "Outro": {
+          "Iniciante": { A:["Treino leve 20min"], B:["Mobilidade 15min"], C:["Cardio leve 20min"] },
+          "Intermediário": { A:["Treino 35min"], B:["Cardio 25min"], C:["Força 30min"] },
+          "Avançado": { A:["Treino 50min"], B:["Cardio 40min"], C:["Força 45min"] }
+        }
+      };
+
+      const pack = (LIB[tema] && LIB[tema][nivel]) ? LIB[tema][nivel] : (LIB["Musculação"][nivel] || LIB["Musculação"]["Iniciante"]);
+
+      // Monta rotina: ABC + descanso + cardio leve + descanso
+      const A = pack.A || ["Treino A"];
+      const B = pack.B || ["Treino B"];
+      const C = pack.C || ["Treino C"];
+      const descanso = ["Descanso / Alongamento 15min"];
+      const cardio = tema === "Musculação"
+        ? ["Caminhada 25min", "Alongamento"]
+        : ["Mobilidade 15min"];
+
+      const rotina = [
+        { dia: dias[0], bloco:"A", itens:A },
+        { dia: dias[1], bloco:"B", itens:B },
+        { dia: dias[2], bloco:"C", itens:C },
+        { dia: dias[3], bloco:"DESC", itens:descanso },
+        { dia: dias[4], bloco:"A", itens:A },
+        { dia: dias[5], bloco:"CARD", itens:cardio },
+        { dia: dias[6], bloco:"DESC", itens:descanso }
+      ];
+
+      return { tema, nivel, rotina, createdAt: Date.now() };
     }
 
-    // init
-    renderPerfil();
+    function renderTreinoSemana(plano){
+      const box = $("treinoSemana");
+      box.innerHTML = "";
+
+      if(!plano || !plano.rotina){
+        box.innerHTML = "";
+        return;
+      }
+
+      plano.rotina.forEach((d)=>{
+        const day = document.createElement("div");
+        day.className = "dayCard";
+
+        const title = document.createElement("div");
+        title.className = "dayTitle";
+        title.innerHTML = `<span>${d.dia}</span><span style="opacity:.75;font-weight:1000;">${d.bloco}</span>`;
+        day.appendChild(title);
+
+        d.itens.forEach((ex)=>{
+          const row = document.createElement("div");
+          row.className = "exercise";
+
+          const left = document.createElement("div");
+          left.innerHTML = `<b>${escapeHtml(ex)}</b><div style="font-size:12px;opacity:.7;">Toque para ver no YouTube</div>`;
+
+          const btn = document.createElement("button");
+          btn.className = "ytBtn";
+          btn.textContent = "YouTube";
+          btn.addEventListener("click", ()=>{
+            const q = encodeURIComponent(ex + " como fazer");
+            window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
+          });
+
+          row.appendChild(left);
+          row.appendChild(btn);
+          day.appendChild(row);
+        });
+
+        box.appendChild(day);
+      });
+    }
+
+    // ====== LINKS ======
+    function abrirLink(url){
+      window.open(url, "_blank");
+    }
+    window.abrirLink = abrirLink;
+
+    // ====== PARCEIROS (SIMULAÇÃO + PREPARO) ======
+    function simularParceiros(){
+      $("outParceiros").innerHTML =
+        "📍 Exemplo (simulação):<br>• Academia Elite Center (2,1 km)<br>• Loja Fit Suplementos (3,4 km)<br><br>Em breve isso será real com localização (opcional).";
+    }
+    window.simularParceiros = simularParceiros;
+
+    function explicarLocalizacao(){
+      $("outParceiros").innerHTML =
+        "🔒 A localização será usada só quando você clicar.<br>Você pode negar se quiser.<br>Objetivo: mostrar parceiros perto, nada de rastrear você.";
+    }
+    window.explicarLocalizacao = explicarLocalizacao;
+
+    // ====== INIT ======
+    function init(){
+      buildSportsChips();
+
+      // Carrega perfil salvo
+      const p = getPerfil();
+      if(p){
+        selectedSports = new Set(p.esportes || []);
+        applySelectedSportsToUI();
+        renderPerfil();
+      }else{
+        // default: nenhum selecionado
+        applySelectedSportsToUI();
+      }
+
+      // Carrega treino salvo
+      const t = getTreino();
+      if(t){
+        renderTreinoSemana(t);
+        $("outTreino").textContent = `✅ Treino salvo: ${t.tema} (${t.nivel})`;
+      }
+    }
+
+    // Salvar treino quando renderizar (após gerar)
+    const originalGerar = gerarTreinoSemana;
+    // (Já salva dentro do gerarTreinoSemana via setTreino)
+    // mas para garantir, salvamos quando gerar
+    function setTreinoAndRender(plano){
+      setTreino(plano);
+      renderTreinoSemana(plano);
+    }
+
+    // Ajuste: salvar treino dentro do gerar
+    const oldGerarTreino = window.gerarTreinoSemana;
+    // já está ok pelo setTreino(plano) e renderTreinoSemana(plano)
+
+    // Hook: sempre que gerar treino, salvar e render (já feito)
+
+    // Sobrescreve setTreino no gerarTreinoSemana via setTreino(plano)
+    // ok
+
+    init();
   </script>
 </body>
 </html>
