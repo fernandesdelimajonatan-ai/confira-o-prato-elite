@@ -9,42 +9,100 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #020617;
+      background: linear-gradient(180deg, #020617, #020617);
       color: #f8fafc;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    }
+
+    header {
+      background: #020617;
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    main {
+      padding: 16px;
     }
 
     .card {
       background: #0f172a;
-      padding: 20px;
       border-radius: 12px;
-      width: 100%;
-      max-width: 360px;
-      text-align: center;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      opacity: 0.9;
     }
 
     button {
       width: 100%;
       padding: 12px;
-      margin-top: 12px;
       background: #10b981;
       border: none;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .status {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.85;
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
+
+  <header>
     <h1>🍽️ Confira o Prato Elite</h1>
-    <p>Base do projeto funcionando.</p>
-    <button onclick="alert('Tudo certo!')">
-      Testar App
-    </button>
-  </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Prato do Dia</h2>
+      <p>Feijoada completa com arroz, couve e farofa.</p>
+      <button onclick="verDetalhes()">
+        Ver detalhes
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>Prato Executivo</h2>
+      <p>Frango grelhado, arroz, feijão e salada.</p>
+      <button onclick="verDetalhes()">
+        Ver detalhes
+      </button>
+    </div>
+
+    <div class="status" id="status"></div>
+  </main>
+
+  <script>
+    function verDetalhes() {
+      document.getElementById("status").innerText =
+        "👨‍🍳 Em breve: detalhes do prato, preço e pedido online.";
+    }
+  </script>
+
 </body>
 </html>
