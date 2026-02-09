@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+<head link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#10b981">>
   <meta charset="UTF-8" />
   <title>Check Prato Elite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body { margin:0; font-family: Arial, sans-serif; background:#020617; color:#f8fafc; }
+    body {<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service-worker.js");
+  }
+</script>
+      margin:0; font-family: Arial, sans-serif; background:#020617; color:#f8fafc; }
     header { padding:14px; text-align:center; border-bottom:1px solid #1e293b; font-weight:700; }
     main { padding:16px; padding-bottom:76px; }
     .card { background:#0f172a; border-radius:12px; padding:16px; margin-bottom:14px; border:1px solid #1e293b; }
