@@ -2,313 +2,338 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Confira o Prato Elite</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Check Prato Elite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    :root{
-      --bg:#020617;        /* slate-950 */
-      --card:#0f172a;      /* slate-900 */
-      --card2:#111827;     /* slate-800 */
-      --border:#1e293b;    /* slate-700 */
-      --text:#f8fafc;      /* slate-50  */
-      --muted:#94a3b8;     /* slate-400 */
-      --brand:#10b981;     /* emerald-500 */
-      --brand2:#22c55e;    /* green-500 */
-      --danger:#ef4444;    /* red-500 */
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 14px;
+    body { margin:0; font-family: Arial, sans-serif; background:#020617; color:#f8fafc; }
+    header { padding:14px; text-align:center; border-bottom:1px solid #1e293b; font-weight:700; }
+    main { padding:16px; padding-bottom:76px; }
+    .card { background:#0f172a; border-radius:12px; padding:16px; margin-bottom:14px; border:1px solid #1e293b; }
+    .row { display:flex; gap:10px; }
+    .row > div { flex:1; }
+    label { display:block; font-size:13px; opacity:.9; margin:10px 0 6px; }
+    input, select {
+      width:100%; padding:12px; border-radius:10px; border:1px solid #334155;
+      background:#020617; color:#f8fafc; outline:none;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+    input::placeholder { color:#64748b; }
+    button.action {
+      width:100%; padding:12px; background:#10b981; border:none; border-radius:10px;
+      font-size:15px; font-weight:700; margin-top:12px; cursor:pointer;
     }
-    header{
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(2,6,23,.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 14px 10px;
+    button.secondary {
+      width:100%; padding:12px; background:#1e293b; border:1px solid #334155; border-radius:10px;
+      font-size:15px; font-weight:700; margin-top:10px; cursor:pointer; color:#f8fafc;
     }
-    header .top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+    .hint { font-size:12px; opacity:.75; margin-top:8px; }
+    .status { margin-top:12px; font-size:13px; opacity:.9; }
+    nav {
+      display:flex; background:#0f172a; border-top:1px solid #1e293b; position:fixed; bottom:0; width:100%;
     }
-    .title{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-    .title h1{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:.2px;
-    }
-    .title small{
-      color:var(--muted);
-      font-size:12px;
-    }
-    .pill{
-      font-size:12px;
-      color:#052e16;
-      background: rgba(16,185,129,.95);
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:700;
-      white-space:nowrap;
-    }
-
-    main{ padding: 14px 14px 88px; max-width: 980px; margin: 0 auto; }
-    .grid{ display:grid; gap:12px; }
-    .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px;
-      box-shadow: var(--shadow);
-    }
-    .card h2{ margin:0 0 8px; font-size:16px; }
-    .card p{ margin:0 0 10px; color: var(--muted); font-size:14px; line-height:1.35; }
-
-    .row{ display:flex; gap:10px; flex-wrap:wrap; }
-    .row > *{ flex:1 1 160px; }
-
-    label{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px; }
-    input, select, textarea{
-      width:100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #0b1220;
-      color: var(--text);
-      outline: none;
-    }
-    textarea{ min-height: 90px; resize: vertical; }
-
-    .btn{
-      width:100%;
-      padding: 12px 14px;
-      border:none;
-      border-radius: 12px;
-      background: var(--brand);
-      color:#052e16;
-      font-weight: 800;
-      font-size: 14px;
-      cursor:pointer;
-    }
-    .btn:active{ transform: scale(.99); }
-    .btn.secondary{
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn.danger{
-      background: var(--danger);
-      color: #fff;
-    }
-    .btn.small{
-      padding:10px 12px;
-      font-size: 13px;
-      border-radius: 10px;
-    }
-
-    .muted{ color: var(--muted); font-size: 13px; }
-    .ok{ color: var(--brand2); font-weight: 800; }
-    .warn{ color: #fbbf24; font-weight: 800; }
-
-    .tabs{
-      position: fixed;
-      left: 0; right: 0; bottom: 0;
-      background: rgba(2,6,23,.96);
-      border-top: 1px solid var(--border);
-      padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
-      display:flex;
-      gap:6px;
-      justify-content:space-between;
-      z-index: 20;
-    }
-    .tab{
-      flex:1;
-      text-align:center;
-      padding:10px 6px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      color: var(--muted);
-      font-size: 12px;
-      user-select:none;
-      cursor:pointer;
-    }
-    .tab.active{
-      color: var(--text);
-      border-color: var(--border);
-      background: rgba(15,23,42,.8);
-    }
-    .tab b{ display:block; font-size: 12px; }
-
-    .hide{ display:none; }
-
-    .result{
-      border: 1px dashed rgba(16,185,129,.55);
-      background: rgba(16,185,129,.08);
-      padding: 12px;
-      border-radius: 12px;
-      margin-top: 10px;
-    }
-    .result .line{ display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid rgba(148,163,184,.15); }
-    .result .line:last-child{ border-bottom:none; }
-    .result .k{ color:var(--muted); font-size: 13px; }
-    .result .v{ font-weight: 800; }
-
-    .list{
-      display:grid;
-      gap:10px;
-    }
-    .item{
-      background: rgba(17,24,39,.6);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-    }
-    .item .head{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
-    .item h3{ margin:0; font-size: 15px; }
-    .item small{ color: var(--muted); }
-    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-    .chip{
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: rgba(2,6,23,.4);
-    }
-    .link{
-      color: var(--brand);
-      font-weight:800;
-      text-decoration:none;
-    }
-    .hr{ height:1px; background: rgba(30,41,59,.7); margin: 10px 0; border-radius: 999px; }
-    .center{ text-align:center; }
+    nav button { flex:1; padding:12px 8px; background:none; border:none; color:#cbd5f5; font-size:12px; }
+    nav button.active { color:#10b981; font-weight:800; }
+    .hidden { display:none; }
+    .pill { display:inline-block; padding:6px 10px; border-radius:999px; background:#1e293b; border:1px solid #334155; font-size:12px; margin:6px 6px 0 0; }
   </style>
 </head>
 
 <body>
-<header>
-  <div class="top">
-    <div class="title">
-      <h1>🍽️ Confira o Prato Elite</h1>
-      <small id="subtitle">Protótipo (sem IA real ainda)</small>
-    </div>
-    <div class="pill" id="userPill">Sem cadastro</div>
-  </div>
-</header>
+<header>🍽️ Check Prato Elite</header>
 
 <main>
-  <!-- ABA: PRATO -->
-  <section id="tab-prato" class="grid">
+
+  <!-- ABA: CADASTRO -->
+  <section id="cadastro">
     <div class="card">
-      <h2>📸 Analise seu prato</h2>
-      <p>Escolha uma foto pela <b>galeria</b> ou use a <b>câmera</b>. Por enquanto, o resultado é simulado (depois conectamos a IA).</p>
+      <h2 style="margin:0 0 6px;">Cadastro & Saúde</h2>
+      <div class="hint">Essas informações vão personalizar dietas, treinos e a análise do prato.</div>
+
+      <label>Nome</label>
+      <input id="nome" placeholder="Ex: Jonatan" />
 
       <div class="row">
         <div>
-          <label>Escolher foto (galeria)</label>
-          <input id="fileGallery" type="file" accept="image/*" />
+          <label>Idade</label>
+          <input id="idade" type="number" placeholder="Ex: 28" />
         </div>
         <div>
-          <label>Tirar foto (câmera)</label>
-          <input id="fileCamera" type="file" accept="image/*" capture="environment" />
-        </div>
-      </div>
-
-      <div class="row" style="margin-top:10px;">
-        <button class="btn" onclick="analisarPrato()">Analisar prato</button>
-        <button class="btn secondary" onclick="limparPrato()">Limpar</button>
-      </div>
-
-      <div id="pratoPreviewWrap" class="hide" style="margin-top:12px;">
-        <img id="pratoPreview" alt="Prévia" style="width:100%; border-radius:12px; border:1px solid var(--border);" />
-      </div>
-
-      <div id="resultadoPrato" class="result hide"></div>
-      <div class="muted" id="pratoHint" style="margin-top:10px;"></div>
-    </div>
-
-    <div class="card">
-      <h2>👤 Seu perfil (base da personalização)</h2>
-      <p>Preencha o cadastro (saúde e objetivos). O app usa isso para ajustar dieta e treinos.</p>
-      <div class="row">
-        <div>
-          <label>Nome</label>
-          <input id="uNome" placeholder="Ex: Jonatan" />
-        </div>
-        <div>
-          <label>Objetivo</label>
-          <select id="uObjetivo">
-            <option value="emagrecer">Emagrecer</option>
-            <option value="ganhar_massa">Ganhar massa</option>
-            <option value="manter">Manter</option>
+          <label>Sexo</label>
+          <select id="sexo">
+            <option value="">Selecione</option>
+            <option>Masculino</option>
+            <option>Feminino</option>
+            <option>Outro</option>
           </select>
         </div>
       </div>
 
       <div class="row">
         <div>
-          <label>Idade</label>
-          <input id="uIdade" type="number" min="10" max="99" placeholder="Ex: 28" />
-        </div>
-        <div>
           <label>Peso (kg)</label>
-          <input id="uPeso" type="number" min="30" max="300" step="0.1" placeholder="Ex: 78.5" />
+          <input id="peso" type="number" step="0.1" placeholder="Ex: 78.5" />
         </div>
         <div>
           <label>Altura (cm)</label>
-          <input id="uAltura" type="number" min="120" max="230" placeholder="Ex: 175" />
+          <input id="altura" type="number" placeholder="Ex: 175" />
         </div>
       </div>
 
-      <div class="row">
-        <div>
-          <label>Restrições / Saúde (opcional)</label>
-          <input id="uRestricoes" placeholder="Ex: intolerância lactose, diabetes..." />
-        </div>
-      </div>
+      <label>Objetivo</label>
+      <select id="objetivo">
+        <option value="">Selecione</option>
+        <option>Emagrecer</option>
+        <option>Ganhar massa</option>
+        <option>Manter peso</option>
+        <option>Melhorar saúde</option>
+      </select>
 
-      <div class="row" style="margin-top:10px;">
-        <button class="btn" onclick="salvarPerfil()">Salvar cadastro</button>
-        <button class="btn danger" onclick="resetarPerfil()">Apagar cadastro</button>
-      </div>
-      <div class="muted" id="perfilMsg" style="margin-top:10px;"></div>
+      <label>Nível de atividade</label>
+      <select id="atividade">
+        <option value="">Selecione</option>
+        <option>Sedentário</option>
+        <option>Leve (1-2x/semana)</option>
+        <option>Moderado (3-4x/semana)</option>
+        <option>Intenso (5x+/semana)</option>
+      </select>
+
+      <label>Restrições / Preferências</label>
+      <select id="restricao">
+        <option value="">Selecione</option>
+        <option>Nenhuma</option>
+        <option>Vegetariano</option>
+        <option>Vegano</option>
+        <option>Intolerância à lactose</option>
+        <option>Glúten</option>
+        <option>Diabetes</option>
+        <option>Hipertensão</option>
+      </select>
+
+      <label>Observações (opcional)</label>
+      <input id="obs" placeholder="Ex: não como peixe, alergia a amendoim..." />
+
+      <button class="action" onclick="salvarPerfil()">Salvar perfil</button>
+      <button class="secondary" onclick="limparPerfil()">Limpar</button>
+
+      <div class="status" id="statusCadastro"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 8px;">Seu perfil (salvo no aparelho)</h3>
+      <div id="perfilResumo" class="hint">Ainda não salvo.</div>
+      <div id="perfilPills"></div>
+    </div>
+  </section>
+
+  <!-- ABA: PRATO -->
+  <section id="prato" class="hidden">
+    <div class="card">
+      <h2 style="margin:0 0 6px;">📸 Analisar Prato</h2>
+      <div class="hint">Por enquanto é simulação. Depois entra IA e foto/galeria de verdade.</div>
+      <button class="action" onclick="analisarPrato()">Tirar foto / Galeria</button>
+      <div class="status" id="resultadoPrato"></div>
     </div>
   </section>
 
   <!-- ABA: DIETAS -->
-  <section id="tab-dietas" class="grid hide">
+  <section id="dietas" class="hidden">
     <div class="card">
-      <h2>🥗 Dietas sugeridas</h2>
-      <p>Baseado no seu cadastro (objetivo e restrições). Clique em <b>Nova dieta</b> se não gostar.</p>
-      <div class="row">
-        <button class="btn" onclick="gerarDieta()">Nova dieta</button>
-        <button class="btn secondary" onclick="verCadastro()">Ver cadastro</button>
-      </div>
-
-      <div id="dietasBox" class="list" style="margin-top:12px;"></div>
-      <div class="muted" id="dietasHint" style="margin-top:10px;"></div>
+      <h2 style="margin:0 0 6px;">🥗 Dietas</h2>
+      <div class="hint">Sugestões baseadas no seu cadastro (simulação).</div>
+      <button class="action" onclick="gerarDieta()">Gerar dieta sugerida</button>
+      <button class="secondary" onclick="gerarDieta(true)">Nova dieta</button>
+      <div class="status" id="resultadoDieta"></div>
     </div>
   </section>
 
   <!-- ABA: TREINOS -->
-  <section id="tab-treinos" class="grid hide">
+  <section id="treinos" class="hidden">
     <div class="card">
-      <h2>🏋️ Treinos por esporte</h2>
-      <p>Escolha um esporte. Se você não souber fazer, toque em <b>Ver no YouTube</b>.</p>
+      <h2 style="margin:0 0 6px;">🏋️ Treinos</h2>
+      <div class="hint">Depois vamos personalizar pelo seu objetivo e nível.</div>
 
-      <div class="row">
-        <div>
-          <label>Esporte</label>
-          <select id="esporteSelect" onchange="renderTre
+      <button class="action" onclick="abrirVideo('https://www.youtube.com/results?search_query=treino+musculacao+iniciante')">Musculação (YouTube)</button>
+      <button class="action" onclick="abrirVideo('https://www.youtube.com/results?search_query=treino+futebol+condicionamento')">Futebol (YouTube)</button>
+      <button class="action" onclick="abrirVideo('https://www.youtube.com/results?search_query=treino+crossfit+iniciante')">Crossfit (YouTube)</button>
+    </div>
+  </section>
+
+  <!-- ABA: LOJA -->
+  <section id="loja" class="hidden">
+    <div class="card">
+      <h2 style="margin:0 0 6px;">🛒 Loja</h2>
+      <div class="hint">Links para páginas oficiais.</div>
+      <button class="action" onclick="abrirLink('https://www.gsuplementos.com.br')">Suplementos</button>
+      <button class="action" onclick="abrirLink('https://www.nike.com.br')">Vestuário</button>
+    </div>
+  </section>
+
+  <!-- ABA: PREMIUM -->
+  <section id="premium" class="hidden">
+    <div class="card">
+      <h2 style="margin:0 0 6px;">⭐ Premium & Convites</h2>
+      <p style="margin:8px 0 0; opacity:.9;">Premium desbloqueia planos completos, histórico e análises mais detalhadas.</p>
+      <button class="action" onclick="alert('Em breve: assinatura Premium ✅')">Tornar-se Premium</button>
+      <button class="secondary" onclick="copiarLink()">Copiar link de convite</button>
+      <div class="status" id="statusPremium"></div>
+    </div>
+  </section>
+
+</main>
+
+<nav>
+  <button class="active" onclick="mostrar('cadastro', this)">Cadastro</button>
+  <button onclick="mostrar('prato', this)">Prato</button>
+  <button onclick="mostrar('dietas', this)">Dietas</button>
+  <button onclick="mostrar('treinos', this)">Treinos</button>
+  <button onclick="mostrar('loja', this)">Loja</button>
+  <button onclick="mostrar('premium', this)">Premium</button>
+</nav>
+
+<script>
+  // Navegação
+  function mostrar(id, btn) {
+    document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // Perfil (salvo localmente no navegador do usuário)
+  const KEY = "checkprato_perfil_v1";
+
+  function getPerfil() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "null"); }
+    catch { return null; }
+  }
+
+  function setPerfil(perfil) {
+    localStorage.setItem(KEY, JSON.stringify(perfil));
+  }
+
+  function salvarPerfil() {
+    const perfil = {
+      nome: document.getElementById("nome").value.trim(),
+      idade: Number(document.getElementById("idade").value),
+      sexo: document.getElementById("sexo").value,
+      peso: Number(document.getElementById("peso").value),
+      altura: Number(document.getElementById("altura").value),
+      objetivo: document.getElementById("objetivo").value,
+      atividade: document.getElementById("atividade").value,
+      restricao: document.getElementById("restricao").value,
+      obs: document.getElementById("obs").value.trim()
+    };
+
+    // validação simples
+    if (!perfil.nome || !perfil.idade || !perfil.peso || !perfil.altura || !perfil.objetivo) {
+      document.getElementById("statusCadastro").innerText =
+        "⚠️ Preencha pelo menos: Nome, Idade, Peso, Altura e Objetivo.";
+      return;
+    }
+
+    setPerfil(perfil);
+    document.getElementById("statusCadastro").innerText = "✅ Perfil salvo com sucesso!";
+    renderPerfil();
+  }
+
+  function limparPerfil() {
+    localStorage.removeItem(KEY);
+    document.getElementById("statusCadastro").innerText = "🧹 Perfil removido do aparelho.";
+    document.getElementById("perfilResumo").innerText = "Ainda não salvo.";
+    document.getElementById("perfilPills").innerHTML = "";
+  }
+
+  function renderPerfil() {
+    const p = getPerfil();
+    if (!p) return;
+
+    const imc = (p.peso && p.altura) ? (p.peso / ((p.altura/100) ** 2)) : null;
+    const imcTxt = imc ? `IMC ~ ${imc.toFixed(1)}` : "";
+
+    document.getElementById("perfilResumo").innerText =
+      `Olá, ${p.nome}. Objetivo: ${p.objetivo}. ${imcTxt}`.trim();
+
+    const pills = [];
+    if (p.idade) pills.push(`${p.idade} anos`);
+    if (p.peso) pills.push(`${p.peso} kg`);
+    if (p.altura) pills.push(`${p.altura} cm`);
+    if (p.atividade) pills.push(p.atividade);
+    if (p.restricao) pills.push(p.restricao);
+    if (p.sexo) pills.push(p.sexo);
+
+    document.getElementById("perfilPills").innerHTML =
+      pills.map(t => `<span class="pill">${t}</span>`).join("");
+  }
+
+  // Simulação: análise do prato personalizada
+  function analisarPrato() {
+    const p = getPerfil();
+    if (!p) {
+      document.getElementById("resultadoPrato").innerText =
+        "⚠️ Primeiro faça o Cadastro para personalizar a análise.";
+      return;
+    }
+
+    // Simulação simples baseada no objetivo
+    let base = 650;
+    if (p.objetivo === "Emagrecer") base = 520;
+    if (p.objetivo === "Ganhar massa") base = 780;
+
+    document.getElementById("resultadoPrato").innerText =
+      `🍛 Simulação: ~${base} kcal para seu perfil (${p.objetivo}).`;
+  }
+
+  // Simulação: dieta sugerida baseada no perfil
+  function gerarDieta(nova=false) {
+    const p = getPerfil();
+    const out = document.getElementById("resultadoDieta");
+
+    if (!p) { out.innerText = "⚠️ Faça o Cadastro primeiro."; return; }
+
+    const dietasEmagrecer = [
+      "Café: ovos + fruta | Almoço: frango + salada | Jantar: peixe + legumes",
+      "Café: iogurte + aveia | Almoço: carne magra + arroz integral | Jantar: omelete + salada",
+      "Café: tapioca + queijo | Almoço: frango + legumes | Jantar: sopa de legumes"
+    ];
+
+    const dietasMassa = [
+      "Café: ovos + pão | Almoço: arroz + feijão + carne | Jantar: macarrão + frango",
+      "Café: vitamina (banana+aveia) | Almoço: frango + batata doce | Jantar: carne + arroz",
+      "Café: iogurte + granola | Almoço: peixe + arroz | Jantar: omelete + batata"
+    ];
+
+    const dietasManter = [
+      "Café: fruta + ovos | Almoço: prato equilibrado | Jantar: proteína + legumes",
+      "Café: iogurte + fruta | Almoço: arroz+feijão+carne | Jantar: salada + frango",
+      "Café: pão + queijo | Almoço: macarrão + carne | Jantar: sopa + sanduíche leve"
+    ];
+
+    let lista = dietasManter;
+    if (p.objetivo === "Emagrecer") lista = dietasEmagrecer;
+    if (p.objetivo === "Ganhar massa") lista = dietasMassa;
+
+    const idx = Math.floor(Math.random() * lista.length);
+    const restr = p.restricao && p.restricao !== "Nenhuma" ? ` (atenção: ${p.restricao})` : "";
+
+    out.innerText = `${nova ? "🔁 " : ""}Dieta sugerida: ${lista[idx]}${restr}`;
+  }
+
+  function abrirVideo(url) { window.open(url, "_blank"); }
+  function abrirLink(url) { window.open(url, "_blank"); }
+
+  function copiarLink() {
+    const status = document.getElementById("statusPremium");
+    const link = window.location.href;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(link);
+      status.innerText = "🔗 Link copiado! Envie para seus amigos.";
+    } else {
+      status.innerText = "⚠️ Seu navegador não permitiu copiar. Copie o link manualmente.";
+    }
+  }
+
+  // Carrega perfil ao abrir
+  renderPerfil();
+</script>
+
+</body>
+</html>
