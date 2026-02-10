@@ -299,44 +299,22 @@
 
   <div id="dietaOut"></div>
 </section>
+    
+<!-- TREINO -->
+<section id="viewTreino" class="screen">
+  <div class="h1">Treinos</div>
 
-    <!-- TREINO -->
-    <section id="viewTreino" class="screen">
-      <div class="h1">Treinos</div>
+  <div class="card">
+    <div class="hint">
+      Treino da semana gerado com base nos esportes escolhidos no cadastro.
+    </div>
 
-      <div class="card">
-        <div class="hint">Clique em <b>Ver técnica</b> para abrir o YouTube com a execução.</div>
-      </div>
+    <div style="height:12px"></div>
+    <button class="btn" type="button" onclick="gerarTreino()">GERAR NOVO TREINO</button>
+  </div>
 
-      <div class="dayCard">
-        <div class="dayTitle"><span>DIA A • Força</span><span>✅</span></div>
-
-        <div class="exercise">
-          <div>
-            <b>Desenvolvimento com halteres</b>
-            <small>3 séries x 10 reps</small>
-          </div>
-          <button class="ytBtn" type="button" onclick="openYT('desenvolvimento com halteres como fazer')">Ver técnica</button>
-        </div>
-
-        <div class="exercise">
-          <div>
-            <b>Agachamento livre</b>
-            <small>4 séries x 8–12 reps</small>
-          </div>
-          <button class="ytBtn" type="button" onclick="openYT('agachamento livre como fazer')">Ver técnica</button>
-        </div>
-
-        <div class="exercise">
-          <div>
-            <b>Flexão de braços</b>
-            <small>3 séries até a falha</small>
-          </div>
-          <button class="ytBtn" type="button" onclick="openYT('flexão de braços como fazer')">Ver técnica</button>
-        </div>
-      </div>
-    </section>
-
+  <div id="treinoOut"></div>
+</section>
     <!-- LOJA -->
     <section id="viewLoja" class="screen">
       <div class="h1">Loja</div>
@@ -733,6 +711,9 @@
       const d = carregarDieta();
       renderDieta(d);
       
+      const t = carregarTreino();
+      renderTreino(t);
+      
       const btnPremium = $("btnPremium");
       if(btnPremium){
         btnPremium.textContent = `CONFIRMAR R$ ${PREMIUM_PRICE.toFixed(2).replace(".", ",")}/MÊS`;
@@ -744,6 +725,96 @@
   // ===== DIETA (baseada no cadastro) =====
 const KEY_DIETA = "checkprato_dieta_v1";
 
+  // ===== TREINO (baseado em esportes) =====
+const KEY_TREINO = "checkprato_treino_v1";
+
+const TREINOS_BASE = {
+  "Musculação": [
+    {n:"Supino reto", s:"3x10", yt:"supino reto como fazer"},
+    {n:"Agachamento", s:"4x8", yt:"agachamento livre como fazer"},
+    {n:"Remada", s:"3x10", yt:"remada curvada como fazer"}
+  ],
+  "Futebol": [
+    {n:"Corrida intervalada", s:"20 min", yt:"corrida intervalada futebol"},
+    {n:"Agilidade com cones", s:"4 séries", yt:"treino de agilidade futebol"},
+    {n:"Finalização", s:"15 min", yt:"treino finalização futebol"}
+  ],
+  "Corrida": [
+    {n:"Corrida contínua", s:"30 min", yt:"corrida contínua iniciantes"},
+    {n:"Tiros curtos", s:"10x100m", yt:"tiros corrida"},
+    {n:"Alongamento", s:"10 min", yt:"alongamento corrida"}
+  ],
+  "Crossfit": [
+    {n:"Burpee", s:"3x12", yt:"burpee crossfit"},
+    {n:"Wall ball", s:"3x15", yt:"wall ball crossfit"},
+    {n:"Box jump", s:"3x10", yt:"box jump crossfit"}
+  ]
+};
+
+function gerarTreino(){
+  const profile = getProfileSafe();
+  if(!profile || !profile.esportes || profile.esportes.length === 0){
+    alert("⚠️ Escolha ao menos um esporte no cadastro.");
+    switchView("cadastro");
+    return;
+  }
+
+  const dias = ["Segunda","Quarta","Sexta"];
+  let plano = [];
+
+  dias.forEach((dia)=>{
+    const esporte = profile.esportes[Math.floor(Math.random()*profile.esportes.length)];
+    const base = TREINOS_BASE[esporte] || TREINOS_BASE["Musculação"];
+
+    plano.push({
+      dia,
+      esporte,
+      exercicios: base
+    });
+  });
+
+  localStorage.setItem(KEY_TREINO, JSON.stringify(plano));
+  renderTreino(plano);
+}
+
+function renderTreino(plano){
+  const out = $("treinoOut");
+  if(!out) return;
+
+  if(!plano){
+    out.innerHTML = `<div class="card"><div class="hint">Gere seu primeiro treino.</div></div>`;
+    return;
+  }
+
+  out.innerHTML = plano.map(dia=>`
+    <div class="dayCard">
+      <div class="dayTitle">
+        <span>${dia.dia} • ${dia.esporte}</span>
+        <span>🏋️</span>
+      </div>
+
+      ${dia.exercicios.map(ex=>`
+        <div class="exercise">
+          <div>
+            <b>${ex.n}</b>
+            <small>${ex.s}</small>
+          </div>
+          <button class="ytBtn" type="button" onclick="openYT('${ex.yt}')">
+            Ver técnica
+          </button>
+        </div>
+      `).join("")}
+    </div>
+  `).join("");
+}
+
+function carregarTreino(){
+  try{
+    const raw = localStorage.getItem(KEY_TREINO);
+    if(!raw) return null;
+    return JSON.parse(raw);
+  } catch { return null; }
+}
 function pick(arr){
   return arr[Math.floor(Math.random() * arr.length)];
 }
