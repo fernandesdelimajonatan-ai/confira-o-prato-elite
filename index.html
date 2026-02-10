@@ -1,301 +1,356 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="whidth=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
   <title>Confira o Prato Elite</title>
 
-  <meta name="theme-color" content="#10b981" />
-  <meta name="description" content="Cadastro + Dieta + Treino semanal + Loja + Parceiros + Premium + Convites." />
-
-  <!-- PWA (se você já tem esses arquivos no repo, vai funcionar) -->
+  <!-- PWA (se você já tem manifest.json no repo, deixe assim) -->
   <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" href="./icon-192.png" />
+  <link rel="icon" href="./icone-192.png" />
 
   <style>
     :root{
-      --bg:#050816;
-      --stroke:#1a2a4b;
-      --text:#e8edf7;
-      --muted:#98a2b3;
-      --green:#19d18a;
-      --green2:#10b981;
-      --gold:#f5c542;
+      --bg:#07101f;
+      --panel:#0b1630;
+      --panel2:#0a1328;
+      --card:#0c1a35;
+      --stroke:rgba(255,255,255,.10);
+      --text:#eaf1ff;
+      --muted:rgba(234,241,255,.72);
+      --green:#22e1a1;
+      --green2:#12c98f;
+      --yellow:#f0b429;
+      --shadow: 0 12px 40px rgba(0,0,0,.45);
+      --radius:20px;
     }
+
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(25,209,138,.18), transparent 60%),
-                  radial-gradient(800px 600px at 85% 15%, rgba(109,99,255,.18), transparent 55%),
-                  radial-gradient(900px 800px at 50% 90%, rgba(16,185,129,.10), transparent 60%),
-                  var(--bg);
       color:var(--text);
-      min-height:100vh;
-      -webkit-tap-highlight-color: transparent;
+      background:
+        radial-gradient(900px 420px at 20% -10%, rgba(34,225,161,.20), transparent 50%),
+        radial-gradient(700px 360px at 90% 10%, rgba(46,120,255,.16), transparent 55%),
+        linear-gradient(180deg, #060c18 0%, var(--bg) 40%, #050a14 100%);
+      overflow-x:hidden;
     }
-    .wrap{max-width:430px; margin:0 auto; min-height:100vh; padding:18px 16px 92px;}
-    .brand{display:flex; align-items:center; gap:12px; margin:10px 0 14px;}
+
+    .app{
+      max-width: 520px;
+      margin: 0 auto;
+      min-height: 100dvh;
+      padding: 18px 16px 90px; /* espaço do menu */
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900; letter-spacing:.3px;
+    }
     .logo{
-      width:44px; height:44px; border-radius:14px;
-      background: linear-gradient(145deg, rgba(109,99,255,.9), rgba(25,209,138,.75));
-      display:flex; align-items:center; justify-content:center;
-      font-weight:900;
-      box-shadow: 0 0 18px rgba(109,99,255,.18);
+      width:42px;height:42px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(34,225,161,.35), rgba(46,120,255,.18));
+      border:1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
     }
-    .brand h1{
-      margin:0; font-size:20px; letter-spacing:.6px; font-weight:900;
-      background: linear-gradient(90deg, var(--green), #44f2c2);
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-      text-transform:uppercase;
-      line-height:1.1;
+    .logo span{
+      font-weight:1000; color: var(--green);
+      font-size:18px;
     }
-    .hint{margin-top:6px; font-size:12px; color:rgba(232,237,247,.65); line-height:1.35;}
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border:1px solid rgba(26,42,75,.9);
-      border-radius:22px;
-      padding:16px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+    .titleStack{line-height:1.1}
+    .titleStack .t1{font-size:14px;color:var(--muted);font-weight:700}
+    .titleStack .t2{font-size:18px;font-weight:1000}
+    .pill{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-weight:700;
+      display:flex; align-items:center; gap:8px;
     }
-    label{display:block; font-size:12px; letter-spacing:.6px; color:rgba(232,237,247,.7); margin:12px 0 8px; text-transform:uppercase;}
-    input, select{
-      width:100%; padding:14px 14px; border-radius:16px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(3,8,20,.55);
-      color:var(--text);
-      outline:none;
-    }
-    input::placeholder{color:rgba(152,162,179,.75);}
-    .row{display:flex; gap:10px;}
-    .row>div{flex:1;}
+    .pill b{color:var(--text)}
     .btn{
-      width:100%; border:0; border-radius:18px; padding:16px 14px;
-      font-weight:900; letter-spacing:.7px; text-transform:uppercase;
-      margin-top:14px;
-      background: linear-gradient(90deg, rgba(25,209,138,.98), rgba(16,185,129,.88));
-      color:#04110c;
-      box-shadow: 0 18px 40px rgba(16,185,129,.16);
+      width:100%;
+      border:0;
+      border-radius: 18px;
+      padding: 16px 16px;
+      font-weight: 1000;
+      letter-spacing:.2px;
+      background: linear-gradient(90deg, var(--green2), var(--green));
+      color:#04140f;
+      box-shadow: 0 14px 36px rgba(18,201,143,.25);
       cursor:pointer;
     }
+    .btn:active{transform: translateY(1px)}
     .btn.secondary{
-      background: rgba(255,255,255,.03);
+      background: rgba(255,255,255,.05);
+      border:1px solid var(--stroke);
       color: var(--text);
-      border:1px solid rgba(26,42,75,.9);
       box-shadow:none;
     }
-    .status{margin-top:10px; font-size:13px; color:rgba(232,237,247,.9);}
-    .check{
-      display:flex; gap:10px; align-items:flex-start;
-      padding:12px; border-radius:16px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(3,8,20,.55);
-      margin-top:12px;
+    .btn.yellow{
+      background: linear-gradient(90deg, #f6c85a, var(--yellow));
+      color:#1b1404;
+      box-shadow: 0 14px 36px rgba(240,180,41,.22);
     }
-    .check input{width:auto; margin-top:2px;}
 
-    .screen{display:none;}
-    .screen.active{display:block;}
-
-    .nav{
-      position:fixed; left:0; right:0; bottom:0;
-      background: rgba(3,8,20,.85);
-      border-top:1px solid rgba(26,42,75,.9);
-      backdrop-filter: blur(10px);
-      padding:10px 12px calc(12px + env(safe-area-inset-bottom));
-    }
-    .navInner{
-      max-width:430px; margin:0 auto;
-      display:flex; gap:8px; align-items:center; justify-content:space-between;
-      border-radius:22px; padding:10px 12px;
-      background: rgba(255,255,255,.03);
-      border:1px solid rgba(26,42,75,.9);
-      overflow-x:auto;
-    }
-    .navBtn{
-      min-width:86px;
-      height:44px; border-radius:16px;
-      border:0; background:transparent; color:rgba(232,237,247,.55);
-      font-weight:900; cursor:pointer;
-      white-space:nowrap;
-    }
-    .navBtn.active{
+    .h1{
+      font-size: 30px;
+      font-weight: 1000;
+      margin: 6px 0 14px;
+      letter-spacing:.4px;
       color: var(--green);
-      background: rgba(25,209,138,.10);
-      border:1px solid rgba(25,209,138,.28);
+      text-transform: uppercase;
     }
 
-    /* Foto */
-    .profileRow{
-      display:flex; gap:12px; align-items:center; margin-top:10px;
-      padding:12px; border-radius:18px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(3,8,20,.55);
+    .screen{display:none; animation: fade .18s ease}
+    .screen.active{display:block}
+    @keyframes fade{from{opacity:.35; transform: translateY(6px)}to{opacity:1; transform:none}}
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin: 14px 0;
     }
-    .avatar{
-      width:72px; height:72px; border-radius:18px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(255,255,255,.03);
-      overflow:hidden; display:flex; align-items:center; justify-content:center;
-      font-weight:1000; color:rgba(232,237,247,.7);
-      flex-shrink:0;
-    }
-    .avatar img{width:100%; height:100%; object-fit:cover;}
-    .miniBtn{
-      padding:10px 12px; border-radius:14px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(255,255,255,.03);
-      color:var(--text); font-weight:900; cursor:pointer;
+
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    .field{display:flex; flex-direction:column; gap:8px}
+    label{font-size:12px; letter-spacing:.9px; text-transform: uppercase; color: rgba(234,241,255,.65); font-weight:900}
+    input, select{
       width:100%;
+      border-radius: 16px;
+      padding: 14px 14px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
     }
-    .miniBtn.green{
-      background: rgba(25,209,138,.10);
-      border:1px solid rgba(25,209,138,.28);
-      color: var(--green);
-    }
+    input::placeholder{color: rgba(234,241,255,.35)}
+    select{appearance:auto}
 
-    /* Esportes */
+    .hint{color: rgba(234,241,255,.66); font-weight:650; font-size:13px; line-height:1.35}
+
     .chips{
-      display:flex; flex-wrap:wrap; gap:8px;
-      padding:12px; border-radius:18px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(3,8,20,.55);
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:8px;
     }
     .chip{
-      padding:10px 12px; border-radius:999px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(255,255,255,.03);
-      color: rgba(232,237,247,.8);
-      font-weight:900; cursor:pointer; user-select:none;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight:850;
+      cursor:pointer;
     }
     .chip.active{
-      background: rgba(25,209,138,.14);
-      border:1px solid rgba(25,209,138,.30);
-      color: var(--green);
+      border-color: rgba(34,225,161,.65);
+      background: rgba(34,225,161,.12);
+      box-shadow: 0 10px 26px rgba(34,225,161,.12);
     }
 
-    /* Treino cards */
-    .dayCard{
-      margin-top:12px;
-      padding:14px;
-      border-radius:20px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(3,8,20,.55);
+    .row{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      margin-top: 10px;
     }
-    .dayTitle{
-      font-weight:1000; letter-spacing:.6px; margin-bottom:8px;
-      display:flex; justify-content:space-between; align-items:center;
+
+    .status{
+      margin-top:10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.14);
+      color: rgba(234,241,255,.75);
+      font-weight:700;
+      white-space: pre-line;
     }
-    .exercise{
-      display:flex; justify-content:space-between; align-items:center;
-      gap:10px;
-      padding:10px 10px; border-radius:14px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(255,255,255,.03);
-      margin-top:8px;
+
+    /* Cards de dieta/treino */
+    .mealCard, .dayCard{
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 22px;
+      padding: 16px;
+      margin: 14px 0;
+      box-shadow: 0 18px 48px rgba(0,0,0,.30);
     }
-    .exercise b{font-size:13px;}
-    .ytBtn{
-      padding:10px 12px; border-radius:14px;
-      border:1px solid rgba(25,209,138,.28);
-      background: rgba(25,209,138,.10);
+    .mealTop{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
+    }
+    .mealName{
       color: var(--green);
       font-weight:1000;
+      letter-spacing:.8px;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    .mealDesc{
+      margin-top:10px;
+      font-size: 15px;
+      color: rgba(234,241,255,.86);
+      font-weight:750;
+      line-height:1.25;
+    }
+    .kcal{
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-weight:1000;
+      color: rgba(34,225,161,.9);
+      min-width: 96px;
+      text-align:center;
+    }
+
+    .dayTitle{
+      display:flex; align-items:center; justify-content:space-between;
+      font-weight:1000;
+      letter-spacing:.5px;
+      margin-bottom: 10px;
+    }
+    .exercise{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      margin: 10px 0;
+    }
+    .exercise b{display:block}
+    .exercise small{color: rgba(234,241,255,.66); font-weight:750}
+    .ytBtn{
+      border:0;
+      border-radius: 16px;
+      padding: 12px 12px;
+      font-weight:1000;
+      background: rgba(34,225,161,.10);
+      color: rgba(34,225,161,.95);
+      border:1px solid rgba(34,225,161,.25);
       cursor:pointer;
-      white-space:nowrap;
+      min-width: 130px;
+    }
+
+    /* Nav inferior */
+    .nav{
+      position: fixed;
+      left: 0; right:0; bottom:0;
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(7,16,31,.72);
+      backdrop-filter: blur(14px);
+      border-top:1px solid rgba(255,255,255,.10);
+      display:flex; justify-content:center;
+      z-index: 999;
+    }
+    .navInner{
+      width: 100%;
+      max-width: 520px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      padding: 10px;
+      border-radius: 22px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .navBtn{
+      flex:1;
+      border:0;
+      background: transparent;
+      color: rgba(234,241,255,.55);
+      font-weight:1000;
+      letter-spacing:.4px;
+      padding: 10px 8px;
+      border-radius: 16px;
+      cursor:pointer;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .navBtn.active{
+      background: rgba(34,225,161,.12);
+      border:1px solid rgba(34,225,161,.25);
+      color: rgba(34,225,161,.95);
     }
 
     /* Loja */
-    .shopGrid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;}
+    .shopGrid{display:grid; grid-template-columns:1fr; gap:12px}
     .shopItem{
-      padding:14px; border-radius:20px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(3,8,20,.55);
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.14);
+      border-radius: 18px;
+      padding: 14px;
     }
-    .shopItem h3{margin:0 0 6px; font-size:14px; letter-spacing:.4px;}
-    .shopItem p{margin:0 0 10px; font-size:12px; color:rgba(232,237,247,.7); line-height:1.3;}
+    .shopItem h3{margin:0 0 6px; font-weight:1000}
+    .shopItem p{margin:0 0 12px; color: rgba(234,241,255,.70); font-weight:650}
     .shopItem button{
       width:100%;
-      padding:12px 10px;
-      border-radius:16px;
-      border:1px solid rgba(26,42,75,.9);
-      background: rgba(255,255,255,.03);
-      color:var(--text);
-      font-weight:1000;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px;
+      font-weight: 900;
       cursor:pointer;
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="brand">
-      <div class="logo">E</div>
-      <div>
-        <h1>Confira o Prato Elite</h1>
-        <div class="hint">Cadastro • Dieta • Treino semanal • Loja • Parceiros • Premium • Convites</div>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo"><span>E</span></div>
+        <div class="titleStack">
+          <div class="t1">ELITE TERMINAL</div>
+          <div class="t2">Confira o Prato Elite</div>
+        </div>
       </div>
+      <div class="pill"><span>🔒</span> <span>Modo:</span> <b>PWA</b></div>
     </div>
 
     <!-- CADASTRO -->
     <section id="viewCadastro" class="screen active">
-      <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">CADASTRO & SAÚDE</div>
-        <div class="hint">As sugestões são informativas e não substituem profissional.</div>
+      <div class="h1">Cadastro</div>
 
-        <label>Foto de perfil</label>
-        <div class="profileRow">
-          <div class="avatar" id="avatar"><span>FOTO</span></div>
-          <div style="flex:1;">
-            <button class="miniBtn green" onclick="abrirEscolhaFoto()">Escolher/Tirar Foto</button>
-            <button class="miniBtn" onclick="removerFoto()" style="margin-top:8px;">Remover foto</button>
+      <div class="card">
+        <div class="grid2">
+          <div class="field">
+            <label>Peso (kg)</label>
+            <input id="peso" type="number" inputmode="decimal" placeholder="Ex: 78.5">
+          </div>
+          <div class="field">
+            <label>Altura (cm)</label>
+            <input id="altura" type="number" inputmode="numeric" placeholder="Ex: 175">
           </div>
         </div>
 
-        <input id="fotoFile" type="file" accept="image/*" style="display:none;">
-        <input id="fotoCamera" type="file" accept="image/*" capture="environment" style="display:none;">
-
-        <label>Nome / Codinome</label>
-        <input id="nome" placeholder="Ex: Jonatan" />
-
-        <div class="row">
-          <div>
-            <label>Idade</label>
-            <input id="idade" type="number" placeholder="Ex: 28" />
-          </div>
-          <div>
-            <label>Sexo</label>
-            <select id="sexo">
+        <div class="grid2" style="margin-top:12px;">
+          <div class="field">
+            <label>Objetivo</label>
+            <select id="objetivo">
               <option value="">Selecione</option>
-              <option>Masculino</option>
-              <option>Feminino</option>
-              <option>Outro</option>
+              <option>Emagrecer</option>
+              <option>Ganhar massa</option>
+              <option>Manter</option>
+              <option>Performance</option>
             </select>
           </div>
-        </div>
 
-        <div class="row">
-          <div>
-            <label>Peso (kg)</label>
-            <input id="peso" type="number" step="0.1" placeholder="Ex: 78.5" />
-          </div>
-          <div>
-            <label>Altura (cm)</label>
-            <input id="altura" type="number" placeholder="Ex: 175" />
-          </div>
-        </div>
-
-        <label>Objetivo</label>
-        <select id="objetivo">
-          <option value="">Selecione</option>
-          <option>Emagrecer</option>
-          <option>Ganhar massa</option>
-          <option>Manter peso</option>
-          <option>Melhorar saúde</option>
-        </select>
-
-        <div class="row">
-          <div>
+          <div class="field">
             <label>Nível</label>
             <select id="nivel">
               <option value="">Selecione</option>
@@ -304,161 +359,254 @@
               <option>Avançado</option>
             </select>
           </div>
-          <div>
+        </div>
+
+        <div class="grid2" style="margin-top:12px;">
+          <div class="field">
             <label>Condição</label>
             <select id="condicao">
               <option value="">Selecione</option>
+              <option>Sedentarismo</option>
+              <option>Ativo</option>
+              <option>Muito ativo</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Restrição</label>
+            <select id="restricao">
+              <option value="">Selecione</option>
               <option>Nenhuma</option>
-              <option>Diabetes</option>
-              <option>Pressão alta</option>
+              <option>Sem lactose</option>
+              <option>Vegetariano</option>
+              <option>Vegano</option>
+              <option>Sem glúten</option>
             </select>
           </div>
         </div>
 
-        <label>Restrição</label>
-        <select id="restricao">
-          <option value="">Selecione</option>
-          <option>Nenhuma</option>
-          <option>Vegetariano</option>
-          <option>Vegano</option>
-          <option>Intolerância à lactose</option>
-          <option>Glúten</option>
-        </select>
-
-        <label>Esportes (pode marcar vários)</label>
-        <div id="chipsEsportes" class="chips"></div>
-        <div class="chips" id="chipsEsportes"></div>
-
-        <div class="check">
-          <input id="termo" type="checkbox" />
-          <div>
-            <div style="font-weight:900;">Aceito o termo</div>
-            <div class="hint" style="margin:4px 0 0;">As sugestões são informativas.</div>
-          </div>
+        <div style="margin-top:14px;">
+          <label>Esportes (pode marcar vários)</label>
+          <div id="chipsEsportes" class="chips"></div>
         </div>
 
-        <button class="btn" onclick="salvarPerfil()">Salvar / Atualizar</button>
-        <button class="btn secondary" onclick="limparPerfil()">Limpar</button>
+        <div class="row" style="margin-top:14px;">
+          <label style="display:flex; gap:10px; align-items:center; text-transform:none; letter-spacing:0;">
+            <input id="termos" type="checkbox" style="width:18px;height:18px;">
+            <span style="font-weight:900; color:var(--text)">Aceito o termo</span>
+          </label>
+        </div>
 
-        <div id="statusCadastro" class="status"></div>
+        <div style="margin-top:12px;">
+          <button class="btn" type="button" onclick="salvarCadastro()">SALVAR / ATUALIZAR</button>
+          <div style="height:10px"></div>
+          <button class="btn secondary" type="button" onclick="limparCadastro()">LIMPAR</button>
+        </div>
+
+        <div id="outCadastro" class="status" style="display:none"></div>
       </div>
     </section>
 
     <!-- DIETA -->
     <section id="viewDieta" class="screen">
+      <div class="h1">Plano Alimentar IA</div>
+
+      <div class="mealCard">
+        <div class="mealTop">
+          <div>
+            <div class="mealName">Café da manhã</div>
+            <div class="mealDesc">Omelete de 2 ovos com espinafre e uma fatia de pão integral tostado.</div>
+          </div>
+          <div class="kcal">350 kcal</div>
+        </div>
+      </div>
+
+      <div class="mealCard">
+        <div class="mealTop">
+          <div>
+            <div class="mealName">Lanche da manhã</div>
+            <div class="mealDesc">Mix de castanhas (porção pequena) + 1 maçã.</div>
+          </div>
+          <div class="kcal">180 kcal</div>
+        </div>
+      </div>
+
+      <div class="mealCard">
+        <div class="mealTop">
+          <div>
+            <div class="mealName">Almoço</div>
+            <div class="mealDesc">Peito de frango grelhado + arroz integral + feijão + salada de folhas.</div>
+          </div>
+          <div class="kcal">550 kcal</div>
+        </div>
+      </div>
+
+      <div class="mealCard">
+        <div class="mealTop">
+          <div>
+            <div class="mealName">Lanche da tarde</div>
+            <div class="mealDesc">Iogurte natural + 1 colher de sementes de chia.</div>
+          </div>
+          <div class="kcal">160 kcal</div>
+        </div>
+      </div>
+
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">DIETA (FÁCIL)</div>
-        <div class="hint">Sugestões rápidas baseadas no seu perfil.</div>
-        <button class="btn" onclick="gerarDieta()">Gerar dieta</button>
-        <button class="btn secondary" onclick="gerarDieta(true)">Nova dieta</button>
-        <div id="outDieta" class="status"></div>
+        <div class="hint">
+          Depois a gente vai gerar dietas baseadas no cadastro (objetivo, restrição, etc).
+        </div>
       </div>
     </section>
 
     <!-- TREINO -->
     <section id="viewTreino" class="screen">
+      <div class="h1">Treinos</div>
+
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">TREINO DA SEMANA</div>
-        <div class="hint">Cada exercício tem botão pro YouTube.</div>
-        <button class="btn" onclick="gerarTreinoSemana()">Gerar treino da semana</button>
-        <button class="btn secondary" onclick="limparTreino()">Limpar treino</button>
-        <div id="outTreino" class="status"></div>
-        <div id="treinoSemana"></div>
+        <div class="hint">
+          Clique em <b>Ver técnica</b> para abrir o YouTube com a execução.
+          Depois vamos gerar treinos da semana baseado no seu cadastro.
+        </div>
+      </div>
+
+      <div class="dayCard">
+        <div class="dayTitle"><span>DIA A • Força</span><span>✅</span></div>
+
+        <div class="exercise">
+          <div>
+            <b>Desenvolvimento com halteres</b>
+            <small>3 séries x 10 reps</small>
+          </div>
+          <button class="ytBtn" type="button" onclick="openYT('desenvolvimento com halteres como fazer')">Ver técnica</button>
+        </div>
+
+        <div class="exercise">
+          <div>
+            <b>Agachamento livre</b>
+            <small>4 séries x 8–12 reps</small>
+          </div>
+          <button class="ytBtn" type="button" onclick="openYT('agachamento livre como fazer')">Ver técnica</button>
+        </div>
+
+        <div class="exercise">
+          <div>
+            <b>Flexão de braços</b>
+            <small>3 séries até a falha</small>
+          </div>
+          <button class="ytBtn" type="button" onclick="openYT('flexão de braços como fazer')">Ver técnica</button>
+        </div>
+      </div>
+
+      <div class="dayCard">
+        <div class="dayTitle"><span>DIA B • Cardio</span><span>🔥</span></div>
+
+        <div class="exercise">
+          <div>
+            <b>Corrida leve</b>
+            <small>25–35 min</small>
+          </div>
+          <button class="ytBtn" type="button" onclick="openYT('corrida leve técnica')">Ver técnica</button>
+        </div>
+
+        <div class="exercise">
+          <div>
+            <b>Abdominal</b>
+            <small>3 séries x 15 reps</small>
+          </div>
+          <button class="ytBtn" type="button" onclick="openYT('abdominal como fazer')">Ver técnica</button>
+        </div>
       </div>
     </section>
 
     <!-- LOJA -->
     <section id="viewLoja" class="screen">
-      <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">LOJA</div>
-        <div class="hint">Depois você troca pelos seus links de afiliado.</div>
+      <div class="h1">Loja</div>
 
-        <div class="shopGrid">
-          <div class="shopItem">
-            <h3>Suplementos</h3>
-            <p>Whey, creatina, vitaminas.</p>
-            <button onclick="abrirLink('https://www.gsuplementos.com.br')">Abrir</button>
-          </div>
-          <div class="shopItem">
-            <h3>Roupas fitness</h3>
-            <p>Tênis, camisetas, shorts.</p>
-            <button onclick="abrirLink('https://www.nike.com.br')">Abrir</button>
-          </div>
-          <div class="shopItem">
-            <h3>Acessórios</h3>
-            <p>Luvas, garrafas, straps.</p>
-            <button onclick="abrirLink('https://www.amazon.com.br')">Abrir</button>
-          </div>
-          <div class="shopItem">
-            <h3>Marketplace</h3>
-            <p>Preços variados.</p>
-            <button onclick="abrirLink('https://www.mercadolivre.com.br')">Abrir</button>
-          </div>
+      <div class="card">
+        <div class="hint">Depois vamos trocar pelos seus links de afiliado/parcerias.</div>
+      </div>
+
+      <div class="shopGrid">
+        <div class="shopItem">
+          <h3>Suplementos</h3>
+          <p>Whey, creatina, vitaminas.</p>
+          <button type="button" onclick="abrirLink('https://www.mercadolivre.com.br')">Abrir</button>
+        </div>
+
+        <div class="shopItem">
+          <h3>Roupas fitness</h3>
+          <p>Tênis, camisetas, shorts.</p>
+          <button type="button" onclick="abrirLink('https://www.amazon.com.br')">Abrir</button>
         </div>
       </div>
     </section>
 
     <!-- PARCEIROS -->
     <section id="viewParceiros" class="screen">
+      <div class="h1">Parceiros</div>
+
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">PARCEIROS</div>
-        <div class="hint">Em breve: parceiros perto de você (com localização opcional).</div>
-        <button class="btn" onclick="simularParceiros()">Ver parceiros (simulação)</button>
-        <div id="outParceiros" class="status"></div>
+        <div class="hint">
+          Em breve: localizar academias/lojas parceiras perto de você (com permissão).
+        </div>
+        <div style="height:12px"></div>
+        <button class="btn secondary" type="button" onclick="simularParceiros()">Ver parceiros (simulação)</button>
+        <div id="outParceiros" class="status" style="display:none"></div>
       </div>
     </section>
 
     <!-- PREMIUM -->
     <section id="viewPremium" class="screen">
+      <div class="h1">Premium</div>
+
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px; color:var(--gold);">ASSINATURA ELITE</div>
+        <div style="font-weight:1000; letter-spacing:.8px; color:var(--yellow); text-transform:uppercase;">
+          Assinatura Elite
+        </div>
+        <div style="height:10px"></div>
         <div class="hint">
-          R$ 29,90/mês • Benefícios Premium.
-          <br><br><b>Pagamento no Mercado Pago (checkout)</b>. Não coletamos dados do seu cartão aqui.
+          R$ 29,90/mês. Pagamento via Mercado Pago.
+          <br>Não coletamos dados de cartão aqui.
         </div>
 
-        <button id="btnPremium" class="btn"
-          style="background:linear-gradient(90deg,#f5c542,#f0b429); color:#1b1404;"
-          onclick="openCheckout()">
+        <div style="height:14px"></div>
+        <button id="btnPremium" class="btn yellow" type="button" onclick="openCheckout()">
           CONFIRMAR R$ 29,90/MÊS
         </button>
 
-        <div class="hint" style="margin-top:10px; text-align:center; opacity:.7;">
-          AMBIENTE SEGURO • SSL
-        </div>
+        <div style="height:10px"></div>
+        <div class="hint">Se não abrir, verifique bloqueio de pop-up do navegador.</div>
       </div>
     </section>
 
     <!-- CONVITES -->
     <section id="viewConvites" class="screen">
+      <div class="h1">Convites</div>
+
       <div class="card">
-        <div style="font-weight:1000; letter-spacing:.6px;">CONVITES</div>
         <div class="hint">
-          Convide amigos com seu link.
-          <br>• Você ganha <b>R$ 5,00</b> por cada assinatura Premium confirmada
-          <br>• Saque mínimo: <b>R$ 50,00</b> via Pix (mais pra frente)
-          <br>• Ao bater 10 assinaturas confirmadas: <b>1 mês grátis</b>
-          <br><br><span style="opacity:.75;">(Saldo aqui é “simulado” até ligarmos Firebase + confirmação automática.)</span>
+          Ideia: você ganha <b>R$ 5,00</b> por assinatura confirmada no seu link.
+          Saque mínimo <b>R$ 50,00</b> via Pix (vamos implementar depois).
+          <br><br><b>Obs:</b> neste MVP é só simulação/local no aparelho.
         </div>
 
-        <div class="dayCard" style="margin-top:12px;">
-          <div class="dayTitle"><span>Seu código</span><span id="myCode" style="opacity:.8;"></span></div>
+        <div class="dayCard">
+          <div class="dayTitle"><span>Seu código</span><span id="myCode"></span></div>
           <div class="hint" id="myLink" style="word-break:break-all;"></div>
 
-          <div style="display:flex; gap:10px; margin-top:10px;">
-            <button class="miniBtn green" onclick="shareInvite()">Compartilhar</button>
-            <button class="miniBtn" onclick="copyInviteLink()">Copiar link</button>
+          <div class="row">
+            <button class="btn secondary" type="button" onclick="copyInviteLink()">Copiar link</button>
+            <button class="btn" type="button" onclick="shareInvite()">Compartilhar</button>
           </div>
         </div>
 
         <div class="dayCard">
-          <div class="dayTitle"><span>Saldo</span><span id="balTxt" style="opacity:.8;"></span></div>
+          <div class="dayTitle"><span>Saldo</span><span id="balTxt"></span></div>
           <div class="hint" id="progressTxt"></div>
 
-          <!-- botões de teste (pode remover depois) -->
-          <div style="display:flex; gap:10px; margin-top:10px;">
-            <button class="miniBtn" onclick="setBalance(getBalance()+5)">+R$5 (teste)</button>
-            <button class="miniBtn" onclick="setBalance(0)">Zerar</button>
+          <!-- Botões de teste (pode remover depois) -->
+          <div class="row" style="margin-top:10px;">
+            <button class="btn secondary" type="button" onclick="setBalance(getBalance()+5)">+R$5 (teste)</button>
+            <button class="btn secondary" type="button" onclick="setBalance(0)">Zerar</button>
           </div>
         </div>
       </div>
@@ -468,364 +616,196 @@
   <!-- NAV -->
   <div class="nav">
     <div class="navInner">
-      <button class="navBtn active" data-view="cadastro">CADASTRO</button>
-      <button class="navBtn" data-view="dieta">DIETA</button>
-      <button class="navBtn" data-view="treino">TREINO</button>
-      <button class="navBtn" data-view="loja">LOJA</button>
-      <button class="navBtn" data-view="parceiros">PARCEIROS</button>
-      <button class="navBtn" data-view="premium">PREMIUM</button>
-      <button class="navBtn" data-view="convites">CONVITES</button>
+      <button class="navBtn active" data-view="cadastro" type="button">Cadastro</button>
+      <button class="navBtn" data-view="dieta" type="button">Dieta</button>
+      <button class="navBtn" data-view="treino" type="button">Treino</button>
+      <button class="navBtn" data-view="loja" type="button">Loja</button>
+      <button class="navBtn" data-view="parceiros" type="button">Parceiros</button>
+      <button class="navBtn" data-view="premium" type="button">Premium</button>
+      <button class="navBtn" data-view="convites" type="button">Convites</button>
     </div>
   </div>
 
   <script>
-    // ====== PWA (se existir service-worker.js no repo) ======
+    // ===== PWA (se existir service-worker.js no repo) =====
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
     }
 
-    // ====== COLE AQUI O LINK DO MERCADO PAGO ======
+    // ===== PREMIUM / MERCADO PAGO =====
     const PREMIUM_PRICE = 29.90;
-    const PREMIUM_CHECKOUT_URL = "https://mpago.la/2BRjpaP"; // ex: https://mpago.la/xxxxxx
+    const PREMIUM_CHECKOUT_URL = "https://mpago.la/2BRjpaP";
 
-    // ====== STORAGE KEYS ======
-    const KEY = "checkprato_perfil_v3";
-    const KEY_TREINO = "checkprato_treino_semana_v1";
-    const KEY_REF = "checkprato_ref_code";
-    const KEY_MY_CODE = "checkprato_my_invite_code";
-    const KEY_BAL = "checkprato_invite_balance";
+    function openCheckout(){
+      window.open(PREMIUM_CHECKOUT_URL, "_blank");
+    }
 
+    // ===== HELPERS =====
+    const $ = (id)=> document.getElementById(id);
+
+    function abrirLink(url){ window.open(url, "_blank"); }
+
+    function openYT(query){
+      const q = encodeURIComponent(query);
+      window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
+    }
+
+    // ===== NAV (ABAS) =====
+    function switchView(view){
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".navBtn").forEach(b => b.classList.remove("active"));
+
+      const map = {
+        cadastro: "viewCadastro",
+        dieta: "viewDieta",
+        treino: "viewTreino",
+        loja: "viewLoja",
+        parceiros: "viewParceiros",
+        premium: "viewPremium",
+        convites: "viewConvites"
+      };
+
+      const id = map[view];
+      if (id && $(id)) $(id).classList.add("active");
+
+      const btn = document.querySelector(`.navBtn[data-view="${view}"]`);
+      if (btn) btn.classList.add("active");
+    }
+
+    function wireNav(){
+      document.querySelectorAll(".navBtn").forEach(btn=>{
+        btn.addEventListener("click", ()=> switchView(btn.dataset.view));
+      });
+    }
+
+    // ===== ESPORTES (CHIPS) =====
     const ESPORTES = [
       "Musculação","Futebol","Corrida","Crossfit","Ciclismo","Natação",
       "Luta","Basquete","Vôlei","Yoga","Pilates","Caminhada"
     ];
 
-    const $ = (id) => document.getElementById(id);
-
-    function getPerfil(){ try{return JSON.parse(localStorage.getItem(KEY)||"null");}catch{return null;} }
-    function setPerfil(p){ localStorage.setItem(KEY, JSON.stringify(p)); }
-
-    function getTreino(){ try{return JSON.parse(localStorage.getItem(KEY_TREINO)||"null");}catch{return null;} }
-    function setTreino(t){ localStorage.setItem(KEY_TREINO, JSON.stringify(t)); }
-
-    // ====== NAV ======
-    function switchView(view){
-      ["viewCadastro","viewDieta","viewTreino","viewLoja","viewParceiros","viewPremium","viewConvites"]
-        .forEach(id => $(id).classList.remove("active"));
-
-      if(view==="cadastro") $("viewCadastro").classList.add("active");
-      if(view==="dieta") $("viewDieta").classList.add("active");
-      if(view==="treino") $("viewTreino").classList.add("active");
-      if(view==="loja") $("viewLoja").classList.add("active");
-      if(view==="parceiros") $("viewParceiros").classList.add("active");
-      if(view==="premium") $("viewPremium").classList.add("active");
-      if(view==="convites") $("viewConvites").classList.add("active");
-
-      document.querySelectorAll(".navBtn").forEach(b=>b.classList.remove("active"));
-      document.querySelector(`.navBtn[data-view="${view}"]`)?.classList.add("active");
-    }
-    document.querySelectorAll(".navBtn").forEach(btn=>{
-      btn.addEventListener("click", ()=> switchView(btn.dataset.view));
-    });
-
-    // ====== FOTO (galeria + câmera) ======
-    function abrirEscolhaFoto(){
-      const usarCamera = confirm("Quer tirar foto agora?\nOK = Câmera | Cancelar = Galeria");
-      if(usarCamera) $("fotoCamera").click();
-      else $("fotoFile").click();
-    }
-    window.abrirEscolhaFoto = abrirEscolhaFoto;
-
-    $("fotoFile").addEventListener("change", (e)=> handleFoto(e.target.files?.[0]));
-    $("fotoCamera").addEventListener("change", (e)=> handleFoto(e.target.files?.[0]));
-
-    async function handleFoto(file){
-      if(!file) return;
-      const dataUrl = await compressImageToDataURL(file, 420, 0.82);
-      const p = getPerfil() || {};
-      p.fotoDataUrl = dataUrl;
-      setPerfil(p);
-      renderFoto(dataUrl);
-      $("statusCadastro").textContent = "✅ Foto salva!";
-    }
-
-    function removerFoto(){
-      const p = getPerfil() || {};
-      delete p.fotoDataUrl;
-      setPerfil(p);
-      renderFoto(null);
-      $("statusCadastro").textContent = "🧹 Foto removida.";
-    }
-    window.removerFoto = removerFoto;
-
-    function renderFoto(dataUrl){
-      const avatar = $("avatar");
-      avatar.innerHTML = "";
-      if(!dataUrl){ avatar.innerHTML = "<span>FOTO</span>"; return; }
-      const img = document.createElement("img");
-      img.src = dataUrl;
-      avatar.appendChild(img);
-    }
-
-    function compressImageToDataURL(file, maxSize, quality){
-      return new Promise((resolve) => {
-        const img = new Image();
-        const reader = new FileReader();
-        reader.onload = () => { img.src = reader.result; };
-        reader.readAsDataURL(file);
-
-        img.onload = () => {
-          const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
-          const w = Math.round(img.width * scale);
-          const h = Math.round(img.height * scale);
-
-          const canvas = document.createElement("canvas");
-          canvas.width = w; canvas.height = h;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, w, h);
-          resolve(canvas.toDataURL("image/jpeg", quality));
-        };
-        img.onerror = () => resolve(null);
-      });
-    }
-
-    // ====== ESPORTES ======
     let selectedSports = new Set();
+
     function buildSportsChips(){
       const box = $("chipsEsportes");
+      if(!box) return;
       box.innerHTML = "";
+
       ESPORTES.forEach((name)=>{
-        const chip = document.createElement("div");
+        const chip = document.createElement("button");
+        chip.type = "button";
         chip.className = "chip";
         chip.textContent = name;
+
         chip.addEventListener("click", ()=>{
           if(selectedSports.has(name)) selectedSports.delete(name);
           else selectedSports.add(name);
           chip.classList.toggle("active", selectedSports.has(name));
         });
+
         box.appendChild(chip);
       });
     }
-    function applySelectedSportsToUI(){
-      const chips = [...document.querySelectorAll("#chipsEsportes .chip")];
-      chips.forEach((c)=> c.classList.toggle("active", selectedSports.has(c.textContent)));
-    }
 
-    // ====== PERFIL ======
-    function salvarPerfil(){
-      if(!$("termo").checked){
-        $("statusCadastro").textContent = "⚠️ Aceite o termo para salvar.";
+    // ===== CADASTRO (SALVAR/LIMPAR) =====
+    const KEY_PROFILE = "checkprato_profile_v1";
+
+    function salvarCadastro(){
+      if(!$("termos").checked){
+        showCadastroMsg("⚠️ Você precisa aceitar o termo para salvar.");
         return;
       }
-      const old = getPerfil() || {};
-      const perfil = {
-        ...old,
-        nome: $("nome").value.trim(),
-        idade: Number($("idade").value),
-        sexo: $("sexo").value,
-        peso: Number($("peso").value),
-        altura: Number($("altura").value),
-        objetivo: $("objetivo").value,
-        nivel: $("nivel").value,
-        restricao: $("restricao").value,
-        condicao: $("condicao").value,
-        esportes: Array.from(selectedSports)
+
+      const profile = {
+        peso: $("peso").value || "",
+        altura: $("altura").value || "",
+        objetivo: $("objetivo").value || "",
+        nivel: $("nivel").value || "",
+        condicao: $("condicao").value || "",
+        restricao: $("restricao").value || "",
+        esportes: Array.from(selectedSports),
+        updatedAt: Date.now(),
       };
 
-      if(!perfil.nome || !perfil.idade || !perfil.peso || !perfil.altura || !perfil.objetivo){
-        $("statusCadastro").textContent = "⚠️ Preencha: Nome, Idade, Peso, Altura e Objetivo.";
-        return;
-      }
-      if(perfil.esportes.length === 0){
-        $("statusCadastro").textContent = "⚠️ Marque pelo menos 1 esporte.";
-        return;
-      }
-
-      setPerfil(perfil);
-      $("statusCadastro").textContent = "✅ Perfil salvo!";
+      localStorage.setItem(KEY_PROFILE, JSON.stringify(profile));
+      showCadastroMsg("✅ Cadastro salvo com sucesso!");
     }
-    window.salvarPerfil = salvarPerfil;
 
-    function limparPerfil(){
-      localStorage.removeItem(KEY);
-      localStorage.removeItem(KEY_TREINO);
+    function limparCadastro(){
+      localStorage.removeItem(KEY_PROFILE);
+      $("peso").value = "";
+      $("altura").value = "";
+      $("objetivo").value = "";
+      $("nivel").value = "";
+      $("condicao").value = "";
+      $("restricao").value = "";
+      $("termos").checked = false;
       selectedSports = new Set();
-      applySelectedSportsToUI();
-      renderFoto(null);
-      $("statusCadastro").textContent = "🧹 Perfil apagado.";
-      $("treinoSemana").innerHTML = "";
-      $("outTreino").textContent = "";
-    }
-    window.limparPerfil = limparPerfil;
-
-    function carregarPerfilNaTela(){
-      const p = getPerfil();
-      if(!p) return;
-      renderFoto(p.fotoDataUrl || null);
-      $("nome").value = p.nome || "";
-      $("idade").value = p.idade || "";
-      $("sexo").value = p.sexo || "";
-      $("peso").value = p.peso || "";
-      $("altura").value = p.altura || "";
-      $("objetivo").value = p.objetivo || "";
-      $("nivel").value = p.nivel || "";
-      $("restricao").value = p.restricao || "";
-      $("condicao").value = p.condicao || "";
-      $("termo").checked = true;
-      selectedSports = new Set(p.esportes || []);
-      applySelectedSportsToUI();
+      buildSportsChips();
+      showCadastroMsg("🧹 Cadastro limpo.");
     }
 
-    // ====== DIETA ======
-    function gerarDieta(nova=false){
-      const p = getPerfil();
-      if(!p){ $("outDieta").textContent = "⚠️ Faça o cadastro primeiro."; return; }
+    function carregarCadastro(){
+      const raw = localStorage.getItem(KEY_PROFILE);
+      if(!raw) return;
 
-      const dietas = {
-        "Emagrecer": [
-          "Café: 2 ovos + banana | Almoço: frango + salada | Jantar: omelete + legumes",
-          "Café: iogurte + aveia | Almoço: carne magra + arroz integral | Jantar: sopa de legumes",
-          "Café: tapioca + queijo | Almoço: peixe/frango + legumes | Jantar: salada com proteína"
-        ],
-        "Ganhar massa": [
-          "Café: ovos + pão | Almoço: arroz + feijão + carne | Jantar: macarrão + frango",
-          "Café: vitamina (banana+aveia) | Almoço: frango + batata doce | Jantar: carne + arroz",
-          "Café: iogurte + granola | Almoço: peixe + arroz | Jantar: omelete + batata"
-        ],
-        "Manter peso": [
-          "Café: fruta + ovos | Almoço: prato equilibrado | Jantar: proteína + legumes",
-          "Café: iogurte + fruta | Almoço: arroz+feijão+carne | Jantar: salada + frango",
-          "Café: pão + queijo | Almoço: macarrão + carne | Jantar: sopa leve"
-        ],
-        "Melhorar saúde": [
-          "Café: frutas + aveia | Almoço: frango/peixe + salada | Jantar: legumes + ovos",
-          "Café: iogurte natural | Almoço: arroz integral + feijão + salada | Jantar: sopa de legumes",
-          "Café: pão integral + ovos | Almoço: proteína magra + legumes | Jantar: salada reforçada"
-        ]
-      };
+      try{
+        const p = JSON.parse(raw);
+        $("peso").value = p.peso || "";
+        $("altura").value = p.altura || "";
+        $("objetivo").value = p.objetivo || "";
+        $("nivel").value = p.nivel || "";
+        $("condicao").value = p.condicao || "";
+        $("restricao").value = p.restricao || "";
+        $("termos").checked = true;
 
-      let lista = dietas[p.objetivo] || dietas["Melhorar saúde"];
-      let escolha = lista[Math.floor(Math.random() * lista.length)];
-
-      if(p.restricao === "Vegetariano" || p.restricao === "Vegano"){
-        escolha = escolha
-          .replace(/frango|carne|peixe/gi, "grão-de-bico/tofu")
-          .replace(/ovos/gi, p.restricao === "Vegano" ? "tofu" : "ovos");
-      }
-      if(p.restricao === "Intolerância à lactose"){
-        escolha = escolha.replace(/iogurte|queijo/gi, "iogurte/queijo sem lactose");
-      }
-      if(p.restricao === "Glúten"){
-        escolha = escolha.replace(/pão|macarrão/gi, "opção sem glúten");
-      }
-
-      let aviso = "";
-      if(p.condicao === "Diabetes") aviso += " ⚠️ Atenção com carboidratos e açúcar.";
-      if(p.condicao === "Pressão alta") aviso += " ⚠️ Reduzir sódio (sal/embutidos).";
-
-      $("outDieta").textContent = `${nova ? "🔁 " : ""}${escolha}${aviso}`;
-    }
-    window.gerarDieta = gerarDieta;
-
-    // ====== TREINO ======
-    function gerarTreinoSemana(){
-      const p = getPerfil();
-      if(!p){ $("outTreino").textContent = "⚠️ Faça o cadastro primeiro."; return; }
-      const nivel = p.nivel || "Iniciante";
-      const tema = (p.esportes && p.esportes.length) ? p.esportes[0] : "Musculação";
-
-      const dias = ["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"];
-      const base = [
-        "Agachamento", "Supino", "Remada", "Prancha",
-        "Flexão", "Abdominal", "Desenvolvimento", "Panturrilha"
-      ];
-
-      const rotina = dias.map((dia, idx)=>{
-        const itens = (idx===3 || idx===6)
-          ? ["Descanso / Alongamento 15min"]
-          : [base[idx%base.length], base[(idx+2)%base.length], base[(idx+4)%base.length]];
-        return { dia, bloco: (idx===3||idx===6) ? "DESC" : (idx%2===0?"A":"B"), itens };
-      });
-
-      const plano = { tema, nivel, rotina, createdAt: Date.now() };
-      setTreino(plano);
-      $("outTreino").textContent = `✅ Treino gerado: ${tema} (${nivel})`;
-      renderTreinoSemana(plano);
-    }
-    window.gerarTreinoSemana = gerarTreinoSemana;
-
-    function renderTreinoSemana(plano){
-      const box = $("treinoSemana");
-      box.innerHTML = "";
-      plano.rotina.forEach((d)=>{
-        const day = document.createElement("div");
-        day.className = "dayCard";
-        day.innerHTML = `<div class="dayTitle"><span>${d.dia}</span><span style="opacity:.75;font-weight:1000;">${d.bloco}</span></div>`;
-        d.itens.forEach((ex)=>{
-          const row = document.createElement("div");
-          row.className = "exercise";
-          const left = document.createElement("div");
-          left.innerHTML = `<b>${escapeHtml(ex)}</b><div style="font-size:12px;opacity:.7;">Ver técnica no YouTube</div>`;
-          const btn = document.createElement("button");
-          btn.className = "ytBtn";
-          btn.textContent = "YouTube";
-          btn.addEventListener("click", ()=>{
-            const q = encodeURIComponent(ex + " como fazer");
-            window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
-          });
-          row.appendChild(left);
-          row.appendChild(btn);
-          day.appendChild(row);
+        selectedSports = new Set(Array.isArray(p.esportes) ? p.esportes : []);
+        buildSportsChips(); // redesenha
+        // ativa os chips que estavam salvos
+        document.querySelectorAll("#chipsEsportes .chip").forEach(ch=>{
+          if(selectedSports.has(ch.textContent)) ch.classList.add("active");
         });
-        box.appendChild(day);
-      });
+
+        showCadastroMsg("✅ Cadastro carregado do aparelho.");
+      } catch {}
     }
 
-    function limparTreino(){
-      localStorage.removeItem(KEY_TREINO);
-      $("treinoSemana").innerHTML = "";
-      $("outTreino").textContent = "🧹 Treino removido.";
+    function showCadastroMsg(text){
+      const out = $("outCadastro");
+      out.style.display = "block";
+      out.textContent = text;
     }
-    window.limparTreino = limparTreino;
 
-    // ====== LOJA/PARCEIROS ======
-    function abrirLink(url){ window.open(url, "_blank"); }
-    window.abrirLink = abrirLink;
-
+    // ===== PARCEIROS (SIMULAÇÃO) =====
     function simularParceiros(){
-      $("outParceiros").innerHTML =
-        "📍 Exemplo (simulação):<br>• Academia Elite Center (2,1 km)<br>• Loja Fit Suplementos (3,4 km)";
+      const out = $("outParceiros");
+      out.style.display = "block";
+      out.innerHTML =
+        "📍 Exemplo (simulação):\n" +
+        "• Academia Elite Center (2,1 km)\n" +
+        "• Loja Fit Suplementos (3,4 km)\n" +
+        "• Box Cross Training (4,0 km)";
     }
-    window.simularParceiros = simularParceiros;
-    
-      }
-      window.open(PREMIUM_CHECKOUT_URL, "_blank");
-    }
-    window.openCheckout = openCheckout;
 
-    // ====== CONVITES ======
-    function captureReferralFromURL(){
-      const url = new URL(window.location.href);
-      const ref = url.searchParams.get("ref");
-      if(ref && ref.length >= 4){
-        localStorage.setItem(KEY_REF, ref.toUpperCase());
-      }
-    }
-    captureReferralFromURL();
+    // ===== CONVITES (LOCAL) =====
+    const KEY_MY_CODE = "checkprato_my_invite_code";
+    const KEY_BAL = "checkprato_invite_balance";
 
     function getOrCreateInviteCode(){
       let code = localStorage.getItem(KEY_MY_CODE);
       if(!code){
-        code = Math.random().toString(36).slice(2, 8).toUpperCase();
+        code = Math.random().toString(36).slice(2,8).toUpperCase();
         localStorage.setItem(KEY_MY_CODE, code);
       }
       return code;
     }
+
     function getMyInviteLink(){
       const code = getOrCreateInviteCode();
       const base = window.location.origin + window.location.pathname;
       return `${base}?ref=${encodeURIComponent(code)}`;
     }
+
     async function copyInviteLink(){
       const link = getMyInviteLink();
       try{
@@ -835,23 +815,19 @@
         prompt("Copie o link:", link);
       }
     }
-    window.copyInviteLink = copyInviteLink;
 
     function shareInvite(){
       const link = getMyInviteLink();
       const text = `Baixa o Confira o Prato Elite e usa meu link: ${link}`;
       if(navigator.share){
-        navigator.share({ title:"Confira o Prato Elite", text, url: link }).catch(()=>{});
+        navigator.share({title:"Confira o Prato Elite", text, url: link}).catch(()=>{});
       } else {
         copyInviteLink();
       }
     }
-    window.shareInvite = shareInvite;
 
     function getBalance(){ return Number(localStorage.getItem(KEY_BAL) || "0"); }
     function setBalance(v){ localStorage.setItem(KEY_BAL, String(v)); renderInviteUI(); }
-    window.getBalance = getBalance;
-    window.setBalance = setBalance;
 
     function renderInviteUI(){
       const code = getOrCreateInviteCode();
@@ -861,100 +837,26 @@
 
       $("myCode").textContent = code;
       $("myLink").textContent = link;
-
       $("balTxt").textContent = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(bal);
       $("progressTxt").textContent = bal >= 50
-        ? "✅ Você atingiu R$ 50 (saque via Pix será ativado quando ligarmos o sistema)."
-        : `Faltam ${new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(falta)} para R$ 50,00.`;
+        ? "✅ Você atingiu R$ 50. (Saque via Pix será liberado quando ligarmos o sistema.)"
+        : `Faltam ${new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(falta)} para atingir R$ 50.`;
     }
 
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-    }
-    
- // ===== NAVEGAÇÃO ENTRE ABAS (FIX) =====
-    function switchView(view){
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.querySelectorAll(".navBtn").forEach(b => b.classList.remove("active"));
-
-  const map = {
-    cadastro: "viewCadastro",
-    dieta: "viewDieta",
-    treino: "viewTreino",
-    loja: "viewLoja",
-    parceiros: "viewParceiros",
-    premium: "viewPremium",
-    convites: "viewConvites",
-  };
-
-  const targetId = map[view];
-  if(targetId){
-    const el = document.getElementById(targetId);
-    if(el) el.classList.add("active");
-  }
-
-  const btn = document.querySelector(`.navBtn[data-view="${view}"]`);
-  if(btn) btn.classList.add("active");
-}
-
-// ligar cliques do menu
-document.querySelectorAll(".navBtn").forEach(btn=>{
-  btn.addEventListener("click", ()=> switchView(btn.dataset.view));
-});
-}
-
-// ligar clique dos botões
- document.querySelectorAll(".navBtn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    switchView(btn.dataset.view);
-  });
-});// ===== PREMIUM / PAGAMENTO =====
- const PREMIUM_PRICE = 29.90;
- const PREMIUM_CHECKOUT_URL = "https://mpago.la/2BRjpaP";
-
- function openCheckout(){
-  window.open(PREMIUM_CHECKOUT_URL, "_blank");
-}
-    // ===== ESPORTES (FIX) =====
-let selectedSports = new Set();
-
-function buildSportsChips(){
-  const box = document.getElementById("chipsEsportes");
-  if(!box) return;
-
-  box.innerHTML = "";
-  ESPORTES.forEach((name)=>{
-    const chip = document.createElement("div");
-    chip.className = "chip";
-    chip.textContent = name;
-
-    chip.addEventListener("click", ()=>{
-      if(selectedSports.has(name)) selectedSports.delete(name);
-      else selectedSports.add(name);
-      chip.classList.toggle("active", selectedSports.has(name));
-    });
-
-    box.appendChild(chip);
-  });
-}
-    // ====== INIT ======
+    // ===== INIT =====
     function init(){
+      wireNav();
       buildSportsChips();
-      carregarPerfilNaTela();
-
-      const t = getTreino();
-      if(t){
-        renderTreinoSemana(t);
-        $("outTreino").textContent = `✅ Treino salvo: ${t.tema} (${t.nivel})`;
-      }
-
-      // atualizar texto do botão premium (fixo, mas ok)
-      $("btnPremium").textContent = `CONFIRMAR R$ ${PREMIUM_PRICE.toFixed(2).replace(".", ",")}/MÊS`;
-
+      carregarCadastro();
       renderInviteUI();
+
+      const btnPremium = $("btnPremium");
+      if(btnPremium){
+        btnPremium.textContent = `CONFIRMAR R$ ${PREMIUM_PRICE.toFixed(2).replace(".", ",")}/MÊS`;
+      }
     }
-  
-    init();
+
+    document.addEventListener("DOMContentLoaded", init);
   </script>
 </body>
 </html>
