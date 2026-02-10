@@ -405,7 +405,7 @@
         <div id="outCadastro" class="status" style="display:none"></div>
       </div>
     </section>
-
+   <button class="navBtn" data-view="prato" type="button">Prato</button>
     <!-- DIETA -->
     <section id="viewDieta" class="screen">
       <div class="h1">Plano Alimentar IA</div>
@@ -657,6 +657,7 @@
 
       const map = {
         cadastro: "viewCadastro",
+        prato: "viewPrato",
         dieta: "viewDieta",
         treino: "viewTreino",
         loja: "viewLoja",
@@ -715,7 +716,37 @@
         showCadastroMsg("⚠️ Você precisa aceitar o termo para salvar.");
         return;
       }
+<!-- PRATO (FOTO + ANÁLISE) -->
+<section id="viewPrato" class="screen">
+  <div class="h1">Prato</div>
 
+  <div class="card">
+    <div class="hint">
+      Tire uma foto do prato ou escolha da galeria. Depois vamos ligar com IA de verdade.
+    </div>
+
+    <div style="height:12px"></div>
+
+    <input id="fotoPrato" type="file" accept="image/*" capture="environment" />
+
+    <div style="height:12px"></div>
+
+    <div id="pratoPreviewWrap" style="display:none;">
+      <div class="mealCard" style="padding:12px;">
+        <div class="mealName">Preview</div>
+        <div style="height:10px"></div>
+        <img id="pratoPreview" alt="Foto do prato"
+          style="width:100%; border-radius:18px; border:1px solid rgba(255,255,255,.10);" />
+      </div>
+
+      <button class="btn" type="button" onclick="analisarPrato()">ANALISAR PRATO</button>
+      <div style="height:10px"></div>
+      <button class="btn secondary" type="button" onclick="limparPrato()">REMOVER FOTO</button>
+    </div>
+
+    <div id="pratoStatus" class="status" style="display:none"></div>
+  </div>
+</section>
       const profile = {
         peso: $("peso").value || "",
         altura: $("altura").value || "",
@@ -842,12 +873,127 @@
         ? "✅ Você atingiu R$ 50. (Saque via Pix será liberado quando ligarmos o sistema.)"
         : `Faltam ${new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(falta)} para atingir R$ 50.`;
     }
+    // ===== PRATO (FOTO + ANÁLISE MOCK) =====
+const KEY_LAST_PLATE = "checkprato_last_plate_v1";
+let pratoImgDataUrl = "";
+
+function setPratoStatus(msg){
+  const el = $("pratoStatus");
+  if(!el) return;
+  el.style.display = "block";
+  el.textContent = msg;
+}
+
+function renderPlateResult(result){
+  setPratoStatus(
+    `✅ Resultado estimado (mock)\n` +
+    `Calorias: ${result.kcal} kcal\n` +
+    `Proteína: ${result.prot} g\n` +
+    `Carboidratos: ${result.carb} g\n` +
+    `Gorduras: ${result.fat} g\n\n` +
+    `Observação: estimativa ilustrativa. Depois ligamos IA real.`
+  );
+}
+
+function loadLastPlate(){
+  try{
+    const raw = localStorage.getItem(KEY_LAST_PLATE);
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    if(data?.img){
+      pratoImgDataUrl = data.img;
+      $("pratoPreview").src = pratoImgDataUrl;
+      $("pratoPreviewWrap").style.display = "block";
+    }
+    if(data?.result){
+      renderPlateResult(data.result);
+    }
+  } catch {}
+}
+
+function limparPrato(){
+  pratoImgDataUrl = "";
+  $("fotoPrato").value = "";
+  $("pratoPreviewWrap").style.display = "none";
+  $("pratoStatus").style.display = "none";
+  localStorage.removeItem(KEY_LAST_PLATE);
+}
+
+function calcMockFromProfile(){
+  // tenta usar seu cadastro pra deixar mais inteligente
+  let peso = Number($("peso")?.value || 0);
+  let objetivo = $("objetivo")?.value || "";
+  let nivel = $("nivel")?.value || "";
+
+  // base
+  let kcal = 650;
+
+  if(peso > 0) kcal += Math.round((peso - 70) * 3); // ajuste leve
+  if(objetivo === "Emagrecer") kcal -= 120;
+  if(objetivo === "Ganhar massa") kcal += 180;
+  if(objetivo === "Performance") kcal += 140;
+
+  if(nivel === "Iniciante") kcal -= 40;
+  if(nivel === "Avançado") kcal += 70;
+
+  // pequena variação
+  kcal += Math.floor(Math.random()*120) - 60;
+  kcal = Math.max(250, Math.min(1200, kcal));
+
+  // macros simples
+  const prot = Math.max(15, Math.round(kcal * 0.20 / 4));
+  const carb = Math.max(20, Math.round(kcal * 0.50 / 4));
+  const fat  = Math.max(10, Math.round(kcal * 0.30 / 9));
+
+  return { kcal, prot, carb, fat };
+}
+
+async function analisarPrato(){
+  if(!pratoImgDataUrl){
+    setPratoStatus("⚠️ Primeiro selecione uma foto do prato.");
+    return;
+  }
+
+  setPratoStatus("🔎 Analisando... (mock)\nAguarde 2 segundos.");
+  await new Promise(r => setTimeout(r, 2000));
+
+  const result = calcMockFromProfile();
+  renderPlateResult(result);
+
+  // salva
+  localStorage.setItem(KEY_LAST_PLATE, JSON.stringify({
+    img: pratoImgDataUrl,
+    result,
+    updatedAt: Date.now()
+  }));
+}
+
+function wirePlateInput(){
+  const input = $("fotoPrato");
+  if(!input) return;
+
+  input.addEventListener("change", ()=>{
+    const file = input.files && input.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      pratoImgDataUrl = String(reader.result || "");
+      $("pratoPreview").src = pratoImgDataUrl;
+      $("pratoPreviewWrap").style.display = "block";
+      setPratoStatus("✅ Foto carregada. Clique em ANALISAR PRATO.");
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
     // ===== INIT =====
     function init(){
       wireNav();
       buildSportsChips();
       carregarCadastro();
+      wirePlateInput();
+      loadLastPlate();
       renderInviteUI();
 
       const btnPremium = $("btnPremium");
