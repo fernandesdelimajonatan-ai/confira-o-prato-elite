@@ -796,12 +796,7 @@
         "📍 Exemplo (simulação):<br>• Academia Elite Center (2,1 km)<br>• Loja Fit Suplementos (3,4 km)";
     }
     window.simularParceiros = simularParceiros;
-
-    // ====== PREMIUM ======
-    function openCheckout(){
-      if(!PREMIUM_CHECKOUT_URL || PREMIUM_CHECKOUT_URL.includes("COLE_AQUI")){
-        alert("Cole o link do Mercado Pago em PREMIUM_CHECKOUT_URL dentro do index.html.");
-        return;
+    
       }
       window.open(PREMIUM_CHECKOUT_URL, "_blank");
     }
@@ -875,21 +870,36 @@
     function escapeHtml(s){
       return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
     }
- // ===== NAVEGAÇÃO ENTRE ABAS =====
- function switchView(view){
+    
+ // ===== NAVEGAÇÃO ENTRE ABAS (FIX) =====
+    function switchView(view){
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.querySelectorAll(".navBtn").forEach(b => b.classList.remove("active"));
 
-  if(view === "cadastro") document.getElementById("viewCadastro").classList.add("active");
-  if(view === "dieta") document.getElementById("viewDieta").classList.add("active");
-  if(view === "treino") document.getElementById("viewTreino").classList.add("active");
-  if(view === "loja") document.getElementById("viewLoja").classList.add("active");
-  if(view === "parceiros") document.getElementById("viewParceiros").classList.add("active");
-  if(view === "premium") document.getElementById("viewPremium").classList.add("active");
-  if(view === "convites") document.getElementById("viewConvites").classList.add("active");
+  const map = {
+    cadastro: "viewCadastro",
+    dieta: "viewDieta",
+    treino: "viewTreino",
+    loja: "viewLoja",
+    parceiros: "viewParceiros",
+    premium: "viewPremium",
+    convites: "viewConvites",
+  };
+
+  const targetId = map[view];
+  if(targetId){
+    const el = document.getElementById(targetId);
+    if(el) el.classList.add("active");
+  }
 
   const btn = document.querySelector(`.navBtn[data-view="${view}"]`);
   if(btn) btn.classList.add("active");
+}
+
+// ligar cliques do menu
+document.querySelectorAll(".navBtn").forEach(btn=>{
+  btn.addEventListener("click", ()=> switchView(btn.dataset.view));
+});
 }
 
 // ligar clique dos botões
