@@ -914,6 +914,28 @@ document.querySelectorAll(".navBtn").forEach(btn=>{
  function openCheckout(){
   window.open(PREMIUM_CHECKOUT_URL, "_blank");
 }
+    // ===== ESPORTES (FIX) =====
+let selectedSports = new Set();
+
+function buildSportsChips(){
+  const box = document.getElementById("chipsEsportes");
+  if(!box) return;
+
+  box.innerHTML = "";
+  ESPORTES.forEach((name)=>{
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.textContent = name;
+
+    chip.addEventListener("click", ()=>{
+      if(selectedSports.has(name)) selectedSports.delete(name);
+      else selectedSports.add(name);
+      chip.classList.toggle("active", selectedSports.has(name));
+    });
+
+    box.appendChild(chip);
+  });
+}
     // ====== INIT ======
     function init(){
       buildSportsChips();
