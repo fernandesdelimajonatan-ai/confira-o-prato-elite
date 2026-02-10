@@ -6,31 +6,20 @@
   <meta name="theme-color" content="#0b1220" />
   <title>Confira o Prato Elite</title>
 
-  <!-- PWA (se você já tem manifest.json no repo, deixe assim) -->
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" href="./icone-192.png" />
 
   <style>
     :root{
-      --bg:#07101f;
-      --panel:#0b1630;
-      --panel2:#0a1328;
-      --card:#0c1a35;
-      --stroke:rgba(255,255,255,.10);
-      --text:#eaf1ff;
-      --muted:rgba(234,241,255,.72);
-      --green:#22e1a1;
-      --green2:#12c98f;
-      --yellow:#f0b429;
-      --shadow: 0 12px 40px rgba(0,0,0,.45);
-      --radius:20px;
+      --bg:#07101f; --stroke:rgba(255,255,255,.10);
+      --text:#eaf1ff; --muted:rgba(234,241,255,.72);
+      --green:#22e1a1; --green2:#12c98f; --yellow:#f0b429;
+      --shadow: 0 12px 40px rgba(0,0,0,.45); --radius:20px;
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
       background:
         radial-gradient(900px 420px at 20% -10%, rgba(34,225,161,.20), transparent 50%),
@@ -38,273 +27,133 @@
         linear-gradient(180deg, #060c18 0%, var(--bg) 40%, #050a14 100%);
       overflow-x:hidden;
     }
-
-    .app{
-      max-width: 520px;
-      margin: 0 auto;
-      min-height: 100dvh;
-      padding: 18px 16px 90px; /* espaço do menu */
-    }
-
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:14px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:900; letter-spacing:.3px;
-    }
+    .app{max-width:520px;margin:0 auto;min-height:100dvh;padding:18px 16px 90px;}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.3px;}
     .logo{
       width:42px;height:42px;border-radius:14px;
       background: linear-gradient(135deg, rgba(34,225,161,.35), rgba(46,120,255,.18));
-      border:1px solid var(--stroke);
-      box-shadow: var(--shadow);
-      display:grid; place-items:center;
+      border:1px solid var(--stroke); box-shadow: var(--shadow);
+      display:grid;place-items:center;
     }
-    .logo span{
-      font-weight:1000; color: var(--green);
-      font-size:18px;
-    }
+    .logo span{font-weight:1000;color:var(--green);font-size:18px;}
     .titleStack{line-height:1.1}
     .titleStack .t1{font-size:14px;color:var(--muted);font-weight:700}
     .titleStack .t2{font-size:18px;font-weight:1000}
     .pill{
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.04);
-      border-radius: 999px;
-      padding: 10px 12px;
-      color: var(--muted);
-      font-weight:700;
-      display:flex; align-items:center; gap:8px;
+      border:1px solid var(--stroke); background: rgba(255,255,255,.04);
+      border-radius:999px;padding:10px 12px;color:var(--muted);
+      font-weight:700;display:flex;align-items:center;gap:8px;
     }
     .pill b{color:var(--text)}
     .btn{
-      width:100%;
-      border:0;
-      border-radius: 18px;
-      padding: 16px 16px;
-      font-weight: 1000;
-      letter-spacing:.2px;
+      width:100%; border:0; border-radius:18px; padding:16px;
+      font-weight:1000; letter-spacing:.2px;
       background: linear-gradient(90deg, var(--green2), var(--green));
-      color:#04140f;
-      box-shadow: 0 14px 36px rgba(18,201,143,.25);
+      color:#04140f; box-shadow: 0 14px 36px rgba(18,201,143,.25);
       cursor:pointer;
     }
     .btn:active{transform: translateY(1px)}
     .btn.secondary{
-      background: rgba(255,255,255,.05);
-      border:1px solid var(--stroke);
-      color: var(--text);
-      box-shadow:none;
+      background: rgba(255,255,255,.05); border:1px solid var(--stroke);
+      color:var(--text); box-shadow:none;
     }
     .btn.yellow{
       background: linear-gradient(90deg, #f6c85a, var(--yellow));
-      color:#1b1404;
-      box-shadow: 0 14px 36px rgba(240,180,41,.22);
+      color:#1b1404; box-shadow: 0 14px 36px rgba(240,180,41,.22);
     }
-
     .h1{
-      font-size: 30px;
-      font-weight: 1000;
-      margin: 6px 0 14px;
-      letter-spacing:.4px;
-      color: var(--green);
-      text-transform: uppercase;
+      font-size:30px;font-weight:1000;margin:6px 0 14px;
+      letter-spacing:.4px;color:var(--green);text-transform:uppercase;
     }
-
-    .screen{display:none; animation: fade .18s ease}
+    .screen{display:none; animation:fade .18s ease}
     .screen.active{display:block}
-    @keyframes fade{from{opacity:.35; transform: translateY(6px)}to{opacity:1; transform:none}}
-
+    @keyframes fade{from{opacity:.35;transform:translateY(6px)}to{opacity:1;transform:none}}
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      margin: 14px 0;
+      border:1px solid var(--stroke); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding:16px; margin:14px 0;
     }
-
-    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    .field{display:flex; flex-direction:column; gap:8px}
-    label{font-size:12px; letter-spacing:.9px; text-transform: uppercase; color: rgba(234,241,255,.65); font-weight:900}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field{display:flex;flex-direction:column;gap:8px}
+    label{font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:rgba(234,241,255,.65);font-weight:900}
     input, select{
-      width:100%;
-      border-radius: 16px;
-      padding: 14px 14px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
-      outline:none;
+      width:100%;border-radius:16px;padding:14px;border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18); color:var(--text); outline:none;
     }
     input::placeholder{color: rgba(234,241,255,.35)}
-    select{appearance:auto}
-
     .hint{color: rgba(234,241,255,.66); font-weight:650; font-size:13px; line-height:1.35}
-
-    .chips{
-      display:flex; flex-wrap:wrap; gap:10px; margin-top:8px;
-    }
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
     .chip{
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight:850;
-      cursor:pointer;
+      border:1px solid var(--stroke); background: rgba(255,255,255,.05);
+      color:var(--text); padding:10px 12px; border-radius:14px;
+      font-weight:850; cursor:pointer;
     }
     .chip.active{
       border-color: rgba(34,225,161,.65);
       background: rgba(34,225,161,.12);
       box-shadow: 0 10px 26px rgba(34,225,161,.12);
     }
-
-    .row{
-      display:flex; gap:12px; align-items:center; justify-content:space-between;
-      margin-top: 10px;
-    }
-
+    .row{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px;}
     .status{
-      margin-top:10px;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--stroke);
-      background: rgba(0,0,0,.14);
-      color: rgba(234,241,255,.75);
-      font-weight:700;
-      white-space: pre-line;
+      margin-top:10px;padding:12px;border-radius:14px;border:1px solid var(--stroke);
+      background: rgba(0,0,0,.14); color: rgba(234,241,255,.75);
+      font-weight:700; white-space: pre-line;
     }
-
-    /* Cards de dieta/treino */
-    .mealCard, .dayCard{
-      background: rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 22px;
-      padding: 16px;
-      margin: 14px 0;
+    .mealCard,.dayCard{
+      background: rgba(0,0,0,.18); border:1px solid rgba(255,255,255,.08);
+      border-radius:22px; padding:16px; margin:14px 0;
       box-shadow: 0 18px 48px rgba(0,0,0,.30);
     }
-    .mealTop{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
-    }
-    .mealName{
-      color: var(--green);
-      font-weight:1000;
-      letter-spacing:.8px;
-      text-transform: uppercase;
-      font-size: 14px;
-    }
-    .mealDesc{
-      margin-top:10px;
-      font-size: 15px;
-      color: rgba(234,241,255,.86);
-      font-weight:750;
-      line-height:1.25;
-    }
+    .mealTop{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}
+    .mealName{color:var(--green);font-weight:1000;letter-spacing:.8px;text-transform:uppercase;font-size:14px;}
+    .mealDesc{margin-top:10px;font-size:15px;color:rgba(234,241,255,.86);font-weight:750;line-height:1.25;}
     .kcal{
-      background: rgba(0,0,0,.22);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-weight:1000;
-      color: rgba(34,225,161,.9);
-      min-width: 96px;
-      text-align:center;
+      background: rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.08);
+      border-radius:999px; padding:10px 12px; font-weight:1000;
+      color: rgba(34,225,161,.9); min-width:96px; text-align:center;
     }
-
-    .dayTitle{
-      display:flex; align-items:center; justify-content:space-between;
-      font-weight:1000;
-      letter-spacing:.5px;
-      margin-bottom: 10px;
-    }
+    .dayTitle{display:flex;align-items:center;justify-content:space-between;font-weight:1000;letter-spacing:.5px;margin-bottom:10px;}
     .exercise{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding: 12px 12px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
-      margin: 10px 0;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px;border-radius:18px;border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03); margin:10px 0;
     }
-    .exercise b{display:block}
     .exercise small{color: rgba(234,241,255,.66); font-weight:750}
     .ytBtn{
-      border:0;
-      border-radius: 16px;
-      padding: 12px 12px;
-      font-weight:1000;
-      background: rgba(34,225,161,.10);
-      color: rgba(34,225,161,.95);
-      border:1px solid rgba(34,225,161,.25);
-      cursor:pointer;
-      min-width: 130px;
+      border:0;border-radius:16px;padding:12px;font-weight:1000;
+      background: rgba(34,225,161,.10); color: rgba(34,225,161,.95);
+      border:1px solid rgba(34,225,161,.25); cursor:pointer; min-width:130px;
     }
-
-    /* Nav inferior */
     .nav{
-      position: fixed;
-      left: 0; right:0; bottom:0;
-      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
-      background: rgba(7,16,31,.72);
-      backdrop-filter: blur(14px);
+      position:fixed;left:0;right:0;bottom:0;
+      padding:10px 10px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(7,16,31,.72); backdrop-filter: blur(14px);
       border-top:1px solid rgba(255,255,255,.10);
-      display:flex; justify-content:center;
-      z-index: 999;
+      display:flex;justify-content:center;z-index:999;
     }
     .navInner{
-      width: 100%;
-      max-width: 520px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      padding: 10px;
-      border-radius: 22px;
-      background: rgba(0,0,0,.18);
+      width:100%;max-width:520px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+      padding:10px;border-radius:22px;background: rgba(0,0,0,.18);
       border:1px solid rgba(255,255,255,.08);
     }
     .navBtn{
-      flex:1;
-      border:0;
-      background: transparent;
-      color: rgba(234,241,255,.55);
-      font-weight:1000;
-      letter-spacing:.4px;
-      padding: 10px 8px;
-      border-radius: 16px;
-      cursor:pointer;
-      font-size: 12px;
-      text-transform: uppercase;
+      flex:1;border:0;background:transparent;color: rgba(234,241,255,.55);
+      font-weight:1000;letter-spacing:.4px;padding:10px 8px;border-radius:16px;
+      cursor:pointer;font-size:12px;text-transform:uppercase;
     }
-    .navBtn.active{
-      background: rgba(34,225,161,.12);
-      border:1px solid rgba(34,225,161,.25);
-      color: rgba(34,225,161,.95);
-    }
-
-    /* Loja */
-    .shopGrid{display:grid; grid-template-columns:1fr; gap:12px}
+    .navBtn.active{background: rgba(34,225,161,.12);border:1px solid rgba(34,225,161,.25);color: rgba(34,225,161,.95);}
+    .shopGrid{display:grid;grid-template-columns:1fr;gap:12px}
     .shopItem{
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.14);
-      border-radius: 18px;
-      padding: 14px;
+      border:1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.14);
+      border-radius:18px;padding:14px;
     }
-    .shopItem h3{margin:0 0 6px; font-weight:1000}
-    .shopItem p{margin:0 0 12px; color: rgba(234,241,255,.70); font-weight:650}
+    .shopItem h3{margin:0 0 6px;font-weight:1000}
+    .shopItem p{margin:0 0 12px;color: rgba(234,241,255,.70);font-weight:650}
     .shopItem button{
-      width:100%;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      color: var(--text);
-      border-radius: 14px;
-      padding: 12px;
-      font-weight: 900;
-      cursor:pointer;
+      width:100%;border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);color:var(--text);
+      border-radius:14px;padding:12px;font-weight:900;cursor:pointer;
     }
   </style>
 </head>
@@ -405,7 +254,34 @@
         <div id="outCadastro" class="status" style="display:none"></div>
       </div>
     </section>
-   <button class="navBtn" data-view="prato" type="button">Prato</button>
+
+    <!-- PRATO -->
+    <section id="viewPrato" class="screen">
+      <div class="h1">Prato</div>
+
+      <div class="card">
+        <div class="hint">Tire uma foto do prato ou escolha da galeria. (Por enquanto é mock, depois ligamos IA real.)</div>
+
+        <div style="height:12px"></div>
+        <input id="fotoPrato" type="file" accept="image/*" capture="environment" />
+
+        <div id="pratoPreviewWrap" style="display:none; margin-top:12px;">
+          <div class="mealCard" style="padding:12px;">
+            <div class="mealName">Preview</div>
+            <div style="height:10px"></div>
+            <img id="pratoPreview" alt="Foto do prato"
+              style="width:100%; border-radius:18px; border:1px solid rgba(255,255,255,.10);" />
+          </div>
+
+          <button class="btn" type="button" onclick="analisarPrato()">ANALISAR PRATO</button>
+          <div style="height:10px"></div>
+          <button class="btn secondary" type="button" onclick="limparPrato()">REMOVER FOTO</button>
+        </div>
+
+        <div id="pratoStatus" class="status" style="display:none"></div>
+      </div>
+    </section>
+
     <!-- DIETA -->
     <section id="viewDieta" class="screen">
       <div class="h1">Plano Alimentar IA</div>
@@ -451,9 +327,7 @@
       </div>
 
       <div class="card">
-        <div class="hint">
-          Depois a gente vai gerar dietas baseadas no cadastro (objetivo, restrição, etc).
-        </div>
+        <div class="hint">Depois vamos gerar dietas baseadas no seu cadastro (objetivo, restrição etc).</div>
       </div>
     </section>
 
@@ -462,10 +336,7 @@
       <div class="h1">Treinos</div>
 
       <div class="card">
-        <div class="hint">
-          Clique em <b>Ver técnica</b> para abrir o YouTube com a execução.
-          Depois vamos gerar treinos da semana baseado no seu cadastro.
-        </div>
+        <div class="hint">Clique em <b>Ver técnica</b> para abrir o YouTube com a execução.</div>
       </div>
 
       <div class="dayCard">
@@ -495,46 +366,20 @@
           <button class="ytBtn" type="button" onclick="openYT('flexão de braços como fazer')">Ver técnica</button>
         </div>
       </div>
-
-      <div class="dayCard">
-        <div class="dayTitle"><span>DIA B • Cardio</span><span>🔥</span></div>
-
-        <div class="exercise">
-          <div>
-            <b>Corrida leve</b>
-            <small>25–35 min</small>
-          </div>
-          <button class="ytBtn" type="button" onclick="openYT('corrida leve técnica')">Ver técnica</button>
-        </div>
-
-        <div class="exercise">
-          <div>
-            <b>Abdominal</b>
-            <small>3 séries x 15 reps</small>
-          </div>
-          <button class="ytBtn" type="button" onclick="openYT('abdominal como fazer')">Ver técnica</button>
-        </div>
-      </div>
     </section>
 
     <!-- LOJA -->
     <section id="viewLoja" class="screen">
       <div class="h1">Loja</div>
-
-      <div class="card">
-        <div class="hint">Depois vamos trocar pelos seus links de afiliado/parcerias.</div>
-      </div>
+      <div class="card"><div class="hint">Depois trocamos pelos seus links de afiliado.</div></div>
 
       <div class="shopGrid">
         <div class="shopItem">
-          <h3>Suplementos</h3>
-          <p>Whey, creatina, vitaminas.</p>
+          <h3>Suplementos</h3><p>Whey, creatina, vitaminas.</p>
           <button type="button" onclick="abrirLink('https://www.mercadolivre.com.br')">Abrir</button>
         </div>
-
         <div class="shopItem">
-          <h3>Roupas fitness</h3>
-          <p>Tênis, camisetas, shorts.</p>
+          <h3>Roupas fitness</h3><p>Tênis, camisetas, shorts.</p>
           <button type="button" onclick="abrirLink('https://www.amazon.com.br')">Abrir</button>
         </div>
       </div>
@@ -543,11 +388,8 @@
     <!-- PARCEIROS -->
     <section id="viewParceiros" class="screen">
       <div class="h1">Parceiros</div>
-
       <div class="card">
-        <div class="hint">
-          Em breve: localizar academias/lojas parceiras perto de você (com permissão).
-        </div>
+        <div class="hint">Em breve: parceiros perto de você (com permissão de localização).</div>
         <div style="height:12px"></div>
         <button class="btn secondary" type="button" onclick="simularParceiros()">Ver parceiros (simulação)</button>
         <div id="outParceiros" class="status" style="display:none"></div>
@@ -557,36 +399,23 @@
     <!-- PREMIUM -->
     <section id="viewPremium" class="screen">
       <div class="h1">Premium</div>
-
       <div class="card">
         <div style="font-weight:1000; letter-spacing:.8px; color:var(--yellow); text-transform:uppercase;">
           Assinatura Elite
         </div>
         <div style="height:10px"></div>
-        <div class="hint">
-          R$ 29,90/mês. Pagamento via Mercado Pago.
-          <br>Não coletamos dados de cartão aqui.
-        </div>
-
+        <div class="hint">R$ 29,90/mês. Pagamento via Mercado Pago. Não coletamos dados do cartão aqui.</div>
         <div style="height:14px"></div>
-        <button id="btnPremium" class="btn yellow" type="button" onclick="openCheckout()">
-          CONFIRMAR R$ 29,90/MÊS
-        </button>
-
-        <div style="height:10px"></div>
-        <div class="hint">Se não abrir, verifique bloqueio de pop-up do navegador.</div>
+        <button id="btnPremium" class="btn yellow" type="button" onclick="openCheckout()">CONFIRMAR R$ 29,90/MÊS</button>
       </div>
     </section>
 
     <!-- CONVITES -->
     <section id="viewConvites" class="screen">
       <div class="h1">Convites</div>
-
       <div class="card">
         <div class="hint">
-          Ideia: você ganha <b>R$ 5,00</b> por assinatura confirmada no seu link.
-          Saque mínimo <b>R$ 50,00</b> via Pix (vamos implementar depois).
-          <br><br><b>Obs:</b> neste MVP é só simulação/local no aparelho.
+          MVP: simulação local. Ideia: ganhar R$ 5 por assinatura confirmada. Saque mínimo R$ 50 via Pix (depois).
         </div>
 
         <div class="dayCard">
@@ -603,7 +432,6 @@
           <div class="dayTitle"><span>Saldo</span><span id="balTxt"></span></div>
           <div class="hint" id="progressTxt"></div>
 
-          <!-- Botões de teste (pode remover depois) -->
           <div class="row" style="margin-top:10px;">
             <button class="btn secondary" type="button" onclick="setBalance(getBalance()+5)">+R$5 (teste)</button>
             <button class="btn secondary" type="button" onclick="setBalance(0)">Zerar</button>
@@ -611,12 +439,14 @@
         </div>
       </div>
     </section>
+
   </div>
 
   <!-- NAV -->
   <div class="nav">
     <div class="navInner">
       <button class="navBtn active" data-view="cadastro" type="button">Cadastro</button>
+      <button class="navBtn" data-view="prato" type="button">Prato</button>
       <button class="navBtn" data-view="dieta" type="button">Dieta</button>
       <button class="navBtn" data-view="treino" type="button">Treino</button>
       <button class="navBtn" data-view="loja" type="button">Loja</button>
@@ -627,30 +457,25 @@
   </div>
 
   <script>
-    // ===== PWA (se existir service-worker.js no repo) =====
+    // PWA
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
     }
 
-    // ===== PREMIUM / MERCADO PAGO =====
+    // Premium
     const PREMIUM_PRICE = 29.90;
     const PREMIUM_CHECKOUT_URL = "https://mpago.la/2BRjpaP";
+    function openCheckout(){ window.open(PREMIUM_CHECKOUT_URL, "_blank"); }
 
-    function openCheckout(){
-      window.open(PREMIUM_CHECKOUT_URL, "_blank");
-    }
-
-    // ===== HELPERS =====
+    // Helpers
     const $ = (id)=> document.getElementById(id);
-
     function abrirLink(url){ window.open(url, "_blank"); }
-
     function openYT(query){
       const q = encodeURIComponent(query);
       window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
     }
 
-    // ===== NAV (ABAS) =====
+    // NAV
     function switchView(view){
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.querySelectorAll(".navBtn").forEach(b => b.classList.remove("active"));
@@ -663,14 +488,14 @@
         loja: "viewLoja",
         parceiros: "viewParceiros",
         premium: "viewPremium",
-        convites: "viewConvites"
+        convites: "viewConvites",
       };
 
       const id = map[view];
-      if (id && $(id)) $(id).classList.add("active");
+      if(id && $(id)) $(id).classList.add("active");
 
       const btn = document.querySelector(`.navBtn[data-view="${view}"]`);
-      if (btn) btn.classList.add("active");
+      if(btn) btn.classList.add("active");
     }
 
     function wireNav(){
@@ -679,12 +504,11 @@
       });
     }
 
-    // ===== ESPORTES (CHIPS) =====
+    // Esportes
     const ESPORTES = [
       "Musculação","Futebol","Corrida","Crossfit","Ciclismo","Natação",
       "Luta","Basquete","Vôlei","Yoga","Pilates","Caminhada"
     ];
-
     let selectedSports = new Set();
 
     function buildSportsChips(){
@@ -708,45 +532,20 @@
       });
     }
 
-    // ===== CADASTRO (SALVAR/LIMPAR) =====
+    // Cadastro
     const KEY_PROFILE = "checkprato_profile_v1";
+
+    function showCadastroMsg(text){
+      const out = $("outCadastro");
+      out.style.display = "block";
+      out.textContent = text;
+    }
 
     function salvarCadastro(){
       if(!$("termos").checked){
         showCadastroMsg("⚠️ Você precisa aceitar o termo para salvar.");
         return;
       }
-<!-- PRATO (FOTO + ANÁLISE) -->
-<section id="viewPrato" class="screen">
-  <div class="h1">Prato</div>
-
-  <div class="card">
-    <div class="hint">
-      Tire uma foto do prato ou escolha da galeria. Depois vamos ligar com IA de verdade.
-    </div>
-
-    <div style="height:12px"></div>
-
-    <input id="fotoPrato" type="file" accept="image/*" capture="environment" />
-
-    <div style="height:12px"></div>
-
-    <div id="pratoPreviewWrap" style="display:none;">
-      <div class="mealCard" style="padding:12px;">
-        <div class="mealName">Preview</div>
-        <div style="height:10px"></div>
-        <img id="pratoPreview" alt="Foto do prato"
-          style="width:100%; border-radius:18px; border:1px solid rgba(255,255,255,.10);" />
-      </div>
-
-      <button class="btn" type="button" onclick="analisarPrato()">ANALISAR PRATO</button>
-      <div style="height:10px"></div>
-      <button class="btn secondary" type="button" onclick="limparPrato()">REMOVER FOTO</button>
-    </div>
-
-    <div id="pratoStatus" class="status" style="display:none"></div>
-  </div>
-</section>
       const profile = {
         peso: $("peso").value || "",
         altura: $("altura").value || "",
@@ -757,7 +556,6 @@
         esportes: Array.from(selectedSports),
         updatedAt: Date.now(),
       };
-
       localStorage.setItem(KEY_PROFILE, JSON.stringify(profile));
       showCadastroMsg("✅ Cadastro salvo com sucesso!");
     }
@@ -779,7 +577,6 @@
     function carregarCadastro(){
       const raw = localStorage.getItem(KEY_PROFILE);
       if(!raw) return;
-
       try{
         const p = JSON.parse(raw);
         $("peso").value = p.peso || "";
@@ -791,8 +588,7 @@
         $("termos").checked = true;
 
         selectedSports = new Set(Array.isArray(p.esportes) ? p.esportes : []);
-        buildSportsChips(); // redesenha
-        // ativa os chips que estavam salvos
+        buildSportsChips();
         document.querySelectorAll("#chipsEsportes .chip").forEach(ch=>{
           if(selectedSports.has(ch.textContent)) ch.classList.add("active");
         });
@@ -801,24 +597,18 @@
       } catch {}
     }
 
-    function showCadastroMsg(text){
-      const out = $("outCadastro");
-      out.style.display = "block";
-      out.textContent = text;
-    }
-
-    // ===== PARCEIROS (SIMULAÇÃO) =====
+    // Parceiros (simulação)
     function simularParceiros(){
       const out = $("outParceiros");
       out.style.display = "block";
-      out.innerHTML =
+      out.textContent =
         "📍 Exemplo (simulação):\n" +
         "• Academia Elite Center (2,1 km)\n" +
         "• Loja Fit Suplementos (3,4 km)\n" +
         "• Box Cross Training (4,0 km)";
     }
 
-    // ===== CONVITES (LOCAL) =====
+    // Convites
     const KEY_MY_CODE = "checkprato_my_invite_code";
     const KEY_BAL = "checkprato_invite_balance";
 
@@ -830,33 +620,22 @@
       }
       return code;
     }
-
     function getMyInviteLink(){
       const code = getOrCreateInviteCode();
       const base = window.location.origin + window.location.pathname;
       return `${base}?ref=${encodeURIComponent(code)}`;
     }
-
     async function copyInviteLink(){
       const link = getMyInviteLink();
-      try{
-        await navigator.clipboard.writeText(link);
-        alert("✅ Link copiado!");
-      } catch {
-        prompt("Copie o link:", link);
-      }
+      try{ await navigator.clipboard.writeText(link); alert("✅ Link copiado!"); }
+      catch { prompt("Copie o link:", link); }
     }
-
     function shareInvite(){
       const link = getMyInviteLink();
       const text = `Baixa o Confira o Prato Elite e usa meu link: ${link}`;
-      if(navigator.share){
-        navigator.share({title:"Confira o Prato Elite", text, url: link}).catch(()=>{});
-      } else {
-        copyInviteLink();
-      }
+      if(navigator.share){ navigator.share({title:"Confira o Prato Elite", text, url: link}).catch(()=>{}); }
+      else copyInviteLink();
     }
-
     function getBalance(){ return Number(localStorage.getItem(KEY_BAL) || "0"); }
     function setBalance(v){ localStorage.setItem(KEY_BAL, String(v)); renderInviteUI(); }
 
@@ -873,121 +652,107 @@
         ? "✅ Você atingiu R$ 50. (Saque via Pix será liberado quando ligarmos o sistema.)"
         : `Faltam ${new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(falta)} para atingir R$ 50.`;
     }
-    // ===== PRATO (FOTO + ANÁLISE MOCK) =====
-const KEY_LAST_PLATE = "checkprato_last_plate_v1";
-let pratoImgDataUrl = "";
 
-function setPratoStatus(msg){
-  const el = $("pratoStatus");
-  if(!el) return;
-  el.style.display = "block";
-  el.textContent = msg;
-}
+    // PRATO (foto + mock)
+    const KEY_LAST_PLATE = "checkprato_last_plate_v1";
+    let pratoImgDataUrl = "";
 
-function renderPlateResult(result){
-  setPratoStatus(
-    `✅ Resultado estimado (mock)\n` +
-    `Calorias: ${result.kcal} kcal\n` +
-    `Proteína: ${result.prot} g\n` +
-    `Carboidratos: ${result.carb} g\n` +
-    `Gorduras: ${result.fat} g\n\n` +
-    `Observação: estimativa ilustrativa. Depois ligamos IA real.`
-  );
-}
-
-function loadLastPlate(){
-  try{
-    const raw = localStorage.getItem(KEY_LAST_PLATE);
-    if(!raw) return;
-    const data = JSON.parse(raw);
-    if(data?.img){
-      pratoImgDataUrl = data.img;
-      $("pratoPreview").src = pratoImgDataUrl;
-      $("pratoPreviewWrap").style.display = "block";
+    function setPratoStatus(msg){
+      const el = $("pratoStatus");
+      if(!el) return;
+      el.style.display = "block";
+      el.textContent = msg;
     }
-    if(data?.result){
-      renderPlateResult(data.result);
+
+    function renderPlateResult(result){
+      setPratoStatus(
+        `✅ Resultado estimado (mock)\n` +
+        `Calorias: ${result.kcal} kcal\n` +
+        `Proteína: ${result.prot} g\n` +
+        `Carboidratos: ${result.carb} g\n` +
+        `Gorduras: ${result.fat} g\n\n` +
+        `Obs: estimativa ilustrativa. Depois ligamos IA real.`
+      );
     }
-  } catch {}
-}
 
-function limparPrato(){
-  pratoImgDataUrl = "";
-  $("fotoPrato").value = "";
-  $("pratoPreviewWrap").style.display = "none";
-  $("pratoStatus").style.display = "none";
-  localStorage.removeItem(KEY_LAST_PLATE);
-}
+    function calcMockFromProfile(){
+      let peso = Number($("peso")?.value || 0);
+      let objetivo = $("objetivo")?.value || "";
+      let nivel = $("nivel")?.value || "";
 
-function calcMockFromProfile(){
-  // tenta usar seu cadastro pra deixar mais inteligente
-  let peso = Number($("peso")?.value || 0);
-  let objetivo = $("objetivo")?.value || "";
-  let nivel = $("nivel")?.value || "";
+      let kcal = 650;
+      if(peso > 0) kcal += Math.round((peso - 70) * 3);
+      if(objetivo === "Emagrecer") kcal -= 120;
+      if(objetivo === "Ganhar massa") kcal += 180;
+      if(objetivo === "Performance") kcal += 140;
+      if(nivel === "Iniciante") kcal -= 40;
+      if(nivel === "Avançado") kcal += 70;
 
-  // base
-  let kcal = 650;
+      kcal += Math.floor(Math.random()*120) - 60;
+      kcal = Math.max(250, Math.min(1200, kcal));
 
-  if(peso > 0) kcal += Math.round((peso - 70) * 3); // ajuste leve
-  if(objetivo === "Emagrecer") kcal -= 120;
-  if(objetivo === "Ganhar massa") kcal += 180;
-  if(objetivo === "Performance") kcal += 140;
+      const prot = Math.max(15, Math.round(kcal * 0.20 / 4));
+      const carb = Math.max(20, Math.round(kcal * 0.50 / 4));
+      const fat  = Math.max(10, Math.round(kcal * 0.30 / 9));
+      return { kcal, prot, carb, fat };
+    }
 
-  if(nivel === "Iniciante") kcal -= 40;
-  if(nivel === "Avançado") kcal += 70;
+    async function analisarPrato(){
+      if(!pratoImgDataUrl){
+        setPratoStatus("⚠️ Primeiro selecione uma foto do prato.");
+        return;
+      }
+      setPratoStatus("🔎 Analisando... (mock)\nAguarde 2 segundos.");
+      await new Promise(r => setTimeout(r, 2000));
 
-  // pequena variação
-  kcal += Math.floor(Math.random()*120) - 60;
-  kcal = Math.max(250, Math.min(1200, kcal));
+      const result = calcMockFromProfile();
+      renderPlateResult(result);
 
-  // macros simples
-  const prot = Math.max(15, Math.round(kcal * 0.20 / 4));
-  const carb = Math.max(20, Math.round(kcal * 0.50 / 4));
-  const fat  = Math.max(10, Math.round(kcal * 0.30 / 9));
+      localStorage.setItem(KEY_LAST_PLATE, JSON.stringify({
+        img: pratoImgDataUrl, result, updatedAt: Date.now()
+      }));
+    }
 
-  return { kcal, prot, carb, fat };
-}
+    function limparPrato(){
+      pratoImgDataUrl = "";
+      $("fotoPrato").value = "";
+      $("pratoPreviewWrap").style.display = "none";
+      $("pratoStatus").style.display = "none";
+      localStorage.removeItem(KEY_LAST_PLATE);
+    }
 
-async function analisarPrato(){
-  if(!pratoImgDataUrl){
-    setPratoStatus("⚠️ Primeiro selecione uma foto do prato.");
-    return;
-  }
+    function wirePlateInput(){
+      const input = $("fotoPrato");
+      if(!input) return;
+      input.addEventListener("change", ()=>{
+        const file = input.files && input.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = ()=>{
+          pratoImgDataUrl = String(reader.result || "");
+          $("pratoPreview").src = pratoImgDataUrl;
+          $("pratoPreviewWrap").style.display = "block";
+          setPratoStatus("✅ Foto carregada. Clique em ANALISAR PRATO.");
+        };
+        reader.readAsDataURL(file);
+      });
+    }
 
-  setPratoStatus("🔎 Analisando... (mock)\nAguarde 2 segundos.");
-  await new Promise(r => setTimeout(r, 2000));
+    function loadLastPlate(){
+      try{
+        const raw = localStorage.getItem(KEY_LAST_PLATE);
+        if(!raw) return;
+        const data = JSON.parse(raw);
+        if(data?.img){
+          pratoImgDataUrl = data.img;
+          $("pratoPreview").src = pratoImgDataUrl;
+          $("pratoPreviewWrap").style.display = "block";
+        }
+        if(data?.result) renderPlateResult(data.result);
+      } catch {}
+    }
 
-  const result = calcMockFromProfile();
-  renderPlateResult(result);
-
-  // salva
-  localStorage.setItem(KEY_LAST_PLATE, JSON.stringify({
-    img: pratoImgDataUrl,
-    result,
-    updatedAt: Date.now()
-  }));
-}
-
-function wirePlateInput(){
-  const input = $("fotoPrato");
-  if(!input) return;
-
-  input.addEventListener("change", ()=>{
-    const file = input.files && input.files[0];
-    if(!file) return;
-
-    const reader = new FileReader();
-    reader.onload = ()=>{
-      pratoImgDataUrl = String(reader.result || "");
-      $("pratoPreview").src = pratoImgDataUrl;
-      $("pratoPreviewWrap").style.display = "block";
-      setPratoStatus("✅ Foto carregada. Clique em ANALISAR PRATO.");
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-    // ===== INIT =====
+    // INIT
     function init(){
       wireNav();
       buildSportsChips();
@@ -1001,7 +766,6 @@ function wirePlateInput(){
         btnPremium.textContent = `CONFIRMAR R$ ${PREMIUM_PRICE.toFixed(2).replace(".", ",")}/MÊS`;
       }
     }
-
     document.addEventListener("DOMContentLoaded", init);
   </script>
 </body>
