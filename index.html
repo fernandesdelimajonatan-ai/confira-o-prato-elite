@@ -283,53 +283,22 @@
     </section>
 
     <!-- DIETA -->
-    <section id="viewDieta" class="screen">
-      <div class="h1">Plano Alimentar IA</div>
+    
+<section id="viewDieta" class="screen">
+  <div class="h1">Dieta</div>
 
-      <div class="mealCard">
-        <div class="mealTop">
-          <div>
-            <div class="mealName">Café da manhã</div>
-            <div class="mealDesc">Omelete de 2 ovos com espinafre e uma fatia de pão integral tostado.</div>
-          </div>
-          <div class="kcal">350 kcal</div>
-        </div>
-      </div>
+  <div class="card">
+    <div class="hint">
+      Dieta gerada com base no seu cadastro (objetivo + restrição).<br>
+      Se não gostar, toque em <b>Gerar nova dieta</b>.
+    </div>
 
-      <div class="mealCard">
-        <div class="mealTop">
-          <div>
-            <div class="mealName">Lanche da manhã</div>
-            <div class="mealDesc">Mix de castanhas (porção pequena) + 1 maçã.</div>
-          </div>
-          <div class="kcal">180 kcal</div>
-        </div>
-      </div>
+    <div style="height:12px"></div>
+    <button class="btn" type="button" onclick="gerarDieta()">GERAR NOVA DIETA</button>
+  </div>
 
-      <div class="mealCard">
-        <div class="mealTop">
-          <div>
-            <div class="mealName">Almoço</div>
-            <div class="mealDesc">Peito de frango grelhado + arroz integral + feijão + salada de folhas.</div>
-          </div>
-          <div class="kcal">550 kcal</div>
-        </div>
-      </div>
-
-      <div class="mealCard">
-        <div class="mealTop">
-          <div>
-            <div class="mealName">Lanche da tarde</div>
-            <div class="mealDesc">Iogurte natural + 1 colher de sementes de chia.</div>
-          </div>
-          <div class="kcal">160 kcal</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="hint">Depois vamos gerar dietas baseadas no seu cadastro (objetivo, restrição etc).</div>
-      </div>
-    </section>
+  <div id="dietaOut"></div>
+</section>
 
     <!-- TREINO -->
     <section id="viewTreino" class="screen">
@@ -761,12 +730,65 @@
       loadLastPlate();
       renderInviteUI();
 
+      const d = carregarDieta();
+      renderDieta(d);
+      
       const btnPremium = $("btnPremium");
       if(btnPremium){
         btnPremium.textContent = `CONFIRMAR R$ ${PREMIUM_PRICE.toFixed(2).replace(".", ",")}/MÊS`;
       }
     }
     document.addEventListener("DOMContentLoaded", init);
+ 
   </script>
+  // ===== DIETA (baseada no cadastro) =====
+const KEY_DIETA = "checkprato_dieta_v1";
+
+function pick(arr){
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function formatMeal(title, desc, kcal){
+  return `
+    <div class="mealCard">
+      <div class="mealTop">
+        <div>
+          <div class="mealName">${title}</div>
+          <div class="mealDesc">${desc}</div>
+        </div>
+        <div class="kcal">${kcal} kcal</div>
+      </div>
+    </div>
+  `;
+}
+
+function getProfileSafe(){
+  try{
+    const raw = localStorage.getItem(KEY_PROFILE);
+    if(!raw) return null;
+    return JSON.parse(raw);
+  } catch { return null; }
+}
+
+function dietaBase(profile){
+  const objetivo = profile?.objetivo || "";
+  const restricao = profile?.restricao || "Nenhuma";
+
+  // Faixas simples por objetivo
+  let baseKcal = 1800;
+  if(objetivo === "Emagrecer") baseKcal = 1600;
+  if(objetivo === "Ganhar massa") baseKcal = 2300;
+  if(objetivo === "Performance") baseKcal = 2100;
+  if(objetivo === "Manter") baseKcal = 1900;
+
+  // Ajuste leve por peso
+  const peso = Number(profile?.peso || 0);
+  if(peso > 0) baseKcal += Math.round((peso - 70) * 6);
+
+  // Regras de restrição (trocas)
+  const noLactose = restricao === "Sem lactose";
+  const vegetariano = restricao === "Vegetariano";
+  const vegano = restricao === "Vegano";
+
 </body>
 </html>
