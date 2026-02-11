@@ -699,7 +699,13 @@
         if(data?.result) renderPlateResult(data.result);
       } catch {}
     }
-
+        function wireNav(){
+        document.querySelectorAll(".navBtn").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+        switchView(btn.dataset.view);
+    });
+  });
+}
     // INIT
     function init(){
       wireNav();
