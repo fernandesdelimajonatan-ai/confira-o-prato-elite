@@ -2,158 +2,365 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1220" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>Confira o Prato Elite</title>
 
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" href="./icone-192.png" />
+  <!-- PWA -->
+  <meta name="theme-color" content="#0a1320"/>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" sizes="192x192" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
 
   <style>
     :root{
-      --bg:#07101f; --stroke:rgba(255,255,255,.10);
-      --text:#eaf1ff; --muted:rgba(234,241,255,.72);
-      --green:#22e1a1; --green2:#12c98f; --yellow:#f0b429;
-      --shadow: 0 12px 40px rgba(0,0,0,.45); --radius:20px;
+      --bg:#07121f;
+      --bg2:#0b2033;
+      --card:rgba(255,255,255,.04);
+      --card2:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.08);
+      --txt:#eaf2ff;
+      --muted:rgba(234,242,255,.72);
+      --green:#21e6b6;
+      --green2:#17caa0;
+      --orange:#f6b23a;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --r:22px;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 420px at 20% -10%, rgba(34,225,161,.20), transparent 50%),
-        radial-gradient(700px 360px at 90% 10%, rgba(46,120,255,.16), transparent 55%),
-        linear-gradient(180deg, #060c18 0%, var(--bg) 40%, #050a14 100%);
-      overflow-x:hidden;
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--txt);
+      background: radial-gradient(1200px 600px at 30% 0%, #10324d 0%, var(--bg) 55%, #050a12 100%);
+      padding-bottom: 88px;
     }
-    .app{max-width:520px;margin:0 auto;min-height:100dvh;padding:18px 16px 90px;}
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.3px;}
+
+    .app{
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 16px 14px 24px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-top:6px;
+      margin-bottom: 14px;
+    }
     .logo{
-      width:42px;height:42px;border-radius:14px;
-      background: linear-gradient(135deg, rgba(34,225,161,.35), rgba(46,120,255,.18));
-      border:1px solid var(--stroke); box-shadow: var(--shadow);
-      display:grid;place-items:center;
+      width:44px;height:44px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(33,230,182,.35), rgba(33,230,182,.05));
+      border:1px solid rgba(33,230,182,.35);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;
+      color:var(--green);
+      box-shadow: var(--shadow);
+      flex:0 0 auto;
     }
-    .logo span{font-weight:1000;color:var(--green);font-size:18px;}
-    .titleStack{line-height:1.1}
-    .titleStack .t1{font-size:14px;color:var(--muted);font-weight:700}
-    .titleStack .t2{font-size:18px;font-weight:1000}
+    .brand{
+      display:flex;flex-direction:column;gap:2px;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+    .brand small{color:var(--muted); letter-spacing:.08em; font-weight:800}
+    .brand b{font-size:18px}
     .pill{
-      border:1px solid var(--stroke); background: rgba(255,255,255,.04);
-      border-radius:999px;padding:10px 12px;color:var(--muted);
-      font-weight:700;display:flex;align-items:center;gap:8px;
+      display:flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:999px;
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--stroke);
+      color:var(--muted);
+      font-weight:700;
+      flex:0 0 auto;
     }
-    .pill b{color:var(--text)}
-    .btn{
-      width:100%; border:0; border-radius:18px; padding:16px;
-      font-weight:1000; letter-spacing:.2px;
-      background: linear-gradient(90deg, var(--green2), var(--green));
-      color:#04140f; box-shadow: 0 14px 36px rgba(18,201,143,.25);
-      cursor:pointer;
+    .pill .dot{
+      width:10px;height:10px;border-radius:99px;background:var(--green);
+      box-shadow: 0 0 0 6px rgba(33,230,182,.12);
     }
-    .btn:active{transform: translateY(1px)}
-    .btn.secondary{
-      background: rgba(255,255,255,.05); border:1px solid var(--stroke);
-      color:var(--text); box-shadow:none;
-    }
-    .btn.yellow{
-      background: linear-gradient(90deg, #f6c85a, var(--yellow));
-      color:#1b1404; box-shadow: 0 14px 36px rgba(240,180,41,.22);
-    }
+
     .h1{
-      font-size:30px;font-weight:1000;margin:6px 0 14px;
-      letter-spacing:.4px;color:var(--green);text-transform:uppercase;
+      font-size:40px;
+      margin:12px 2px 14px;
+      letter-spacing:.02em;
+      color:var(--green);
+      font-weight: 900;
     }
-    .screen{display:none; animation:fade .18s ease}
-    .screen.active{display:block}
-    @keyframes fade{from{opacity:.35;transform:translateY(6px)}to{opacity:1;transform:none}}
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border:1px solid var(--stroke); border-radius:var(--radius);
-      box-shadow:var(--shadow); padding:16px; margin:14px 0;
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      padding: 16px;
+      box-shadow: var(--shadow);
     }
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .field{display:flex;flex-direction:column;gap:8px}
-    label{font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:rgba(234,241,255,.65);font-weight:900}
+    .hint{
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .col{flex:1 1 140px; min-width: 140px}
+
+    .label{
+      margin: 12px 2px 6px;
+      color: rgba(234,242,255,.65);
+      font-weight: 900;
+      letter-spacing:.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
     input, select{
-      width:100%;border-radius:16px;padding:14px;border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18); color:var(--text); outline:none;
+      width:100%;
+      padding:14px 14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      color: var(--txt);
+      outline: none;
+      font-size: 15px;
     }
-    input::placeholder{color: rgba(234,241,255,.35)}
-    .hint{color: rgba(234,241,255,.66); font-weight:650; font-size:13px; line-height:1.35}
-    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
-    .chip{
-      border:1px solid var(--stroke); background: rgba(255,255,255,.05);
-      color:var(--text); padding:10px 12px; border-radius:14px;
-      font-weight:850; cursor:pointer;
+    input::placeholder{color: rgba(234,242,255,.35)}
+    select{appearance:none}
+
+    .btn{
+      width:100%;
+      padding: 16px 16px;
+      border-radius: 18px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: .02em;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      color:#042019;
+      box-shadow: 0 18px 45px rgba(33,230,182,.18);
+      margin-top: 14px;
     }
-    .chip.active{
-      border-color: rgba(34,225,161,.65);
-      background: rgba(34,225,161,.12);
-      box-shadow: 0 10px 26px rgba(34,225,161,.12);
+    .btnSecondary{
+      width:100%;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 15px;
+      background: rgba(255,255,255,.05);
+      color: var(--txt);
+      margin-top: 10px;
     }
-    .row{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px;}
+    .btnOrange{
+      width:100%;
+      padding: 16px 16px;
+      border-radius: 18px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 16px;
+      background: linear-gradient(135deg, #ffcc5a, #f6b23a);
+      color:#201400;
+      margin-top: 12px;
+      box-shadow: 0 18px 45px rgba(246,178,58,.18);
+    }
     .status{
-      margin-top:10px;padding:12px;border-radius:14px;border:1px solid var(--stroke);
-      background: rgba(0,0,0,.14); color: rgba(234,241,255,.75);
-      font-weight:700; white-space: pre-line;
+      margin-top: 10px;
+      font-weight: 800;
+      color: rgba(234,242,255,.78);
     }
-    .mealCard,.dayCard{
-      background: rgba(0,0,0,.18); border:1px solid rgba(255,255,255,.08);
-      border-radius:22px; padding:16px; margin:14px 0;
-      box-shadow: 0 18px 48px rgba(0,0,0,.30);
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 10px;
     }
-    .mealTop{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}
-    .mealName{color:var(--green);font-weight:1000;letter-spacing:.8px;text-transform:uppercase;font-size:14px;}
-    .mealDesc{margin-top:10px;font-size:15px;color:rgba(234,241,255,.86);font-weight:750;line-height:1.25;}
-    .kcal{
-      background: rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.08);
-      border-radius:999px; padding:10px 12px; font-weight:1000;
-      color: rgba(34,225,161,.9); min-width:96px; text-align:center;
+    .chip{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-weight: 900;
+      cursor: pointer;
+      user-select: none;
     }
-    .dayTitle{display:flex;align-items:center;justify-content:space-between;font-weight:1000;letter-spacing:.5px;margin-bottom:10px;}
-    .exercise{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:12px;border-radius:18px;border:1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03); margin:10px 0;
+    .chip.on{
+      border-color: rgba(33,230,182,.45);
+      background: rgba(33,230,182,.12);
+      color: var(--txt);
+      box-shadow: 0 0 0 6px rgba(33,230,182,.08);
     }
-    .exercise small{color: rgba(234,241,255,.66); font-weight:750}
-    .ytBtn{
-      border:0;border-radius:16px;padding:12px;font-weight:1000;
-      background: rgba(34,225,161,.10); color: rgba(34,225,161,.95);
-      border:1px solid rgba(34,225,161,.25); cursor:pointer; min-width:130px;
-    }
+
+    .screen{display:none; margin-top: 8px}
+    .screen.active{display:block}
+
+    /* NAV */
     .nav{
-      position:fixed;left:0;right:0;bottom:0;
-      padding:10px 10px calc(10px + env(safe-area-inset-bottom));
-      background: rgba(7,16,31,.72); backdrop-filter: blur(14px);
-      border-top:1px solid rgba(255,255,255,.10);
-      display:flex;justify-content:center;z-index:999;
+      position: fixed;
+      left:0; right:0; bottom:0;
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(7,18,31,.1), rgba(7,18,31,.85) 35%, rgba(7,18,31,.98));
+      border-top: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      z-index: 999;
     }
     .navInner{
-      width:100%;max-width:520px;display:flex;align-items:center;justify-content:space-between;gap:8px;
-      padding:10px;border-radius:22px;background: rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.08);
+      max-width: 540px;
+      margin: 0 auto;
+      display:flex;
+      gap:10px;
+      overflow-x: auto;
+      padding: 6px 6px;
+      scrollbar-width: none;
     }
+    .navInner::-webkit-scrollbar{display:none}
     .navBtn{
-      flex:1;border:0;background:transparent;color: rgba(234,241,255,.55);
-      font-weight:1000;letter-spacing:.4px;padding:10px 8px;border-radius:16px;
-      cursor:pointer;font-size:12px;text-transform:uppercase;
+      flex:0 0 auto;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,242,255,.6);
+      font-weight: 900;
+      padding: 12px 14px;
+      border-radius: 999px;
+      cursor:pointer;
+      letter-spacing:.05em;
     }
-    .navBtn.active{background: rgba(34,225,161,.12);border:1px solid rgba(34,225,161,.25);color: rgba(34,225,161,.95);}
-    .shopGrid{display:grid;grid-template-columns:1fr;gap:12px}
+    .navBtn.active{
+      background: rgba(33,230,182,.12);
+      border-color: rgba(33,230,182,.35);
+      color: var(--green);
+      box-shadow: 0 0 0 6px rgba(33,230,182,.08);
+    }
+
+    /* Diet cards */
+    .meal{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      margin-top: 12px;
+    }
+    .meal .title{
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing:.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .meal p{margin:0; color: rgba(234,242,255,.85); font-weight:700; line-height:1.35}
+    .kcal{
+      display:flex; align-items:center; justify-content:center;
+      min-width: 88px;
+      border-radius: 999px;
+      border:1px solid rgba(33,230,182,.25);
+      background: rgba(33,230,182,.08);
+      color: var(--green);
+      font-weight: 1000;
+      padding: 10px 12px;
+      text-align:center;
+    }
+
+    /* Treino */
+    .dayCard{
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .dayTitle{
+      display:flex; align-items:center; justify-content:space-between;
+      font-weight: 1000;
+      color: rgba(234,242,255,.92);
+      margin-bottom: 10px;
+      letter-spacing:.03em;
+    }
+    .exercise{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.16);
+      margin-top: 10px;
+    }
+    .ytBtn{
+      border:0;
+      border-radius: 999px;
+      padding: 10px 12px;
+      background: rgba(33,230,182,.10);
+      border: 1px solid rgba(33,230,182,.25);
+      color: var(--green);
+      font-weight: 1000;
+      cursor: pointer;
+      min-width: 110px;
+    }
+
+    /* Loja & Parceiros */
+    .shopGrid{display:flex; flex-direction:column; gap:12px; margin-top: 12px}
     .shopItem{
-      border:1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.14);
-      border-radius:18px;padding:14px;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
     }
-    .shopItem h3{margin:0 0 6px;font-weight:1000}
-    .shopItem p{margin:0 0 12px;color: rgba(234,241,255,.70);font-weight:650}
-    .shopItem button{
-      width:100%;border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);color:var(--text);
-      border-radius:14px;padding:12px;font-weight:900;cursor:pointer;
+    .shopItem h3{margin:0 0 6px; font-weight: 1000}
+    .muted{opacity:.82}
+
+    .partnerList{display:flex; flex-direction:column; gap:12px; margin-top:12px}
+    .partnerRow{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:14px;
+      border-radius:18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .partnerName{display:flex; flex-direction:column; gap:4px}
+    .partnerName b{font-weight: 1000}
+
+    /* Premium */
+    .payBox{
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      margin-top: 12px;
+    }
+    .payTitle{
+      font-size: 28px;
+      font-weight: 1000;
+      color: var(--orange);
+      margin: 0 0 6px;
+      letter-spacing:.02em;
+    }
+
+    /* Plate (foto prato) */
+    .plateBox{margin-top: 12px}
+    .platePreview{
+      width: 100%;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.14);
+      overflow:hidden;
+    }
+    .platePreview img{width:100%; display:block}
+    .miniRow{display:flex; gap:10px; flex-wrap:wrap}
+    .miniBtn{
+      flex: 1 1 160px;
+      padding: 14px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: var(--txt);
+      font-weight: 900;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -161,35 +368,33 @@
 <body>
   <div class="app">
     <div class="topbar">
+      <div class="logo">E</div>
       <div class="brand">
-        <div class="logo"><span>E</span></div>
-        <div class="titleStack">
-          <div class="t1">ELITE TERMINAL</div>
-          <div class="t2">Confira o Prato Elite</div>
-        </div>
+        <small>ELITE TERMINAL</small>
+        <b>Confira o Prato Elite</b>
       </div>
-      <div class="pill"><span>🔒</span> <span>Modo:</span> <b>PWA</b></div>
+      <div class="pill"><span class="dot"></span>Modo: PWA</div>
     </div>
 
     <!-- CADASTRO -->
     <section id="viewCadastro" class="screen active">
-      <div class="h1">Cadastro</div>
+      <div class="h1">CADASTRO</div>
 
       <div class="card">
-        <div class="grid2">
-          <div class="field">
-            <label>Peso (kg)</label>
-            <input id="peso" type="number" inputmode="decimal" placeholder="Ex: 78.5">
+        <div class="row">
+          <div class="col">
+            <div class="label">Peso (kg)</div>
+            <input id="peso" inputmode="decimal" placeholder="Ex: 78.5" />
           </div>
-          <div class="field">
-            <label>Altura (cm)</label>
-            <input id="altura" type="number" inputmode="numeric" placeholder="Ex: 175">
+          <div class="col">
+            <div class="label">Altura (cm)</div>
+            <input id="altura" inputmode="numeric" placeholder="Ex: 175" />
           </div>
         </div>
 
-        <div class="grid2" style="margin-top:12px;">
-          <div class="field">
-            <label>Objetivo</label>
+        <div class="row">
+          <div class="col">
+            <div class="label">Objetivo</div>
             <select id="objetivo">
               <option value="">Selecione</option>
               <option>Emagrecer</option>
@@ -198,9 +403,8 @@
               <option>Performance</option>
             </select>
           </div>
-
-          <div class="field">
-            <label>Nível</label>
+          <div class="col">
+            <div class="label">Nível</div>
             <select id="nivel">
               <option value="">Selecione</option>
               <option>Iniciante</option>
@@ -210,218 +414,269 @@
           </div>
         </div>
 
-        <div class="grid2" style="margin-top:12px;">
-          <div class="field">
-            <label>Condição</label>
+        <div class="row">
+          <div class="col">
+            <div class="label">Condição</div>
             <select id="condicao">
               <option value="">Selecione</option>
-              <option>Sedentarismo</option>
-              <option>Ativo</option>
-              <option>Muito ativo</option>
+              <option>Saudável</option>
+              <option>Hipertensão</option>
+              <option>Diabetes</option>
+              <option>Lesão / Dor</option>
             </select>
           </div>
-          <div class="field">
-            <label>Restrição</label>
+          <div class="col">
+            <div class="label">Restrição</div>
             <select id="restricao">
               <option value="">Selecione</option>
               <option>Nenhuma</option>
-              <option>Sem lactose</option>
+              <option>Lactose</option>
+              <option>Glúten</option>
               <option>Vegetariano</option>
               <option>Vegano</option>
-              <option>Sem glúten</option>
             </select>
           </div>
         </div>
 
-        <div style="margin-top:14px;">
-          <div class="label">ESPORTES (PODE MARCAR VÁRIOS)</div>
-          <div id="chipsEsportes"></div>
-        </div>
+        <div class="label">Esportes (pode marcar vários)</div>
+        <div id="chipsEsportes" class="chips"></div>
 
-        <div class="row" style="margin-top:14px;">
-          <label style="display:flex; gap:10px; align-items:center; text-transform:none; letter-spacing:0;">
-            <input id="termos" type="checkbox" style="width:18px;height:18px;">
-            <span style="font-weight:900; color:var(--text)">Aceito o termo</span>
+        <div style="margin-top:10px">
+          <label style="display:flex; gap:10px; align-items:center; font-weight:900; color:rgba(234,242,255,.9)">
+            <input id="termo" type="checkbox" style="width:22px; height:22px"/>
+            Aceito o termo
           </label>
+          <div class="hint" style="margin-top:6px">As sugestões são informativas.</div>
         </div>
 
-        <div style="margin-top:12px;">
-          <button class="btn" type="button" onclick="salvarCadastro()">SALVAR / ATUALIZAR</button>
-          <div style="height:10px"></div>
-          <button class="btn secondary" type="button" onclick="limparCadastro()">LIMPAR</button>
-        </div>
+        <button class="btn" type="button" onclick="salvarCadastro()">SALVAR / ATUALIZAR</button>
+        <button class="btnSecondary" type="button" onclick="limparCadastro()">LIMPAR</button>
 
         <div id="outCadastro" class="status" style="display:none"></div>
       </div>
-    </section>
 
-    <!-- PRATO -->
-    <section id="viewPrato" class="screen">
-      <div class="h1">Prato</div>
+      <div class="card plateBox" style="margin-top:14px">
+        <div class="label">Foto do prato (demo)</div>
+        <div class="hint">Por enquanto é uma simulação (sem IA real). Depois ligamos no Firebase + IA.</div>
 
-      <div class="card">
-        <div class="hint">Tire uma foto do prato ou escolha da galeria. (Por enquanto é mock, depois ligamos IA real.)</div>
-
-        <div style="height:12px"></div>
-        <input id="fotoPrato" type="file" accept="image/*" capture="environment" />
-
-        <div id="pratoPreviewWrap" style="display:none; margin-top:12px;">
-          <div class="mealCard" style="padding:12px;">
-            <div class="mealName">Preview</div>
-            <div style="height:10px"></div>
-            <img id="pratoPreview" alt="Foto do prato"
-              style="width:100%; border-radius:18px; border:1px solid rgba(255,255,255,.10);" />
-          </div>
-
-          <button class="btn" type="button" onclick="analisarPrato()">ANALISAR PRATO</button>
-          <div style="height:10px"></div>
-          <button class="btn secondary" type="button" onclick="limparPrato()">REMOVER FOTO</button>
+        <div class="miniRow" style="margin-top:12px">
+          <button class="miniBtn" type="button" id="btnCamera">Tirar foto</button>
+          <button class="miniBtn" type="button" id="btnGaleria">Escolher da galeria</button>
         </div>
 
-        <div id="pratoStatus" class="status" style="display:none"></div>
+        <input id="fileCamera" type="file" accept="image/*" capture="environment" style="display:none">
+        <input id="fileGaleria" type="file" accept="image/*" style="display:none">
+
+        <div class="platePreview" id="platePreview" style="margin-top:12px; display:none">
+          <img id="plateImg" alt="Prato"/>
+        </div>
+
+        <button class="btnSecondary" type="button" onclick="analisarPratoDemo()">Analisar (demo)</button>
+        <div id="plateResult" class="status" style="display:none"></div>
       </div>
     </section>
 
     <!-- DIETA -->
-    
-<section id="viewDieta" class="screen">
-  <div class="h1">Dieta</div>
+    <section id="viewDieta" class="screen">
+      <div class="h1">DIETA</div>
 
-  <div class="card">
-    <div class="hint">
-      Dieta gerada com base no seu cadastro (objetivo + restrição).<br>
-      Se não gostar, toque em <b>Gerar nova dieta</b>.
-    </div>
+      <div class="card">
+        <div class="hint">Sugestões simples e fáceis. Você pode gerar outra dieta se não gostar.</div>
+        <button class="btn" type="button" onclick="gerarDieta()">GERAR NOVA DIETA</button>
+        <div id="dietaBox"></div>
+      </div>
+    </section>
 
-    <div style="height:12px"></div>
-    <button class="btn" type="button" onclick="gerarDieta()">GERAR NOVA DIETA</button>
-  </div>
+    <!-- TREINO -->
+    <section id="viewTreino" class="screen">
+      <div class="h1">TREINO</div>
 
-  <div id="dietaOut"></div>
-</section>
-    
-<!-- TREINO -->
-<section id="viewTreino" class="screen">
-  <div class="h1">Treinos</div>
+      <div class="card">
+        <div class="hint">Treino semanal baseado no seu cadastro. Cada exercício tem botão “YouTube”.</div>
 
-  <div class="card">
-    <div class="hint">
-      Treino da semana gerado com base nos esportes escolhidos no cadastro.
-    </div>
+        <div class="row" style="margin-top:10px">
+          <div class="col">
+            <div class="label">Tema</div>
+            <select id="temaTreino">
+              <option>Academia</option>
+              <option>Corrida</option>
+              <option>Muay Thai</option>
+              <option>Futebol</option>
+              <option>Basquete</option>
+            </select>
+          </div>
+          <div class="col">
+            <div class="label">Intensidade</div>
+            <select id="intTreino">
+              <option>Leve</option>
+              <option>Moderado</option>
+              <option>Pesado</option>
+            </select>
+          </div>
+        </div>
 
-    <div style="height:12px"></div>
-    <button class="btn" type="button" onclick="gerarTreino()">GERAR NOVO TREINO</button>
-  </div>
+        <button class="btn" type="button" onclick="gerarTreino()">GERAR TREINO DA SEMANA</button>
+        <button class="btnSecondary" type="button" onclick="limparTreino()">LIMPAR TREINO</button>
 
-  <div id="treinoOut"></div
-                        
-</section>
-    
+        <div id="outTreino" class="status" style="display:none"></div>
+        <div id="treinoSemana"></div>
+      </div>
+    </section>
+
     <!-- LOJA -->
     <section id="viewLoja" class="screen">
-      <div class="h1">Loja</div>
-      <div class="card"><div class="hint">Depois trocamos pelos seus links de afiliado.</div></div>
-  <div class="shopGrid">
+      <div class="h1">LOJA</div>
 
-  <div class="shopItem">
-    <h3>Suplementos</h3>
-    <p class="muted">
-      Whey, creatina, vitaminas e pré-treinos para performance e recuperação.
-    </p>
-    <button type="button" onclick="switchView('parceiros')">Ver parceiros</button>
-  </div>
+      <div class="card">
+        <div class="hint">Depois trocamos por seus links de afiliado/parcerias.</div>
 
-  <div class="shopItem">
-    <h3>Roupas fitness</h3>
-    <p class="muted">
-      Tênis, camisetas, shorts e roupas para treino/corrida com conforto e durabilidade.
-    </p>
-    <button type="button" onclick="switchView('parceiros')">Ver parceiros</button>
-  </div>
+        <div class="shopGrid">
+          <div class="shopItem">
+            <h3>Suplementos</h3>
+            <p class="muted">Whey, creatina, vitaminas e pré-treinos para performance e recuperação.</p>
+            <button class="btnSecondary" type="button" onclick="switchView('parceiros')">Ver parceiros</button>
+          </div>
 
-  <div class="shopItem">
-    <h3>Equipamentos</h3>
-    <p class="muted">
-      Acessórios para treino em casa: elásticos, corda, luvas, garrafas, etc.
-    </p>
-    <button type="button" onclick="switchView('parceiros')">Ver parceiros</button>
-  </div>
+          <div class="shopItem">
+            <h3>Roupas fitness</h3>
+            <p class="muted">Tênis, camisetas, shorts e roupas para treino/corrida com conforto e durabilidade.</p>
+            <button class="btnSecondary" type="button" onclick="switchView('parceiros')">Ver parceiros</button>
+          </div>
 
-</div>
+          <div class="shopItem">
+            <h3>Equipamentos</h3>
+            <p class="muted">Acessórios para treino em casa: elásticos, corda, luvas, garrafas, etc.</p>
+            <button class="btnSecondary" type="button" onclick="switchView('parceiros')">Ver parceiros</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- PARCEIROS -->
-  <section id="viewParceiros" class="screen">
-  <div class="h1">Parceiros</div>
+    <section id="viewParceiros" class="screen">
+      <div class="h1">PARCEIROS</div>
 
-  <div class="card">
-    <div class="hint">Sites oficiais. Depois trocamos por links de afiliado quando você tiver.</div>
+      <div class="card">
+        <div class="hint">Sites oficiais. Depois trocamos por links de afiliado quando você tiver.</div>
 
-    <div class="partnerList">
+        <div class="partnerList">
+          <div class="partnerRow">
+            <div class="partnerName">
+              <b>Growth Supplements</b>
+              <div class="muted">Whey, creatina e suplementos</div>
+            </div>
+            <button class="btnSecondary" type="button" onclick="abrirLink('https://www.gsuplementos.com.br')">Abrir</button>
+          </div>
 
-      <div class="partnerRow">
-        <div class="partnerName">
-          <b>Growth Supplements</b>
-          <div class="muted">Whey, creatina e suplementos</div>
+          <div class="partnerRow">
+            <div class="partnerName">
+              <b>Max Titanium</b>
+              <div class="muted">Nutrição esportiva</div>
+            </div>
+            <button class="btnSecondary" type="button" onclick="abrirLink('https://www.maxtitanium.com.br')">Abrir</button>
+          </div>
+
+          <div class="partnerRow">
+            <div class="partnerName">
+              <b>Nike</b>
+              <div class="muted">Tênis e roupas</div>
+            </div>
+            <button class="btnSecondary" type="button" onclick="abrirLink('https://www.nike.com.br')">Abrir</button>
+          </div>
+
+          <div class="partnerRow">
+            <div class="partnerName">
+              <b>Adidas</b>
+              <div class="muted">Performance e lifestyle</div>
+            </div>
+            <button class="btnSecondary" type="button" onclick="abrirLink('https://www.adidas.com.br')">Abrir</button>
+          </div>
+
+          <div class="partnerRow">
+            <div class="partnerName">
+              <b>Mercado Livre</b>
+              <div class="muted">Acessórios, equipamentos e suplementos</div>
+            </div>
+            <button class="btnSecondary" type="button" onclick="abrirLink('https://www.mercadolivre.com.br')">Abrir</button>
+          </div>
+
+          <div class="partnerRow">
+            <div class="partnerName">
+              <b>Shopee</b>
+              <div class="muted">Produtos fitness com preço acessível</div>
+            </div>
+            <button class="btnSecondary" type="button" onclick="abrirLink('https://shopee.com.br')">Abrir</button>
+          </div>
         </div>
-        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.gsuplementos.com.br')">Abrir</button>
       </div>
+    </section>
 
-      <div class="partnerRow">
-        <div class="partnerName">
-          <b>Max Titanium</b>
-          <div class="muted">Nutrição esportiva</div>
+    <!-- PREMIUM -->
+    <section id="viewPremium" class="screen">
+      <div class="h1">PREMIUM</div>
+
+      <div class="card">
+        <div class="payTitle">ASSINATURA ELITE</div>
+        <div class="hint">Preço mensal. O pagamento abre no Mercado Pago.</div>
+
+        <div class="payBox">
+          <div class="label">Plano</div>
+          <div style="font-weight:1000; font-size:18px">Elite Premium — R$ 29,90/mês</div>
+          <div class="muted" style="margin-top:8px">Benefícios: dietas ilimitadas, treinos completos, convites com recompensa, parceiros e novidades.</div>
         </div>
-        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.maxtitanium.com.br')">Abrir</button>
-      </div>
 
-      <div class="partnerRow">
-        <div class="partnerName">
-          <b>Nike</b>
-          <div class="muted">Tênis e roupas</div>
+        <button id="btnPremium" class="btnOrange" type="button" onclick="openCheckout()">CONFIRMAR R$ 29,90/MÊS</button>
+        <div class="hint" style="margin-top:10px">Ambiente seguro • SSL</div>
+      </div>
+    </section>
+
+    <!-- CONVITES -->
+    <section id="viewConvites" class="screen">
+      <div class="h1">CONVITES</div>
+
+      <div class="card">
+        <div class="hint">
+          Convide amigos e ganhe: <b>R$ 5</b> por cada pessoa que assinar usando seu link.
+          Ao atingir <b>R$ 50</b>, você pode solicitar saque (futuro) e ainda ganha <b>1 mês grátis</b>.
         </div>
-        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.nike.com.br')">Abrir</button>
-      </div>
 
-      <div class="partnerRow">
-        <div class="partnerName">
-          <b>Adidas</b>
-          <div class="muted">Performance e lifestyle</div>
+        <div style="margin-top:12px" class="payBox">
+          <div class="label">Seu código</div>
+          <div id="myCode" style="font-weight:1000; font-size:18px">—</div>
+
+          <div class="label" style="margin-top:12px">Seu link</div>
+          <div id="myLink" class="muted" style="word-break:break-all">—</div>
+
+          <div class="label" style="margin-top:12px">Saldo (demo)</div>
+          <div id="balTxt" style="font-weight:1000; font-size:18px">R$ 0,00</div>
+          <div id="progressTxt" class="muted" style="margin-top:6px"></div>
+
+          <div class="miniRow" style="margin-top:12px">
+            <button class="miniBtn" type="button" onclick="copyInviteLink()">Copiar link</button>
+            <button class="miniBtn" type="button" onclick="shareInvite()">Compartilhar</button>
+          </div>
+
+          <!-- botões de teste (pode remover depois) -->
+          <div class="miniRow" style="margin-top:10px">
+            <button class="miniBtn" type="button" onclick="setBalance(getBalance()+5)">+R$5 (teste)</button>
+            <button class="miniBtn" type="button" onclick="setBalance(0)">Zerar (teste)</button>
+          </div>
         </div>
-        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.adidas.com.br')">Abrir</button>
       </div>
+    </section>
 
-      <div class="partnerRow">
-        <div class="partnerName">
-          <b>Mercado Livre</b>
-          <div class="muted">Acessórios, equipamentos e suplementos</div>
-        </div>
-        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.mercadolivre.com.br')">Abrir</button>
-      </div>
-
-      <div class="partnerRow">
-        <div class="partnerName">
-          <b>Shopee</b>
-          <div class="muted">Produtos fitness com preço acessível</div>
-        </div>
-        <button type="button" class="btnSecondary" onclick="abrirLink('https://shopee.com.br')">Abrir</button>
-      </div>
-
-    </div>
   </div>
-</section>
-
 
   <!-- NAV -->
   <div class="nav">
     <div class="navInner">
-      <button class="navBtn active" data-view="cadastro" type="button">Cadastro</button>
-      <button class="navBtn" data-view="prato" type="button">Prato</button>
-      <button class="navBtn" data-view="dieta" type="button">Dieta</button>
-      <button class="navBtn" data-view="treino" type="button">Treino</button>
-      <button class="navBtn" data-view="loja" type="button">Loja</button>
-      <button class="navBtn" data-view="parceiros" type="button">Parceiros</button>
-      <button class="navBtn" data-view="premium" type="button">Premium</button>
-      <button class="navBtn" data-view="convites" type="button">Convites</button>
+      <button class="navBtn active" data-view="cadastro" type="button">CADASTRO</button>
+      <button class="navBtn" data-view="dieta" type="button">DIETA</button>
+      <button class="navBtn" data-view="treino" type="button">TREINO</button>
+      <button class="navBtn" data-view="loja" type="button">LOJA</button>
+      <button class="navBtn" data-view="parceiros" type="button">PARCEIROS</button>
+      <button class="navBtn" data-view="premium" type="button">PREMIUM</button>
+      <button class="navBtn" data-view="convites" type="button">CONVITES</button>
     </div>
   </div>
 
@@ -431,49 +686,29 @@
       navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
     }
 
-    // Premium
+    // Premium / pagamento
     const PREMIUM_PRICE = 29.90;
     const PREMIUM_CHECKOUT_URL = "https://mpago.la/2BRjpaP";
     function openCheckout(){ window.open(PREMIUM_CHECKOUT_URL, "_blank"); }
+    window.openCheckout = openCheckout;
 
     // Helpers
     const $ = (id)=> document.getElementById(id);
-    function abrirLink(url)
-    { window.open(url, "_blank"); }
+    function abrirLink(url){ window.open(url, "_blank"); }
+    window.abrirLink = abrirLink;
+
     function openYT(query){
       const q = encodeURIComponent(query);
       window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
     }
 
-    // NAV
-    function switchView(view){
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.querySelectorAll(".navBtn").forEach(b => b.classList.remove("active"));
-
-      const map = {
-        cadastro: "viewCadastro",
-        prato: "viewPrato",
-        dieta: "viewDieta",
-        treino: "viewTreino",
-        loja: "viewLoja",
-        parceiros: "viewParceiros",
-        premium: "viewPremium",
-        convites: "viewConvites",
-        saude: "viewSaude",
-      };
-
-      const id = map[view];
-      if(id && $(id)) $(id).classList.add("active");
-
-      const btn = document.querySelector(`.navBtn[data-view="${view}"]`);
-      if(btn) btn.classList.add("active");
-    }
-
-    function wireNav(){
-      document.querySelectorAll(".navBtn").forEach(btn=>{
-        btn.addEventListener("click", ()=> switchView(btn.dataset.view));
-      });
-    }
+    // Storage keys
+    const KEY_PROFILE = "checkprato_profile_v1";
+    const KEY_PLATE = "checkprato_plate_v1";
+    const KEY_DIETA = "checkprato_dieta_v1";
+    const KEY_TREINO = "checkprato_treino_v1";
+    const KEY_INV_CODE = "checkprato_inv_code_v1";
+    const KEY_BAL = "checkprato_inv_balance_v1";
 
     // Esportes
     const ESPORTES = [
@@ -486,129 +721,375 @@
       const box = $("chipsEsportes");
       if(!box) return;
       box.innerHTML = "";
-
-      ESPORTES.forEach((name)=>{
-        const chip = document.createElement("button");
-        chip.type = "button";
-        chip.className = "chip";
-        chip.textContent = name;
-
-        chip.addEventListener("click", ()=>{
+      ESPORTES.forEach(name=>{
+        const div = document.createElement("div");
+        div.className = "chip";
+        div.textContent = name;
+        div.addEventListener("click", ()=>{
           if(selectedSports.has(name)) selectedSports.delete(name);
           else selectedSports.add(name);
-          chip.classList.toggle("active", selectedSports.has(name));
+          div.classList.toggle("on");
         });
+        box.appendChild(div);
+      });
 
-        box.appendChild(chip);
+      // se tiver perfil salvo, marca
+      const p = carregarCadastro();
+      if(p && Array.isArray(p.esportes)){
+        selectedSports = new Set(p.esportes);
+        [...box.querySelectorAll(".chip")].forEach(ch=>{
+          if(selectedSports.has(ch.textContent)) ch.classList.add("on");
+        });
+      }
+    }
+
+    // NAV
+    function switchView(view){
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".navBtn").forEach(b => b.classList.remove("active"));
+
+      const map = {
+        cadastro:"viewCadastro",
+        dieta:"viewDieta",
+        treino:"viewTreino",
+        loja:"viewLoja",
+        parceiros:"viewParceiros",
+        premium:"viewPremium",
+        convites:"viewConvites",
+      };
+      const id = map[view];
+      if(id){
+        const el = document.getElementById(id);
+        if(el) el.classList.add("active");
+      }
+      const btn = document.querySelector(`.navBtn[data-view="${view}"]`);
+      if(btn) btn.classList.add("active");
+    }
+    window.switchView = switchView;
+
+    function wireNav(){
+      document.querySelectorAll(".navBtn").forEach(btn=>{
+        btn.addEventListener("click", ()=> switchView(btn.dataset.view));
       });
     }
 
     // Cadastro
-    const KEY_PROFILE = "checkprato_profile_v1";
-
-    function showCadastroMsg(text){
-      const out = $("outCadastro");
-      out.style.display = "block";
-      out.textContent = text;
+    function carregarCadastro(){
+      try{ return JSON.parse(localStorage.getItem(KEY_PROFILE) || "null"); }catch{ return null; }
     }
 
     function salvarCadastro(){
-      if(!$("termos").checked){
-        showCadastroMsg("⚠️ Você precisa aceitar o termo para salvar.");
+      const termo = $("termo")?.checked;
+      if(!termo){
+        alert("Marque 'Aceito o termo' para salvar.");
         return;
       }
-      const profile = {
-        peso: $("peso").value || "",
-        altura: $("altura").value || "",
-        objetivo: $("objetivo").value || "",
-        nivel: $("nivel").value || "",
-        condicao: $("condicao").value || "",
-        restricao: $("restricao").value || "",
+
+      const perfil = {
+        peso: ($("peso")?.value || "").trim(),
+        altura: ($("altura")?.value || "").trim(),
+        objetivo: $("objetivo")?.value || "",
+        nivel: $("nivel")?.value || "",
+        condicao: $("condicao")?.value || "",
+        restricao: $("restricao")?.value || "",
         esportes: Array.from(selectedSports),
-        updatedAt: Date.now(),
+        updatedAt: Date.now()
       };
-      localStorage.setItem(KEY_PROFILE, JSON.stringify(profile));
-      showCadastroMsg("✅ Cadastro salvo com sucesso!");
+
+      localStorage.setItem(KEY_PROFILE, JSON.stringify(perfil));
+      const out = $("outCadastro");
+      if(out){
+        out.style.display = "block";
+        out.textContent = "✅ Cadastro salvo.";
+      }
     }
+    window.salvarCadastro = salvarCadastro;
 
     function limparCadastro(){
       localStorage.removeItem(KEY_PROFILE);
-      $("peso").value = "";
-      $("altura").value = "";
-      $("objetivo").value = "";
-      $("nivel").value = "";
-      $("condicao").value = "";
-      $("restricao").value = "";
-      $("termos").checked = false;
+      ["peso","altura"].forEach(id=>{ if($(id)) $(id).value=""; });
+      ["objetivo","nivel","condicao","restricao"].forEach(id=>{ if($(id)) $(id).value=""; });
+      if($("termo")) $("termo").checked = false;
       selectedSports = new Set();
       buildSportsChips();
-      showCadastroMsg("🧹 Cadastro limpo.");
+      const out = $("outCadastro");
+      if(out){ out.style.display="block"; out.textContent="🧹 Cadastro limpo."; }
+    }
+    window.limparCadastro = limparCadastro;
+
+    function aplicarCadastroNaTela(){
+      const p = carregarCadastro();
+      if(!p) return;
+      if($("peso")) $("peso").value = p.peso || "";
+      if($("altura")) $("altura").value = p.altura || "";
+      if($("objetivo")) $("objetivo").value = p.objetivo || "";
+      if($("nivel")) $("nivel").value = p.nivel || "";
+      if($("condicao")) $("condicao").value = p.condicao || "";
+      if($("restricao")) $("restricao").value = p.restricao || "";
+      if($("termo")) $("termo").checked = true;
     }
 
-    function carregarCadastro(){
-      const raw = localStorage.getItem(KEY_PROFILE);
-      if(!raw) return;
-      try{
-        const p = JSON.parse(raw);
-        $("peso").value = p.peso || "";
-        $("altura").value = p.altura || "";
-        $("objetivo").value = p.objetivo || "";
-        $("nivel").value = p.nivel || "";
-        $("condicao").value = p.condicao || "";
-        $("restricao").value = p.restricao || "";
-        $("termos").checked = true;
+    // Foto do prato (demo)
+    function wirePlateInput(){
+      const btnCam = $("btnCamera");
+      const btnGal = $("btnGaleria");
+      const fc = $("fileCamera");
+      const fg = $("fileGaleria");
 
-        selectedSports = new Set(Array.isArray(p.esportes) ? p.esportes : []);
-        buildSportsChips();
-        document.querySelectorAll("#chipsEsportes .chip").forEach(ch=>{
-          if(selectedSports.has(ch.textContent)) ch.classList.add("active");
-        });
+      if(btnCam && fc) btnCam.addEventListener("click", ()=> fc.click());
+      if(btnGal && fg) btnGal.addEventListener("click", ()=> fg.click());
 
-        showCadastroMsg("✅ Cadastro carregado do aparelho.");
-      } catch {}
-    }
-
-    // Parceiros (simulação)
-    function simularParceiros(){
-      const out = $("outParceiros");
-      out.style.display = "block";
-      out.textContent =
-        "📍 Exemplo (simulação):\n" +
-        "• Academia Elite Center (2,1 km)\n" +
-        "• Loja Fit Suplementos (3,4 km)\n" +
-        "• Box Cross Training (4,0 km)";
-    }
-
-    // Convites
-    const KEY_MY_CODE = "checkprato_my_invite_code";
-    const KEY_BAL = "checkprato_invite_balance";
-
-    function getOrCreateInviteCode(){
-      let code = localStorage.getItem(KEY_MY_CODE);
-      if(!code){
-        code = Math.random().toString(36).slice(2,8).toUpperCase();
-        localStorage.setItem(KEY_MY_CODE, code);
+      function onFile(file){
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = ()=>{
+          const dataUrl = String(reader.result || "");
+          localStorage.setItem(KEY_PLATE, dataUrl);
+          showPlate(dataUrl);
+        };
+        reader.readAsDataURL(file);
       }
+
+      if(fc) fc.addEventListener("change", ()=> onFile(fc.files?.[0]));
+      if(fg) fg.addEventListener("change", ()=> onFile(fg.files?.[0]));
+    }
+
+    function showPlate(dataUrl){
+      const box = $("platePreview");
+      const img = $("plateImg");
+      if(!box || !img) return;
+      img.src = dataUrl;
+      box.style.display = "block";
+    }
+
+    function loadLastPlate(){
+      const dataUrl = localStorage.getItem(KEY_PLATE);
+      if(dataUrl) showPlate(dataUrl);
+    }
+
+    function analisarPratoDemo(){
+      const dataUrl = localStorage.getItem(KEY_PLATE);
+      const out = $("plateResult");
+      if(!out) return;
+
+      if(!dataUrl){
+        out.style.display="block";
+        out.textContent = "Envie uma foto primeiro.";
+        return;
+      }
+
+      // demo simples
+      const p = carregarCadastro() || {};
+      const objetivo = (p.objetivo || "Manter").toLowerCase();
+      let kcal = 650;
+      if(objetivo.includes("emag")) kcal = 520;
+      if(objetivo.includes("massa")) kcal = 820;
+
+      out.style.display="block";
+      out.textContent = `✅ (DEMO) Estimativa: ~${kcal} kcal. Depois ligamos IA real para identificar itens e porções.`;
+    }
+    window.analisarPratoDemo = analisarPratoDemo;
+
+    // Dieta
+    const DIETAS_BASE = [
+      [
+        {t:"Café da manhã", d:"Omelete de 2 ovos com espinafre + 1 fatia de pão integral.", k:350},
+        {t:"Lanche da manhã", d:"Mix de castanhas + 1 maçã.", k:180},
+        {t:"Almoço", d:"Frango grelhado + arroz integral + feijão + salada.", k:550},
+        {t:"Lanche da tarde", d:"Iogurte natural + 1 colher de chia.", k:160},
+        {t:"Jantar", d:"Peixe grelhado + legumes + batata-doce.", k:480},
+      ],
+      [
+        {t:"Café da manhã", d:"3 ovos + aveia + banana.", k:550},
+        {t:"Almoço", d:"Arroz integral + feijão + frango + brócolis.", k:800},
+        {t:"Jantar", d:"Macarrão integral + patinho + molho de tomate.", k:750},
+        {t:"Ceia", d:"Iogurte + granola.", k:300},
+      ],
+      [
+        {t:"Café da manhã", d:"Tapioca com queijo + café sem açúcar.", k:420},
+        {t:"Almoço", d:"Carne magra + mandioca + salada.", k:720},
+        {t:"Jantar", d:"Omelete + legumes.", k:460},
+      ]
+    ];
+
+    function carregarDieta(){
+      try{ return JSON.parse(localStorage.getItem(KEY_DIETA) || "null"); }catch{ return null; }
+    }
+
+    function salvarDieta(d){
+      localStorage.setItem(KEY_DIETA, JSON.stringify(d));
+    }
+
+    function gerarDieta(){
+      const d = DIETAS_BASE[Math.floor(Math.random()*DIETAS_BASE.length)];
+      salvarDieta(d);
+      renderDieta(d);
+    }
+    window.gerarDieta = gerarDieta;
+
+    function renderDieta(d){
+      const box = $("dietaBox");
+      if(!box) return;
+      box.innerHTML = "";
+      if(!d){
+        const s = document.createElement("div");
+        s.className="status";
+        s.textContent="Gere uma dieta para aparecer aqui.";
+        box.appendChild(s);
+        return;
+      }
+      d.forEach(m=>{
+        const div = document.createElement("div");
+        div.className="meal";
+        div.innerHTML = `
+          <div>
+            <div class="title">${escapeHtml(m.t)}</div>
+            <p>${escapeHtml(m.d)}</p>
+          </div>
+          <div class="kcal">${Number(m.k||0)}<br/>kcal</div>
+        `;
+        box.appendChild(div);
+      });
+    }
+
+    // Treino
+    const TREINOS = {
+      "Academia": [
+        ["Segunda", ["Desenvolvimento com halteres","Agachamento livre","Flexão de braços"]],
+        ["Quarta", ["Supino reto","Remada curvada","Elevação lateral"]],
+        ["Sexta", ["Levantamento terra","Puxada na barra","Abdominal prancha"]],
+      ],
+      "Corrida": [
+        ["Segunda", ["Corrida leve 30 min","Mobilidade de quadril"]],
+        ["Quarta", ["Tiros 8x 200m","Alongamento"]],
+        ["Sexta", ["Corrida moderada 40 min","Fortalecimento core"]],
+      ],
+      "Muay Thai":[
+        ["Terça", ["Sombra 10 min","Chutes básicos","Combinações 1-2"]],
+        ["Quinta", ["Manopla (drills)","Defesas","Condicionamento"]],
+        ["Sábado", ["Técnica clinch","Sequências","Alongamento"]],
+      ],
+      "Futebol":[
+        ["Segunda", ["Arranque e velocidade","Controle de bola","Finalização"]],
+        ["Quarta", ["Agilidade com cones","Passe e domínio","Resistência"]],
+        ["Sexta", ["Jogo reduzido","Alongamento"]],
+      ],
+      "Basquete":[
+        ["Terça", ["Drible (fundamentos)","Arremessos","Pliometria"]],
+        ["Quinta", ["Defesa lateral","Bandejas","Condicionamento"]],
+        ["Sábado", ["Treino de jogo","Alongamento"]],
+      ]
+    };
+
+    function carregarTreino(){
+      try{ return JSON.parse(localStorage.getItem(KEY_TREINO) || "null"); }catch{ return null; }
+    }
+    function salvarTreino(t){
+      localStorage.setItem(KEY_TREINO, JSON.stringify(t));
+    }
+
+    function gerarTreino(){
+      const tema = $("temaTreino")?.value || "Academia";
+      const intensidade = $("intTreino")?.value || "Moderado";
+      const base = TREINOS[tema] || TREINOS["Academia"];
+
+      const plano = { tema, intensidade, dias: base, createdAt: Date.now() };
+      salvarTreino(plano);
+      renderTreino(plano);
+
+      const out = $("outTreino");
+      if(out){
+        out.style.display="block";
+        out.textContent = `✅ Treino salvo: ${tema} (${intensidade}).`;
+      }
+    }
+    window.gerarTreino = gerarTreino;
+
+    function limparTreino(){
+      localStorage.removeItem(KEY_TREINO);
+      if($("treinoSemana")) $("treinoSemana").innerHTML = "";
+      const out = $("outTreino");
+      if(out){ out.style.display="block"; out.textContent="🧹 Treino removido."; }
+    }
+    window.limparTreino = limparTreino;
+
+    function renderTreino(t){
+      const box = $("treinoSemana");
+      if(!box) return;
+      box.innerHTML = "";
+      if(!t){
+        const s = document.createElement("div");
+        s.className="status";
+        s.textContent="Gere um treino para aparecer aqui.";
+        box.appendChild(s);
+        return;
+      }
+
+      t.dias.forEach(d=>{
+        const day = document.createElement("div");
+        day.className="dayCard";
+        day.innerHTML = `<div class="dayTitle"><span>${escapeHtml(d[0])}</span><span class="muted">${escapeHtml(t.tema)}</span></div>`;
+        (d[1]||[]).forEach(ex=>{
+          const row = document.createElement("div");
+          row.className="exercise";
+          const left = document.createElement("div");
+          left.innerHTML = `<b>${escapeHtml(ex)}</b><div class="muted" style="font-size:12px; margin-top:4px">${escapeHtml(t.intensidade)}</div>`;
+          const btn = document.createElement("button");
+          btn.className="ytBtn";
+          btn.textContent="Ver técnica";
+          btn.addEventListener("click", ()=> openYT(`${ex} como fazer`));
+          row.appendChild(left);
+          row.appendChild(btn);
+          day.appendChild(row);
+        });
+        box.appendChild(day);
+      });
+    }
+
+    // Convites / reward (demo)
+    function getOrCreateInviteCode(){
+      let code = localStorage.getItem(KEY_INV_CODE);
+      if(code) return code;
+      code = "ELITE-" + Math.random().toString(16).slice(2,8).toUpperCase();
+      localStorage.setItem(KEY_INV_CODE, code);
       return code;
     }
     function getMyInviteLink(){
       const code = getOrCreateInviteCode();
-      const base = window.location.origin + window.location.pathname;
-      return `${base}?ref=${encodeURIComponent(code)}`;
+      const url = new URL(location.href);
+      url.searchParams.set("ref", code);
+      return url.toString();
     }
+
+    function getBalance(){ return Number(localStorage.getItem(KEY_BAL) || "0"); }
+    function setBalance(v){
+      localStorage.setItem(KEY_BAL, String(v));
+      renderInviteUI();
+    }
+    window.getBalance = getBalance;
+    window.setBalance = setBalance;
+
     async function copyInviteLink(){
       const link = getMyInviteLink();
-      try{ await navigator.clipboard.writeText(link); alert("✅ Link copiado!"); }
-      catch { prompt("Copie o link:", link); }
+      try{
+        await navigator.clipboard.writeText(link);
+        alert("✅ Link copiado!");
+      }catch{
+        prompt("Copie o link:", link);
+      }
     }
+    window.copyInviteLink = copyInviteLink;
+
     function shareInvite(){
       const link = getMyInviteLink();
       const text = `Baixa o Confira o Prato Elite e usa meu link: ${link}`;
-      if(navigator.share){ navigator.share({title:"Confira o Prato Elite", text, url: link}).catch(()=>{}); }
-      else copyInviteLink();
+      if(navigator.share){
+        navigator.share({ title:"Confira o Prato Elite", text, url: link }).catch(()=>{});
+      }else{
+        copyInviteLink();
+      }
     }
-    function getBalance(){ return Number(localStorage.getItem(KEY_BAL) || "0"); }
-    function setBalance(v){ localStorage.setItem(KEY_BAL, String(v)); renderInviteUI(); }
+    window.shareInvite = shareInvite;
 
     function renderInviteUI(){
       const code = getOrCreateInviteCode();
@@ -616,320 +1097,47 @@
       const bal = getBalance();
       const falta = Math.max(0, 50 - bal);
 
-      $("myCode").textContent = code;
-      $("myLink").textContent = link;
-      $("balTxt").textContent = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(bal);
-      $("progressTxt").textContent = bal >= 50
-        ? "✅ Você atingiu R$ 50. (Saque via Pix será liberado quando ligarmos o sistema.)"
-        : `Faltam ${new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(falta)} para atingir R$ 50.`;
-    }
+      if($("myCode")) $("myCode").textContent = code;
+      if($("myLink")) $("myLink").textContent = link;
 
-    // PRATO (foto + mock)
-    const KEY_LAST_PLATE = "checkprato_last_plate_v1";
-    let pratoImgDataUrl = "";
-
-    function setPratoStatus(msg){
-      const el = $("pratoStatus");
-      if(!el) return;
-      el.style.display = "block";
-      el.textContent = msg;
-    }
-
-    function renderPlateResult(result){
-      setPratoStatus(
-        `✅ Resultado estimado (mock)\n` +
-        `Calorias: ${result.kcal} kcal\n` +
-        `Proteína: ${result.prot} g\n` +
-        `Carboidratos: ${result.carb} g\n` +
-        `Gorduras: ${result.fat} g\n\n` +
-        `Obs: estimativa ilustrativa. Depois ligamos IA real.`
-      );
-    }
-
-    function calcMockFromProfile(){
-      let peso = Number($("peso")?.value || 0);
-      let objetivo = $("objetivo")?.value || "";
-      let nivel = $("nivel")?.value || "";
-
-      let kcal = 650;
-      if(peso > 0) kcal += Math.round((peso - 70) * 3);
-      if(objetivo === "Emagrecer") kcal -= 120;
-      if(objetivo === "Ganhar massa") kcal += 180;
-      if(objetivo === "Performance") kcal += 140;
-      if(nivel === "Iniciante") kcal -= 40;
-      if(nivel === "Avançado") kcal += 70;
-
-      kcal += Math.floor(Math.random()*120) - 60;
-      kcal = Math.max(250, Math.min(1200, kcal));
-
-      const prot = Math.max(15, Math.round(kcal * 0.20 / 4));
-      const carb = Math.max(20, Math.round(kcal * 0.50 / 4));
-      const fat  = Math.max(10, Math.round(kcal * 0.30 / 9));
-      return { kcal, prot, carb, fat };
-    }
-
-    async function analisarPrato(){
-      if(!pratoImgDataUrl){
-        setPratoStatus("⚠️ Primeiro selecione uma foto do prato.");
-        return;
+      if($("balTxt")){
+        $("balTxt").textContent = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(bal);
       }
-      setPratoStatus("🔎 Analisando... (mock)\nAguarde 2 segundos.");
-      await new Promise(r => setTimeout(r, 2000));
-
-      const result = calcMockFromProfile();
-      renderPlateResult(result);
-
-      localStorage.setItem(KEY_LAST_PLATE, JSON.stringify({
-        img: pratoImgDataUrl, result, updatedAt: Date.now()
-      }));
+      if($("progressTxt")){
+        $("progressTxt").textContent = bal >= 50
+          ? "✅ Você atingiu R$ 50! (Saque via Pix/QR será ativado quando ligarmos o sistema.)"
+          : `Faltam ${new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(falta)} para atingir R$ 50.`;
+      }
     }
 
-    function limparPrato(){
-      pratoImgDataUrl = "";
-      $("fotoPrato").value = "";
-      $("pratoPreviewWrap").style.display = "none";
-      $("pratoStatus").style.display = "none";
-      localStorage.removeItem(KEY_LAST_PLATE);
+    // escape
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"]/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[m]));
     }
 
-    function wirePlateInput(){
-      const input = $("fotoPrato");
-      if(!input) return;
-      input.addEventListener("change", ()=>{
-        const file = input.files && input.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = ()=>{
-          pratoImgDataUrl = String(reader.result || "");
-          $("pratoPreview").src = pratoImgDataUrl;
-          $("pratoPreviewWrap").style.display = "block";
-          setPratoStatus("✅ Foto carregada. Clique em ANALISAR PRATO.");
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+    // init
+    function init(){
+      wireNav();
+      aplicarCadastroNaTela();
+      buildSportsChips();
 
-    function loadLastPlate(){
-      try{
-        const raw = localStorage.getItem(KEY_LAST_PLATE);
-        if(!raw) return;
-        const data = JSON.parse(raw);
-        if(data?.img){
-          pratoImgDataUrl = data.img;
-          $("pratoPreview").src = pratoImgDataUrl;
-          $("pratoPreviewWrap").style.display = "block";
-        }
-        if(data?.result) renderPlateResult(data.result);
-      } catch {}
-    }
-        function wireNav(){
-        document.querySelectorAll(".navBtn").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-        switchView(btn.dataset.view);
-    });
-  });
-}
-    // INIT
-  function abrirLink(url){
-  const a = document.createElement("a");
-  a.href = url;
-  a.target = "_blank";
-  a.rel = "noopener noreferrer";
-  a.click();
-}
-
-window.abrirLink = abrirLink;
-  }
-  function init(){
-     wireNav();
-     buildSportsChips();
-     carregarCadastro();
       wirePlateInput();
       loadLastPlate();
-      renderInviteUI();
 
-      const d = carregarDieta();
-      renderDieta(d);
-      
-      const t = carregarTreino();
-      renderTreino(t);
-      
-      const btnPremium = $("btnPremium");
-      if(btnPremium){
-        btnPremium.textContent = `CONFIRMAR R$ ${PREMIUM_PRICE.toFixed(2).replace(".", ",")}/MÊS`;
+      // dieta / treino salvos
+      renderDieta(carregarDieta());
+      renderTreino(carregarTreino());
+
+      // premium button text
+      const btn = $("btnPremium");
+      if(btn){
+        btn.textContent = `CONFIRMAR R$ ${PREMIUM_PRICE.toFixed(2).replace(".", ",")}/MÊS`;
       }
+
+      renderInviteUI();
     }
-    document.addEventListener("DOMContentLoaded", init);
- 
+
+    init();
   </script>
-function switchView(view){
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.querySelectorAll(".navBtn").forEach(b => b.classList.remove("active"));
-
-  const map = {
-    cadastro: "viewCadastro",
-    prato: "viewPrato",
-    dieta: "viewDieta",
-    treino: "viewTreino",
-    loja: "viewLoja",
-    parceiros: "viewParceiros",
-    premium: "viewPremium",
-    convites: "viewConvites",
-    saude: "viewSaude",
-  };
-
-  const id = map[view];
-  const el = id ? document.getElementById(id) : null;
-  if(el) el.classList.add("active");
-
-  const btn = document.querySelector(`.navBtn[data-view="${view}"]`);
-  if(btn) btn.classList.add("active");
-}
-
-function wireNav(){
-  document.querySelectorAll(".navBtn").forEach(btn=>{
-    btn.addEventListener("click", ()=> switchView(btn.dataset.view));
-  });
-}
-
-  // ===== DIETA (baseada no cadastro) =====
-const KEY_DIETA = "checkprato_dieta_v1";
-
-  // ===== TREINO (baseado em esportes) =====
-const KEY_TREINO = "checkprato_treino_v1";
-
-const TREINOS_BASE = {
-  "Musculação": [
-    {n:"Supino reto", s:"3x10", yt:"supino reto como fazer"},
-    {n:"Agachamento", s:"4x8", yt:"agachamento livre como fazer"},
-    {n:"Remada", s:"3x10", yt:"remada curvada como fazer"}
-  ],
-  "Futebol": [
-    {n:"Corrida intervalada", s:"20 min", yt:"corrida intervalada futebol"},
-    {n:"Agilidade com cones", s:"4 séries", yt:"treino de agilidade futebol"},
-    {n:"Finalização", s:"15 min", yt:"treino finalização futebol"}
-  ],
-  "Corrida": [
-    {n:"Corrida contínua", s:"30 min", yt:"corrida contínua iniciantes"},
-    {n:"Tiros curtos", s:"10x100m", yt:"tiros corrida"},
-    {n:"Alongamento", s:"10 min", yt:"alongamento corrida"}
-  ],
-  "Crossfit": [
-    {n:"Burpee", s:"3x12", yt:"burpee crossfit"},
-    {n:"Wall ball", s:"3x15", yt:"wall ball crossfit"},
-    {n:"Box jump", s:"3x10", yt:"box jump crossfit"}
-  ]
-};
-
-function gerarTreino(){
-  const profile = getProfileSafe();
-  if(!profile || !profile.esportes || profile.esportes.length === 0){
-    alert("⚠️ Escolha ao menos um esporte no cadastro.");
-    switchView("cadastro");
-    return;
-  }
-
-  const dias = ["Segunda","Quarta","Sexta"];
-  let plano = [];
-
-  dias.forEach((dia)=>{
-    const esporte = profile.esportes[Math.floor(Math.random()*profile.esportes.length)];
-    const base = TREINOS_BASE[esporte] || TREINOS_BASE["Musculação"];
-
-    plano.push({
-      dia,
-      esporte,
-      exercicios: base
-    });
-  });
-
-  localStorage.setItem(KEY_TREINO, JSON.stringify(plano));
-  renderTreino(plano);
-}
-
-function renderTreino(plano){
-  const out = $("treinoOut");
-  if(!out) return;
-
-  if(!plano){
-    out.innerHTML = `<div class="card"><div class="hint">Gere seu primeiro treino.</div></div>`;
-    return;
-  }
-
-  out.innerHTML = plano.map(dia=>`
-    <div class="dayCard">
-      <div class="dayTitle">
-        <span>${dia.dia} • ${dia.esporte}</span>
-        <span>🏋️</span>
-      </div>
-
-      ${dia.exercicios.map(ex=>`
-        <div class="exercise">
-          <div>
-            <b>${ex.n}</b>
-            <small>${ex.s}</small>
-          </div>
-          <button class="ytBtn" type="button" onclick="openYT('${ex.yt}')">
-            Ver técnica
-          </button>
-        </div>
-      `).join("")}
-    </div>
-  `).join("");
-}
-
-function carregarTreino(){
-  try{
-    const raw = localStorage.getItem(KEY_TREINO);
-    if(!raw) return null;
-    return JSON.parse(raw);
-  } catch { return null; }
-}
-function pick(arr){
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function formatMeal(title, desc, kcal){
-  return `
-    <div class="mealCard">
-      <div class="mealTop">
-        <div>
-          <div class="mealName">${title}</div>
-          <div class="mealDesc">${desc}</div>
-        </div>
-        <div class="kcal">${kcal} kcal</div>
-      </div>
-    </div>
-  `;
-}
-
-function getProfileSafe(){
-  try{
-    const raw = localStorage.getItem(KEY_PROFILE);
-    if(!raw) return null;
-    return JSON.parse(raw);
-  } catch { return null; }
-}
-
-function dietaBase(profile){
-  const objetivo = profile?.objetivo || "";
-  const restricao = profile?.restricao || "Nenhuma";
-
-  // Faixas simples por objetivo
-  let baseKcal = 1800;
-  if(objetivo === "Emagrecer") baseKcal = 1600;
-  if(objetivo === "Ganhar massa") baseKcal = 2300;
-  if(objetivo === "Performance") baseKcal = 2100;
-  if(objetivo === "Manter") baseKcal = 1900;
-
-  // Ajuste leve por peso
-  const peso = Number(profile?.peso || 0);
-  if(peso > 0) baseKcal += Math.round((peso - 70) * 6);
-
-  // Regras de restrição (trocas)
-  const noLactose = restricao === "Sem lactose";
-  const vegetariano = restricao === "Vegetariano";
-  const vegano = restricao === "Vegano";
-
 </body>
 </html>
