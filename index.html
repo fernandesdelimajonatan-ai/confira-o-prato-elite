@@ -459,7 +459,8 @@
 
     // Helpers
     const $ = (id)=> document.getElementById(id);
-    function abrirLink(url){ window.open(url, "_blank"); }
+    function abrirLink(url)
+    { window.open(url, "_blank"); }
     function openYT(query){
       const q = encodeURIComponent(query);
       window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank");
@@ -782,6 +783,36 @@ window.abrirLink = abrirLink;
     document.addEventListener("DOMContentLoaded", init);
  
   </script>
+function switchView(view){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".navBtn").forEach(b => b.classList.remove("active"));
+
+  const map = {
+    cadastro: "viewCadastro",
+    prato: "viewPrato",
+    dieta: "viewDieta",
+    treino: "viewTreino",
+    loja: "viewLoja",
+    parceiros: "viewParceiros",
+    premium: "viewPremium",
+    convites: "viewConvites",
+    saude: "viewSaude",
+  };
+
+  const id = map[view];
+  const el = id ? document.getElementById(id) : null;
+  if(el) el.classList.add("active");
+
+  const btn = document.querySelector(`.navBtn[data-view="${view}"]`);
+  if(btn) btn.classList.add("active");
+}
+
+function wireNav(){
+  document.querySelectorAll(".navBtn").forEach(btn=>{
+    btn.addEventListener("click", ()=> switchView(btn.dataset.view));
+  });
+}
+
   // ===== DIETA (baseada no cadastro) =====
 const KEY_DIETA = "checkprato_dieta_v1";
 
