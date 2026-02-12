@@ -313,124 +313,103 @@
     <button class="btn" type="button" onclick="gerarTreino()">GERAR NOVO TREINO</button>
   </div>
 
-  <div id="treinoOut"></div>
+  <div id="treinoOut"></div
+                        
 </section>
+    
     <!-- LOJA -->
     <section id="viewLoja" class="screen">
       <div class="h1">Loja</div>
       <div class="card"><div class="hint">Depois trocamos pelos seus links de afiliado.</div></div>
+  <div class="shopGrid">
 
-      <div class="shopGrid">
-     <div class="shopItem">
-    <h3>Growth Supplements</h3>
-    <p>Whey, creatina e suplementos de alta qualidade.</p>
-    <button type="button" onclick="abrirLink('https://www.gsuplementos.com.br')">
-      Acessar loja
-    </button>
+  <div class="shopItem">
+    <h3>Suplementos</h3>
+    <p class="muted">
+      Whey, creatina, vitaminas e pré-treinos para performance e recuperação.
+    </p>
+    <button type="button" onclick="switchView('parceiros')">Ver parceiros</button>
   </div>
 
   <div class="shopItem">
-    <h3>Max Titanium</h3>
-    <p>Suplementos e nutrição esportiva.</p>
-    <button type="button" onclick="abrirLink('https://www.maxtitanium.com.br')">
-      Acessar loja
-    </button>
+    <h3>Roupas fitness</h3>
+    <p class="muted">
+      Tênis, camisetas, shorts e roupas para treino/corrida com conforto e durabilidade.
+    </p>
+    <button type="button" onclick="switchView('parceiros')">Ver parceiros</button>
   </div>
 
   <div class="shopItem">
-    <h3>Nike</h3>
-    <p>Roupas e tênis para treino e corrida.</p>
-    <button type="button" onclick="abrirLink('https://www.nike.com.br')">
-      Acessar loja
-    </button>
-  </div>
-
-  <div class="shopItem">
-    <h3>Adidas</h3>
-    <p>Performance, corrida e lifestyle.</p>
-    <button type="button" onclick="abrirLink('https://www.adidas.com.br')">
-      Acessar loja
-    </button>
-  </div>
-
-  <div class="shopItem">
-    <h3>Mercado Livre</h3>
-    <p>Suplementos, equipamentos e acessórios fitness.</p>
-    <button type="button" onclick="abrirLink('https://www.mercadolivre.com.br')">
-      Acessar loja
-    </button>
-  </div>
-
-  <div class="shopItem">
-    <h3>Shopee</h3>
-    <p>Produtos fitness e acessórios com preço acessível.</p>
-    <button type="button" onclick="abrirLink('https://shopee.com.br')">
-      Acessar loja
-    </button>
+    <h3>Equipamentos</h3>
+    <p class="muted">
+      Acessórios para treino em casa: elásticos, corda, luvas, garrafas, etc.
+    </p>
+    <button type="button" onclick="switchView('parceiros')">Ver parceiros</button>
   </div>
 
 </div>
-      
-        </div>
-      </div>
-    </section>
 
     <!-- PARCEIROS -->
-    <section id="viewParceiros" class="screen">
-      <div class="h1">Parceiros</div>
-      <div class="card">
-        <div class="hint">Em breve: parceiros perto de você (com permissão de localização).</div>
-        <div style="height:12px"></div>
-        <button class="btn secondary" type="button" onclick="simularParceiros()">Ver parceiros (simulação)</button>
-        <div id="outParceiros" class="status" style="display:none"></div>
+  <section id="viewParceiros" class="screen">
+  <div class="h1">Parceiros</div>
+
+  <div class="card">
+    <div class="hint">Sites oficiais. Depois trocamos por links de afiliado quando você tiver.</div>
+
+    <div class="partnerList">
+
+      <div class="partnerRow">
+        <div class="partnerName">
+          <b>Growth Supplements</b>
+          <div class="muted">Whey, creatina e suplementos</div>
+        </div>
+        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.gsuplementos.com.br')">Abrir</button>
       </div>
-    </section>
 
-    <!-- PREMIUM -->
-    <section id="viewPremium" class="screen">
-      <div class="h1">Premium</div>
-      <div class="card">
-        <div style="font-weight:1000; letter-spacing:.8px; color:var(--yellow); text-transform:uppercase;">
-          Assinatura Elite
+      <div class="partnerRow">
+        <div class="partnerName">
+          <b>Max Titanium</b>
+          <div class="muted">Nutrição esportiva</div>
         </div>
-        <div style="height:10px"></div>
-        <div class="hint">R$ 29,90/mês. Pagamento via Mercado Pago. Não coletamos dados do cartão aqui.</div>
-        <div style="height:14px"></div>
-        <button id="btnPremium" class="btn yellow" type="button" onclick="openCheckout()">CONFIRMAR R$ 29,90/MÊS</button>
+        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.maxtitanium.com.br')">Abrir</button>
       </div>
-    </section>
 
-    <!-- CONVITES -->
-    <section id="viewConvites" class="screen">
-      <div class="h1">Convites</div>
-      <div class="card">
-        <div class="hint">
-          MVP: simulação local. Ideia: ganhar R$ 5 por assinatura confirmada. Saque mínimo R$ 50 via Pix (depois).
+      <div class="partnerRow">
+        <div class="partnerName">
+          <b>Nike</b>
+          <div class="muted">Tênis e roupas</div>
         </div>
-
-        <div class="dayCard">
-          <div class="dayTitle"><span>Seu código</span><span id="myCode"></span></div>
-          <div class="hint" id="myLink" style="word-break:break-all;"></div>
-
-          <div class="row">
-            <button class="btn secondary" type="button" onclick="copyInviteLink()">Copiar link</button>
-            <button class="btn" type="button" onclick="shareInvite()">Compartilhar</button>
-          </div>
-        </div>
-
-        <div class="dayCard">
-          <div class="dayTitle"><span>Saldo</span><span id="balTxt"></span></div>
-          <div class="hint" id="progressTxt"></div>
-
-          <div class="row" style="margin-top:10px;">
-            <button class="btn secondary" type="button" onclick="setBalance(getBalance()+5)">+R$5 (teste)</button>
-            <button class="btn secondary" type="button" onclick="setBalance(0)">Zerar</button>
-          </div>
-        </div>
+        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.nike.com.br')">Abrir</button>
       </div>
-    </section>
 
+      <div class="partnerRow">
+        <div class="partnerName">
+          <b>Adidas</b>
+          <div class="muted">Performance e lifestyle</div>
+        </div>
+        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.adidas.com.br')">Abrir</button>
+      </div>
+
+      <div class="partnerRow">
+        <div class="partnerName">
+          <b>Mercado Livre</b>
+          <div class="muted">Acessórios, equipamentos e suplementos</div>
+        </div>
+        <button type="button" class="btnSecondary" onclick="abrirLink('https://www.mercadolivre.com.br')">Abrir</button>
+      </div>
+
+      <div class="partnerRow">
+        <div class="partnerName">
+          <b>Shopee</b>
+          <div class="muted">Produtos fitness com preço acessível</div>
+        </div>
+        <button type="button" class="btnSecondary" onclick="abrirLink('https://shopee.com.br')">Abrir</button>
+      </div>
+
+    </div>
   </div>
+</section>
+
 
   <!-- NAV -->
   <div class="nav">
