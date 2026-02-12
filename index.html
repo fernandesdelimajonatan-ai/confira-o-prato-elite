@@ -207,8 +207,8 @@
 .screen.active{
   display:block;
 }
-
-   /* NAV */
+   
+    /* NAV */
     .nav{
       position: fixed;
       left:0; right:0; bottom:0;
@@ -1209,6 +1209,9 @@ function updateTopBtn(){
   btn.style.display = active.scrollTop > 200 ? "block" : "none";
 }
 document.addEventListener("scroll", updateTopBtn, true);
+document.querySelectorAll(".screen").forEach(s => {
+  s.addEventListener("scroll", updateTopBtn);
+});
   </script>
   <button id="btnTop" onclick="scrollToTop()" style="
 position:fixed;
