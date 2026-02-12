@@ -194,10 +194,21 @@
       box-shadow: 0 0 0 6px rgba(33,230,182,.08);
     }
 
-    .screen{display:none; margin-top: 8px}
-    .screen.active{display:block}
+    .screen{
+  display:none;
+  margin-top: 8px;
 
-    /* NAV */
+  height: calc(100vh - 90px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 120px;
+}
+
+.screen.active{
+  display:block;
+}
+
+   /* NAV */
     .nav{
       position: fixed;
       left:0; right:0; bottom:0;
